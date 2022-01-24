@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "dev": "dev-servak",
+    "prod": "western-card-321916"
+  },
+  "targets": {
+    "dev-servak": {
+      "hosting": {
+        "front-ls-client": [
+          "front-ls-client"
+        ]
+      }
+    }
+  }
+}
