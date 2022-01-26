@@ -1,6 +1,10 @@
 :root {
   // font size
   --default-text-size: 16px;
+  --title-text-size: 48px;
+  --content-title-text-size: 16px;
+  --content-text-size: 12px;
+  --text-size-sm: 10px;
 
   // font weight
   --font-weight-light: 100;
@@ -11,11 +15,12 @@
   --primary-color: #9575cd;
   --secondary-color: #c7a4ff;
   --error-color: #e57373;
-  --link-color: #38a1f3;
+  --link-color: #006997;
 
   // text
-  --primary-text-color: #37474f;
-  --secondary-text-color: #607d8b;
+  --primary-text-color: #000;
+  --secondary-text-color: #475D66;
+  --tertiary-text-color: #979797;
   --contrast-text-color: #fff;
 
   // background
