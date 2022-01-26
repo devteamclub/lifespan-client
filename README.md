@@ -1,11 +1,11 @@
 # Web Client for LifeSpan app [![Dev](https://github.com/devteamclub/lifespan-client/actions/workflows/dev.yml/badge.svg)](https://github.com/devteamclub/lifespan-client/actions/workflows/dev.yml)
 
 ## Enviroments:
-**DEV:** https://client.lifespan.plush.dev/
+**DEV:** https://lifespan.plush.dev/
 
-**STAGE:** https://client.lifespan.plush.network/
+**STAGE:** https://lifespan.plush.network/
 
-**PROD:** https://client.lifespan.plush.family/
+**PROD:** https://lifespan.plush.family/
 
 Dev API Swagger: https://api.lifespan.plush.dev/swagger/
 
