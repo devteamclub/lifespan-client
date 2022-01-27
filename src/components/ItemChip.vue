@@ -9,7 +9,7 @@
       <v-expansion-panel>
         <v-expansion-panel-header expand-icon="">
           <div v-if="isPrediction" class="category">
-            <span>{{ getCategoriesList }}</span>
+            <span>{{ getCategoriesList() }}</span>
           </div>
           {{ item.title }}
         </v-expansion-panel-header>
