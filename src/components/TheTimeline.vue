@@ -6,6 +6,8 @@
         :key="item.id"
         class="predictions"
       >
+        <!-- TODO change view logic => show separate time intervals (from predictions) -->
+        <!-- and array of predictions inside this interval, which fit by start/end date -->
         <span class="start-date">
           {{ getYear(item.startDate) }}
         </span>
@@ -36,6 +38,7 @@ export default {
   data() {
     return {
       predictions: [],
+      predictionDates: [],
       events: [],
       testUserId: 2,
       currentYear: new Date().getFullYear()
