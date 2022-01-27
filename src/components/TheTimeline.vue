@@ -56,11 +56,21 @@ export default {
     getYear,
     async fetchPredictions() {
       const { data } = await api.users.getUserPredictionEvents()
-      if (data?.length) this.predictions = data
+      if (data?.length) {
+        this.predictions = data
+        this.setPredictionDates()
+      }
     },
     async fetchEvents() {
       const { data } = await api.users.getPersonalEvents(this.testUserId)
       if (data?.length) this.events = data
+    },
+    setPredictionDates() {
+      const x = this.predictions.map(({ startDate, endDate }) => {
+        return [this.getYear(startDate), this.getYear(endDate)]
+      })
+
+      console.log(x)
     },
     scrollToCurrentYear() {
       const startDateElements = this.$refs.predictions.querySelectorAll('.start-date')
