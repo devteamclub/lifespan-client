@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <v-app-bar app height="100" color="var(--primary-background-color)" />
+    <v-app-bar app height="80" color="var(--primary-background-color)" />
     <v-main>
       <TheTimeline />
     </v-main>

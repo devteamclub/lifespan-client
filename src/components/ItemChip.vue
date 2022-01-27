@@ -8,24 +8,39 @@
     <v-expansion-panels tile class="expansion-panel">
       <v-expansion-panel>
         <v-expansion-panel-header expand-icon="">
-          Item
+          <div v-if="isPrediction" class="category">
+            <span>{{ getCategoriesList }}</span>
+          </div>
+          {{ item.title }}
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adip lorem ipsum dolor sit
-            amet, consectetur adip ipsum dolor sit amet, consectetur
+            {{ item.description }}
           </p>
-          <div class="info-block">
+          <div v-if="isPrediction" class="info-block">
+            <span class="info-title">Year:</span>
+            <span class="info-content">{{ getYear(item.startDate) }}</span>
+          </div>
+          <div v-else class="info-block">
             <span class="info-title">Age:</span>
             <span class="info-content">24 years old</span>
           </div>
           <div class="info-block">
             <span class="info-title">Source:</span>
-            <span class="info-content link">census.gov</span>
+            <a
+              v-for="(source, i) in item.sources"
+              :key="i"
+              :href="source"
+              class="info-content link"
+            >
+              {{ source }}
+            </a>
           </div>
           <div class="info-block">
             <span class="info-title">Possibility:</span>
-            <span class="info-content">89%</span>
+            <span class="info-content">
+              {{ item.possibility ? `${item.possibility}%` : '' }}
+            </span>
           </div>
           <button class="edit-btn">
             <v-icon size="12" color="var(--contrast-text-color)">
@@ -39,8 +54,29 @@
 </template>
 
 <script>
+import { getYear } from '@/services/dateService'
+
 export default {
-  name: 'ItemChip'
+  name: 'ItemChip',
+  props: {
+    item: {
+      type: Object,
+      required: true
+    },
+    isPrediction: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+  methods: {
+    getYear,
+    getCategoriesList() {
+      const categoryListTitles = this.item.categoryList.map((item) => item.title)
+      const result = categoryListTitles.join(', ')
+      return result
+    }
+  }
 }
 </script>
 
@@ -77,6 +113,13 @@ export default {
       .v-expansion-panel-header {
         height: var(--collapsed-chip-height);
         font-size: var(--content-title-text-size);
+
+        .category {
+          position: absolute;
+          top: 13px;
+          color: var(--tertiary-text-color);
+          font-size: var(--text-size-sm);
+        }
       }
 
       .v-expansion-panel-content {
@@ -85,7 +128,8 @@ export default {
         font-size: var(--content-text-size);
         line-height: 15px;
 
-        span {
+        span,
+        .link {
           font-size: var(--text-size-sm);
           font-weight: var(--font-weight-bold);
         }
