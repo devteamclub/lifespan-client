@@ -2,24 +2,18 @@
   <div class="timeline">
     <div ref="predictions" class="predictions-wrapper">
       <div
-        v-for="(value, name, i) in timeIntervals"
+        v-for="(items, dateKey, i) in timeIntervals"
         :key="i"
         class="predictions"
       >
         <span class="start-date">
-          {{ value }}
-          {{ name }}
-          {{ i }}
+          {{ dateKey }}
         </span>
-        <!--        <span class="end-date">-->
-        <!--          {{ item.endDate }}-->
-        <!--        </span>-->
-        <!--        <ItemChip-->
-        <!--          v-for="(prediction, k) in item.predictions"-->
-        <!--          :key="k"-->
-        <!--          is-prediction-->
-        <!--          :item="prediction"-->
-        <!--        />-->
+        <ItemChip
+          v-for="(prediction, k) in items"
+          :key="k"
+          :item="prediction"
+        />
       </div>
     </div>
     <div class="events-wrapper">
@@ -53,8 +47,6 @@ export default {
     await this.fetchPredictions()
     await this.fetchEvents()
 
-    this.setTimeIntervals()
-
     if (this.predictions.length) {
       this.scrollToCurrentYear()
     }
@@ -63,13 +55,14 @@ export default {
     getYear,
     async fetchPredictions() {
       const { data } = await api.users.getUserPredictionEvents()
-      if (data?.length) {
-        this.predictions = data
-      }
+      if (data?.length) this.predictions = data
     },
     async fetchEvents() {
       const { data } = await api.users.getPersonalEvents(this.testUserId)
-      if (data?.length) this.events = data
+      if (data?.length) {
+        this.events = data
+        this.setTimeIntervals()
+      }
     },
     setTimeIntervals() {
       const items = [...this.predictions, ...this.events]
@@ -79,8 +72,6 @@ export default {
           ? [...this.timeIntervals[this.getYear(item.startDate)], item]
           : [item]
       })
-
-      console.log(this.timeIntervals)
     },
     scrollToCurrentYear() {
       const startDateElements = this.$refs.predictions.querySelectorAll('.start-date')
@@ -123,6 +114,7 @@ export default {
     position: relative;
     display: grid;
     height: 100vh;
+    padding: 80px 0;
   }
 
   .predictions {

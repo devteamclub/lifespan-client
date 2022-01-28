@@ -8,7 +8,7 @@
     <v-expansion-panels tile class="expansion-panel">
       <v-expansion-panel>
         <v-expansion-panel-header expand-icon="">
-          <div v-if="isPrediction" class="category">
+          <div v-if="item.categoryList" class="category">
             <span>{{ getCategoriesList() }}</span>
           </div>
           {{ item.title }}
@@ -17,7 +17,7 @@
           <p>
             {{ item.description }}
           </p>
-          <div v-if="isPrediction" class="info-block">
+          <div v-if="item.categoryList" class="info-block">
             <span class="info-title">Year:</span>
             <span class="info-content">{{ getYear(item.startDate) }}</span>
           </div>
@@ -90,6 +90,10 @@ export default {
   display: flex;
   width: 100%;
   max-width: calc(400px - var(--icon-box-width));
+
+  &:nth-child(odd) {
+    margin-left: 30%;
+  }
 
   .icon-block {
     position: absolute;
