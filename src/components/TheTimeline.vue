@@ -2,22 +2,24 @@
   <div class="timeline">
     <div ref="predictions" class="predictions-wrapper">
       <div
-        v-for="(item, i) in predictionIntervals"
+        v-for="(value, name, i) in timeIntervals"
         :key="i"
         class="predictions"
       >
         <span class="start-date">
-          {{ item.startDate }}
+          {{ value }}
+          {{ name }}
+          {{ i }}
         </span>
-        <span class="end-date">
-          {{ item.endDate }}
-        </span>
-        <ItemChip
-          v-for="(prediction, k) in item.predictions"
-          :key="k"
-          is-prediction
-          :item="prediction"
-        />
+        <!--        <span class="end-date">-->
+        <!--          {{ item.endDate }}-->
+        <!--        </span>-->
+        <!--        <ItemChip-->
+        <!--          v-for="(prediction, k) in item.predictions"-->
+        <!--          :key="k"-->
+        <!--          is-prediction-->
+        <!--          :item="prediction"-->
+        <!--        />-->
       </div>
     </div>
     <div class="events-wrapper">
@@ -41,7 +43,7 @@ export default {
   data() {
     return {
       predictions: [],
-      predictionIntervals: [],
+      timeIntervals: {},
       events: [],
       testUserId: 2,
       currentYear: new Date().getFullYear()
@@ -50,6 +52,8 @@ export default {
   async mounted() {
     await this.fetchPredictions()
     await this.fetchEvents()
+
+    this.setTimeIntervals()
 
     if (this.predictions.length) {
       this.scrollToCurrentYear()
@@ -61,42 +65,22 @@ export default {
       const { data } = await api.users.getUserPredictionEvents()
       if (data?.length) {
         this.predictions = data
-        this.setPredictionIntervals()
       }
     },
     async fetchEvents() {
       const { data } = await api.users.getPersonalEvents(this.testUserId)
       if (data?.length) this.events = data
     },
-    setPredictionIntervals() {
-      // TODO move to BE side
-      const dateIntervals = this.predictions.map(({ startDate, endDate }) => {
-        return { startDate: this.getYear(startDate), endDate: this.getYear(endDate) }
+    setTimeIntervals() {
+      const items = [...this.predictions, ...this.events]
+
+      items.forEach((item) => {
+        this.timeIntervals[this.getYear(item.startDate)] = this.timeIntervals[this.getYear(item.startDate)]
+          ? [...this.timeIntervals[this.getYear(item.startDate)], item]
+          : [item]
       })
 
-      // get array of objects with uniq start/end dates
-      this.predictionIntervals = dateIntervals.filter((item, index, arr) => {
-        return arr.findIndex((foundItem) => {
-          return foundItem.startDate === item.startDate && foundItem.endDate === item.endDate
-        }) === index
-      })
-
-      this.addPredictionsToIntervals()
-    },
-    addPredictionsToIntervals() {
-      // TODO move to BE side
-      // add array of predictions to each interval where they fit by start/end date
-      this.predictionIntervals.forEach((intervalItem, intervalIndex) => {
-        this.predictionIntervals[intervalIndex].predictions = []
-
-        this.predictions.forEach((prediction) => {
-          if (intervalItem.startDate >= prediction.startDate && intervalItem.endDate <= prediction.endDate) {
-            this.predictionIntervals[intervalIndex].predictions.push(prediction)
-          }
-        })
-      })
-
-      console.log(this.predictionIntervals)
+      console.log(this.timeIntervals)
     },
     scrollToCurrentYear() {
       const startDateElements = this.$refs.predictions.querySelectorAll('.start-date')
