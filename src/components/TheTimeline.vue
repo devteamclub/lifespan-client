@@ -69,6 +69,7 @@ export default {
       if (data?.length) this.events = data
     },
     setPredictionIntervals() {
+      // TODO move to BE side
       const dateIntervals = this.predictions.map(({ startDate, endDate }) => {
         return { startDate: this.getYear(startDate), endDate: this.getYear(endDate) }
       })
@@ -83,6 +84,7 @@ export default {
       this.addPredictionsToIntervals()
     },
     addPredictionsToIntervals() {
+      // TODO move to BE side
       // add array of predictions to each interval where they fit by start/end date
       this.predictionIntervals.forEach((intervalItem, intervalIndex) => {
         this.predictionIntervals[intervalIndex].predictions = []
@@ -93,6 +95,8 @@ export default {
           }
         })
       })
+
+      console.log(this.predictionIntervals)
     },
     scrollToCurrentYear() {
       const startDateElements = this.$refs.predictions.querySelectorAll('.start-date')
@@ -133,6 +137,7 @@ export default {
   .predictions,
   .events {
     position: relative;
+    display: grid;
     height: 100vh;
   }
 
