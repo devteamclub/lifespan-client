@@ -2,19 +2,17 @@
   <div class="timeline">
     <div ref="predictions" class="predictions-wrapper">
       <div
-        v-for="item in predictions"
-        :key="item.id"
+        v-for="(item, i) in predictionDateIntervals"
+        :key="i"
         class="predictions"
       >
-        <!-- TODO change view logic => show separate time intervals (from predictions) -->
-        <!-- and array of predictions inside this interval, which fit by start/end date -->
         <span class="start-date">
-          {{ getYear(item.startDate) }}
+          {{ item[0] }}
         </span>
         <span class="end-date">
-          {{ getYear(item.endDate) }}
+          {{ item[1] }}
         </span>
-        <ItemChip is-prediction :item="item" />
+        <!--  <ItemChip is-prediction :item="item" />  -->
       </div>
     </div>
     <div class="events-wrapper">
@@ -38,7 +36,7 @@ export default {
   data() {
     return {
       predictions: [],
-      predictionDates: [],
+      predictionDateIntervals: [],
       events: [],
       testUserId: 2,
       currentYear: new Date().getFullYear()
@@ -66,11 +64,10 @@ export default {
       if (data?.length) this.events = data
     },
     setPredictionDates() {
-      const x = this.predictions.map(({ startDate, endDate }) => {
+      // get uniq pairs of dates => [[2020, 2021], [2022-2024], ...]
+      this.predictionDateIntervals = [...new Map(this.predictions.map(({ startDate, endDate }) => {
         return [this.getYear(startDate), this.getYear(endDate)]
-      })
-
-      console.log(x)
+      }))]
     },
     scrollToCurrentYear() {
       const startDateElements = this.$refs.predictions.querySelectorAll('.start-date')
