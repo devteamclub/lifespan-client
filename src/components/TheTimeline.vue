@@ -2,17 +2,22 @@
   <div class="timeline">
     <div ref="predictions" class="predictions-wrapper">
       <div
-        v-for="(item, i) in predictionDateIntervals"
+        v-for="(item, i) in predictionIntervals"
         :key="i"
         class="predictions"
       >
         <span class="start-date">
-          {{ item[0] }}
+          {{ item.startDate }}
         </span>
         <span class="end-date">
-          {{ item[1] }}
+          {{ item.endDate }}
         </span>
-        <!--  <ItemChip is-prediction :item="item" />  -->
+        <ItemChip
+          v-for="(prediction, k) in item.predictions"
+          :key="k"
+          is-prediction
+          :item="prediction"
+        />
       </div>
     </div>
     <div class="events-wrapper">
@@ -36,7 +41,7 @@ export default {
   data() {
     return {
       predictions: [],
-      predictionDateIntervals: [],
+      predictionIntervals: [],
       events: [],
       testUserId: 2,
       currentYear: new Date().getFullYear()
@@ -56,18 +61,38 @@ export default {
       const { data } = await api.users.getUserPredictionEvents()
       if (data?.length) {
         this.predictions = data
-        this.setPredictionDates()
+        this.setPredictionIntervals()
       }
     },
     async fetchEvents() {
       const { data } = await api.users.getPersonalEvents(this.testUserId)
       if (data?.length) this.events = data
     },
-    setPredictionDates() {
-      // get uniq pairs of dates => [[2020, 2021], [2022-2024], ...]
-      this.predictionDateIntervals = [...new Map(this.predictions.map(({ startDate, endDate }) => {
-        return [this.getYear(startDate), this.getYear(endDate)]
-      }))]
+    setPredictionIntervals() {
+      const dateIntervals = this.predictions.map(({ startDate, endDate }) => {
+        return { startDate: this.getYear(startDate), endDate: this.getYear(endDate) }
+      })
+
+      // get array of objects with uniq start/end dates
+      this.predictionIntervals = dateIntervals.filter((item, index, arr) => {
+        return arr.findIndex((foundItem) => {
+          return foundItem.startDate === item.startDate && foundItem.endDate === item.endDate
+        }) === index
+      })
+
+      this.addPredictionsToIntervals()
+    },
+    addPredictionsToIntervals() {
+      // add array of predictions to each interval where they fit by start/end date
+      this.predictionIntervals.forEach((intervalItem, intervalIndex) => {
+        this.predictionIntervals[intervalIndex].predictions = []
+
+        this.predictions.forEach((prediction) => {
+          if (intervalItem.startDate >= prediction.startDate && intervalItem.endDate <= prediction.endDate) {
+            this.predictionIntervals[intervalIndex].predictions.push(prediction)
+          }
+        })
+      })
     },
     scrollToCurrentYear() {
       const startDateElements = this.$refs.predictions.querySelectorAll('.start-date')
