@@ -117,7 +117,7 @@ export default {
     .start-date {
       position: absolute;
       top: 15px;
-      right: 0;
+      right: 15px;
       font-size: var(--title-text-size);
       font-weight: var(--font-weight-bold);
       line-height: 1;
