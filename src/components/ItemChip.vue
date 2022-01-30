@@ -91,7 +91,7 @@ export default {
   width: 100%;
   max-width: calc(400px - var(--icon-box-width));
 
-  &:nth-child(odd) {
+  &:nth-child(even) {
     margin-left: 30%;
   }
 

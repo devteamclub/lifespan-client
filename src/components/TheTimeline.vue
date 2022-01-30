@@ -1,24 +1,36 @@
 <template>
   <div class="timeline">
-    <div ref="predictions" class="predictions-wrapper">
+    <div ref="wrapper" class="wrapper">
       <div
-        v-for="(items, dateKey, i) in timeIntervals"
+        v-for="(items, dateKey, i) in getTimeIntervals"
         :key="i"
-        class="predictions"
+        class="interval"
       >
-        <span class="start-date">
-          {{ dateKey }}
-        </span>
-        <ItemChip
-          v-for="(prediction, k) in items"
-          :key="k"
-          :item="prediction"
-        />
-      </div>
-    </div>
-    <div class="events-wrapper">
-      <div v-for="item in events" :key="item.id" class="events">
-        <ItemChip :item="item" />
+        <div class="predictions">
+          <span class="start-date">
+            {{ dateKey }}
+          </span>
+          <div
+            v-for="(prediction, k) in items"
+            :key="k"
+          >
+            <ItemChip
+              v-if="prediction.categoryList"
+              :item="prediction"
+            />
+          </div>
+        </div>
+        <div class="events">
+          <div
+            v-for="(event, j) in items"
+            :key="j"
+          >
+            <ItemChip
+              v-if="!event.categoryList"
+              :item="event"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -37,10 +49,23 @@ export default {
   data() {
     return {
       predictions: [],
-      timeIntervals: {},
       events: [],
       testUserId: 2,
       currentYear: new Date().getFullYear()
+    }
+  },
+  computed: {
+    getTimeIntervals() {
+      const items = [...this.predictions, ...this.events]
+      const timeIntervals = {}
+
+      items.forEach((item) => {
+        timeIntervals[this.getYear(item.startDate)] = timeIntervals[this.getYear(item.startDate)]
+          ? [...timeIntervals[this.getYear(item.startDate)], item]
+          : [item]
+      })
+
+      return timeIntervals
     }
   },
   async mounted() {
@@ -59,22 +84,10 @@ export default {
     },
     async fetchEvents() {
       const { data } = await api.users.getPersonalEvents(this.testUserId)
-      if (data?.length) {
-        this.events = data
-        this.setTimeIntervals()
-      }
-    },
-    setTimeIntervals() {
-      const items = [...this.predictions, ...this.events]
-
-      items.forEach((item) => {
-        this.timeIntervals[this.getYear(item.startDate)] = this.timeIntervals[this.getYear(item.startDate)]
-          ? [...this.timeIntervals[this.getYear(item.startDate)], item]
-          : [item]
-      })
+      if (data?.length) this.events = data
     },
     scrollToCurrentYear() {
-      const startDateElements = this.$refs.predictions.querySelectorAll('.start-date')
+      const startDateElements = this.$refs.wrapper.querySelectorAll('.start-date')
       const currentYearPrediction = [...startDateElements].find(startDateElement => {
         return parseInt(startDateElement.textContent) === this.currentYear
       })
@@ -95,45 +108,35 @@ export default {
 
 <style lang="scss" scoped>
 .timeline {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: 100%;
-
-  .predictions-wrapper {
-    padding: 18px 18px 0;
-    background-color: var(--timeline-accent-color);
-  }
-
-  .events-wrapper {
-    padding: 18px 18px 0;
-    background-color: var(--timeline-accent-color-light);
-  }
-
-  .predictions,
-  .events {
+  .interval {
     position: relative;
     display: grid;
+    grid-template-columns: 1fr 1fr;
     height: 100vh;
-    padding: 80px 0;
-  }
 
-  .predictions {
-    .start-date,
-    .end-date {
+    .start-date {
       position: absolute;
+      top: 15px;
       right: 0;
       font-size: var(--title-text-size);
       font-weight: var(--font-weight-bold);
       line-height: 1;
     }
+  }
 
-    .start-date {
-      top: 0;
-    }
+  .predictions,
+  .events {
+    position: relative;
+    height: 100%;
+    padding: 120px 24px;
+  }
 
-    .end-date {
-      bottom: 80px; // header height
-    }
+  .predictions {
+    background-color: var(--timeline-accent-color);
+  }
+
+  .events {
+    background-color: var(--timeline-accent-color-light);
   }
 }
 </style>
