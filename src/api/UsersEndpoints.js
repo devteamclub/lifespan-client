@@ -47,3 +47,18 @@ export const getUserPredictionEvents = async() => {
     }
   }
 }
+
+export const getUser = async(userId) => {
+  try {
+    const { data } = await publicApi.get(`${PERSONAL_HANDLER}/${userId}`)
+    return { data, error: null }
+  } catch ({ response }) {
+    return {
+      data: null,
+      error: {
+        text: response.data,
+        status: response.status
+      }
+    }
+  }
+}

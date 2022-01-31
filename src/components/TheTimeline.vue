@@ -43,6 +43,7 @@
 
 <script>
 import api from '@/api'
+import { mapGetters } from 'vuex'
 import { getYear } from '@/services/dateService'
 import ItemChip from '@/components/ItemChip'
 
@@ -56,11 +57,11 @@ export default {
       predictions: [],
       events: [],
       chapters: [],
-      testUserId: 8,
       currentYear: new Date().getFullYear()
     }
   },
   computed: {
+    ...mapGetters(['getUser']),
     getTimeIntervals() {
       const items = [...this.predictions, ...this.events]
       const timeIntervals = {}
@@ -90,11 +91,11 @@ export default {
       if (data?.length) this.predictions = data
     },
     async fetchEvents() {
-      const { data } = await api.users.getPersonalEvents(this.testUserId)
+      const { data } = await api.users.getPersonalEvents(this.getUser.id)
       if (data?.length) this.events = data
     },
     async fetchChapters() {
-      const { data } = await api.users.getPersonalChapters(this.testUserId)
+      const { data } = await api.users.getPersonalChapters(this.getUser.id)
       if (data?.length) this.chapters = data
     },
     scrollToCurrentYear() {
@@ -114,9 +115,7 @@ export default {
       })
     },
     getPersonAge(intervalDate) {
-      // TODO instead of 'this.events[0].startDate' use birthday field from user object
-      if (!this.events[0]) return ''
-      return intervalDate - this.getYear(this.events[0].startDate)
+      return intervalDate - this.getYear(this.getUser.birthday)
     },
     getCurrentChapter(intervalDate) {
       let chapter = ''

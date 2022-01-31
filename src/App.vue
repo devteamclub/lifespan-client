@@ -13,12 +13,32 @@
 </template>
 
 <script>
+import api from '@/api'
+import { mapActions, mapGetters } from 'vuex'
 import TheTimeline from '@/components/TheTimeline'
 
 export default {
   name: 'App',
   components: {
     TheTimeline
+  },
+  data() {
+    return {
+      testUserId: 8
+    }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
+  },
+  created() {
+    if (!this.getUser) this.fetchUser()
+  },
+  methods: {
+    ...mapActions(['setUser']),
+    async fetchUser() {
+      const { data } = await api.users.getUser(this.testUserId)
+      if (data) this.setUser(data)
+    }
   }
 }
 </script>
