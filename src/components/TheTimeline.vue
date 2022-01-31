@@ -21,6 +21,10 @@
           </div>
         </div>
         <div class="events">
+          <div class="person-age">
+            <span class="age">{{ getPersonAge(dateKey) }}</span>
+            <span class="years"> y.o.</span>
+          </div>
           <div
             v-for="(event, j) in items"
             :key="j"
@@ -107,6 +111,11 @@ export default {
         top: topOffset,
         behavior: 'smooth'
       })
+    },
+    getPersonAge(intervalDate) {
+      // TODO instead of 'this.events[0].startDate' use birthday field from user object
+      if (!this.events[0]) return ''
+      return intervalDate - this.getYear(this.events[0].startDate)
     }
   }
 }
@@ -120,13 +129,26 @@ export default {
     grid-template-columns: 1fr 1fr;
     min-height: 100vh;
 
-    .start-date {
+    .start-date,
+    .person-age {
       position: absolute;
       top: 15px;
-      right: 15px;
       font-size: var(--title-text-size);
-      font-weight: var(--font-weight-bold);
       line-height: 1;
+    }
+
+    .start-date {
+      right: 15px;
+      font-weight: var(--font-weight-bold);
+    }
+
+    .person-age {
+      left: 15px;
+      font-weight: var(--font-weight-light);
+
+      .years {
+        font-size: 24px;
+      }
     }
   }
 
