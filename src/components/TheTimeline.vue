@@ -131,7 +131,7 @@ export default {
   .events {
     position: relative;
     display: grid;
-    gap: 120px;
+    gap: 200px;
     height: 100%;
     padding: 120px 24px;
 
