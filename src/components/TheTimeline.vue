@@ -162,7 +162,9 @@ export default {
         })
       }, options)
 
-      this.intervalElements.forEach(item => observer.observe(item))
+      if (this.intervalElements.length) {
+        this.intervalElements.forEach(item => observer.observe(item))
+      }
     }
   }
 }
