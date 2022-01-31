@@ -6,6 +6,7 @@
         :key="i"
         class="interval"
       >
+        <span class="chapter">{{ getCurrentChapter(dateKey) }}</span>
         <div class="predictions">
           <span class="start-date">
             {{ dateKey }}
@@ -55,7 +56,7 @@ export default {
       predictions: [],
       events: [],
       chapters: [],
-      testUserId: 7,
+      testUserId: 8,
       currentYear: new Date().getFullYear()
     }
   },
@@ -116,6 +117,20 @@ export default {
       // TODO instead of 'this.events[0].startDate' use birthday field from user object
       if (!this.events[0]) return ''
       return intervalDate - this.getYear(this.events[0].startDate)
+    },
+    getCurrentChapter(intervalDate) {
+      let chapter = ''
+
+      this.chapters.forEach((item) => {
+        const chapterStartYear = this.getYear(item.startDate)
+        const chapterEndYear = this.getYear(item.endDate)
+
+        if (intervalDate >= chapterStartYear && intervalDate <= chapterEndYear) {
+          chapter = item.title
+        }
+      })
+
+      return chapter
     }
   }
 }
@@ -128,6 +143,14 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-height: 100vh;
+
+    .chapter {
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      z-index: 1;
+      transform: translate(-50%);
+    }
 
     .start-date,
     .person-age {
