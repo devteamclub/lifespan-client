@@ -25,7 +25,7 @@
             <span class="info-title">Age:</span>
             <span class="info-content">24 years old</span>
           </div>
-          <div class="info-block">
+          <div class="info-block source">
             <span class="info-title">Source:</span>
             <a
               v-for="(source, i) in item.sources"
@@ -91,10 +91,6 @@ export default {
   width: 100%;
   max-width: calc(400px - var(--icon-box-width));
 
-  &:nth-child(even) {
-    margin-left: 30%;
-  }
-
   .icon-block {
     position: absolute;
     top: 0;
@@ -138,6 +134,10 @@ export default {
           font-weight: var(--font-weight-bold);
         }
 
+        .info-block.source {
+          display: flex;
+        }
+
         .info-title {
           margin-right: 5px;
           color: var(--tertiary-text-color);
@@ -145,7 +145,11 @@ export default {
 
         .info-content {
           &.link {
+            display: block;
             color: var(--link-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
 

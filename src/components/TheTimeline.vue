@@ -15,7 +15,7 @@
             :key="k"
           >
             <ItemChip
-              v-if="prediction.categoryList"
+              v-if="!prediction.isEvent"
               :item="prediction"
             />
           </div>
@@ -26,7 +26,7 @@
             :key="j"
           >
             <ItemChip
-              v-if="!event.categoryList"
+              v-if="event.isEvent"
               :item="event"
             />
           </div>
@@ -50,7 +50,7 @@ export default {
     return {
       predictions: [],
       events: [],
-      testUserId: 2,
+      testUserId: 7,
       currentYear: new Date().getFullYear()
     }
   },
@@ -101,6 +101,9 @@ export default {
         top: topOffset,
         behavior: 'smooth'
       })
+    },
+    getPredictionsItems(items) {
+      return items.filter(item => !item.isEvent)
     }
   }
 }
@@ -112,7 +115,7 @@ export default {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    height: 100vh;
+    min-height: 100vh;
 
     .start-date {
       position: absolute;
@@ -127,8 +130,14 @@ export default {
   .predictions,
   .events {
     position: relative;
+    display: grid;
+    gap: 120px;
     height: 100%;
     padding: 120px 24px;
+
+    & > div:nth-child(even) {
+      margin-left: 30%;
+    }
   }
 
   .predictions {
