@@ -50,6 +50,7 @@ export default {
     return {
       predictions: [],
       events: [],
+      chapters: [],
       testUserId: 7,
       currentYear: new Date().getFullYear()
     }
@@ -71,6 +72,7 @@ export default {
   async mounted() {
     await this.fetchPredictions()
     await this.fetchEvents()
+    await this.fetchChapters()
 
     if (this.predictions.length) {
       this.scrollToCurrentYear()
@@ -85,6 +87,10 @@ export default {
     async fetchEvents() {
       const { data } = await api.users.getPersonalEvents(this.testUserId)
       if (data?.length) this.events = data
+    },
+    async fetchChapters() {
+      const { data } = await api.users.getPersonalChapters(this.testUserId)
+      if (data?.length) this.chapters = data
     },
     scrollToCurrentYear() {
       const startDateElements = this.$refs.wrapper.querySelectorAll('.start-date')
@@ -101,9 +107,6 @@ export default {
         top: topOffset,
         behavior: 'smooth'
       })
-    },
-    getPredictionsItems(items) {
-      return items.filter(item => !item.isEvent)
     }
   }
 }
