@@ -1,10 +1,7 @@
 <template>
   <div class="timeline">
     <div v-if="getUser" ref="wrapper" class="wrapper">
-      <transition
-        name="custom-classes-transition"
-        enter-active-class="animated flipInX"
-      >
+      <transition enter-active-class="animated flipInX">
         <div v-if="currentIntervalStartDate" :key="currentIntervalStartDate" class="top-info">
           <span class="start-date">
             {{ currentIntervalStartDate }}
