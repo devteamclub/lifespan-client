@@ -113,6 +113,7 @@ export default {
     if (this.predictions.length) {
       this.scrollToCurrentYear()
     }
+
     window.addEventListener('scroll', this.throttle(this.handleDatesInfo))
   },
   methods: {
@@ -148,7 +149,7 @@ export default {
     handleDatesInfo() {
       const options = {
         root: null,
-        threshold: 0.6
+        threshold: 0
       }
 
       const observer = new IntersectionObserver((entries, observer) => {
