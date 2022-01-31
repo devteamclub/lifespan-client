@@ -5,7 +5,7 @@
         name="custom-classes-transition"
         enter-active-class="animated flipInX"
       >
-        <div :key="currentIntervalStartDate" class="top-info">
+        <div v-if="currentIntervalStartDate" :key="currentIntervalStartDate" class="top-info">
           <span class="start-date">
             {{ currentIntervalStartDate }}
           </span>
@@ -85,9 +85,6 @@ export default {
 
       return timeIntervals
     },
-    getDates() {
-      return this.currentIntervalStartDate
-    },
     getPersonAge() {
       return this.currentIntervalStartDate - this.getYear(this.getUser.birthday)
     },
@@ -111,11 +108,11 @@ export default {
     await this.fetchEvents()
     await this.fetchChapters()
 
+    this.intervalElements = this.$refs.wrapper.querySelectorAll('.interval')
+
     if (this.predictions.length) {
       this.scrollToCurrentYear()
     }
-
-    this.intervalElements = this.$refs.wrapper.querySelectorAll('.interval')
     window.addEventListener('scroll', this.throttle(this.handleDatesInfo))
   },
   methods: {
@@ -134,9 +131,8 @@ export default {
       if (data?.length) this.chapters = data
     },
     scrollToCurrentYear() {
-      const startDateElements = this.$refs.wrapper.querySelectorAll('.start-date')
-      const currentYearPrediction = [...startDateElements].find(startDateElement => {
-        return parseInt(startDateElement.textContent) === this.currentYear
+      const currentYearPrediction = [...this.intervalElements].find(startDateElement => {
+        return parseInt(startDateElement.dataset.intervalDate) === this.currentYear
       })
 
       if (!currentYearPrediction) return
