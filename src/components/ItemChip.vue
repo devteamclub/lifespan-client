@@ -8,7 +8,7 @@
     <v-expansion-panels tile class="expansion-panel">
       <v-expansion-panel>
         <v-expansion-panel-header expand-icon="">
-          <div v-if="item.categoryList" class="category">
+          <div v-if="!item.isEvent" class="category">
             <span>{{ getCategoriesList() }}</span>
           </div>
           {{ item.title }}
@@ -17,31 +17,33 @@
           <p>
             {{ item.description }}
           </p>
-          <div v-if="item.categoryList" class="info-block">
-            <span class="info-title">Year:</span>
-            <span class="info-content">{{ getYear(item.startDate) }}</span>
-          </div>
+          <template v-if="!item.isEvent">
+            <div class="info-block">
+              <span class="info-title">Year:</span>
+              <span class="info-content">{{ getYear(item.startDate) }}</span>
+            </div>
+            <div class="info-block source">
+              <span class="info-title">Source:</span>
+              <a
+                v-for="(source, i) in item.sources"
+                :key="i"
+                :href="source"
+                target="_blank"
+                class="info-content link"
+              >
+                {{ source }}
+              </a>
+            </div>
+            <div class="info-block">
+              <span class="info-title">Possibility:</span>
+              <span class="info-content">
+                {{ item.possibility ? `${item.possibility}%` : '' }}
+              </span>
+            </div>
+          </template>
           <div v-else class="info-block">
             <span class="info-title">Age:</span>
             <span class="info-content">{{ age }} years old</span>
-          </div>
-          <div class="info-block source">
-            <span class="info-title">Source:</span>
-            <a
-              v-for="(source, i) in item.sources"
-              :key="i"
-              :href="source"
-              target="_blank"
-              class="info-content link"
-            >
-              {{ source }}
-            </a>
-          </div>
-          <div class="info-block">
-            <span class="info-title">Possibility:</span>
-            <span class="info-content">
-              {{ item.possibility ? `${item.possibility}%` : '' }}
-            </span>
           </div>
           <button class="edit-btn">
             <v-icon size="12" color="var(--contrast-text-color)">
@@ -63,11 +65,6 @@ export default {
     item: {
       type: Object,
       required: true
-    },
-    isPrediction: {
-      type: Boolean,
-      required: false,
-      default: false
     },
     age: {
       type: [Number, String],
