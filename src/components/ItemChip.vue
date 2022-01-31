@@ -23,7 +23,7 @@
           </div>
           <div v-else class="info-block">
             <span class="info-title">Age:</span>
-            <span class="info-content">24 years old</span>
+            <span class="info-content">{{ age }} years old</span>
           </div>
           <div class="info-block source">
             <span class="info-title">Source:</span>
@@ -68,6 +68,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    age: {
+      type: [Number, String],
+      required: false,
+      default: null
     }
   },
   data() {

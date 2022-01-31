@@ -41,6 +41,7 @@
             <ItemChip
               v-if="event.isEvent"
               :item="event"
+              :age="getPersonAge"
             />
           </div>
         </div>
