@@ -1,16 +1,21 @@
 <template>
   <div class="timeline">
     <div v-if="getUser" ref="wrapper" class="wrapper">
-      <div class="top-info">
-        <span class="start-date">
-          {{ currentIntervalStartDate }}
-        </span>
-        <div class="person-age">
-          <span class="age">{{ getPersonAge }}</span>
-          <span class="years"> y.o.</span>
+      <transition
+        name="custom-classes-transition"
+        enter-active-class="animated flipInX"
+      >
+        <div :key="currentIntervalStartDate" class="top-info">
+          <span class="start-date">
+            {{ currentIntervalStartDate }}
+          </span>
+          <div class="person-age">
+            <span class="age">{{ getPersonAge }}</span>
+            <span class="years"> y.o.</span>
+          </div>
+          <span class="chapter">{{ getCurrentChapter }}</span>
         </div>
-        <span class="chapter">{{ getCurrentChapter }}</span>
-      </div>
+      </transition>
       <div
         v-for="(items, dateKey, i) in getTimeIntervals"
         :key="i"
