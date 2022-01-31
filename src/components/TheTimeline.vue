@@ -1,16 +1,23 @@
 <template>
   <div class="timeline">
-    <div ref="wrapper" class="wrapper">
+    <div v-if="getUser" ref="wrapper" class="wrapper">
+      <div class="top-info">
+        <span class="start-date">
+          {{ currentIntervalStartDate }}
+        </span>
+        <div class="person-age">
+          <span class="age">{{ getPersonAge }}</span>
+          <span class="years"> y.o.</span>
+        </div>
+        <span class="chapter">{{ getCurrentChapter }}</span>
+      </div>
       <div
         v-for="(items, dateKey, i) in getTimeIntervals"
         :key="i"
+        :data-interval-date="dateKey"
         class="interval"
       >
-        <span class="chapter">{{ getCurrentChapter(dateKey) }}</span>
         <div class="predictions">
-          <span class="start-date">
-            {{ dateKey }}
-          </span>
           <div
             v-for="(prediction, k) in items"
             :key="k"
@@ -22,10 +29,6 @@
           </div>
         </div>
         <div class="events">
-          <div class="person-age">
-            <span class="age">{{ getPersonAge(dateKey) }}</span>
-            <span class="years"> y.o.</span>
-          </div>
           <div
             v-for="(event, j) in items"
             :key="j"
@@ -45,6 +48,7 @@
 import api from '@/api'
 import { mapGetters } from 'vuex'
 import { getYear } from '@/services/dateService'
+import { throttle } from '@/services/throttle'
 import ItemChip from '@/components/ItemChip'
 
 export default {
@@ -57,6 +61,8 @@ export default {
       predictions: [],
       events: [],
       chapters: [],
+      intervalElements: null,
+      currentIntervalStartDate: null,
       currentYear: new Date().getFullYear()
     }
   },
@@ -73,6 +79,26 @@ export default {
       })
 
       return timeIntervals
+    },
+    getDates() {
+      return this.currentIntervalStartDate
+    },
+    getPersonAge() {
+      return this.currentIntervalStartDate - this.getYear(this.getUser.birthday)
+    },
+    getCurrentChapter() {
+      let chapter = ''
+
+      this.chapters.forEach((item) => {
+        const chapterStartYear = this.getYear(item.startDate)
+        const chapterEndYear = this.getYear(item.endDate)
+
+        if (this.currentIntervalStartDate >= chapterStartYear && this.currentIntervalStartDate <= chapterEndYear) {
+          chapter = item.title
+        }
+      })
+
+      return chapter
     }
   },
   async mounted() {
@@ -83,9 +109,13 @@ export default {
     if (this.predictions.length) {
       this.scrollToCurrentYear()
     }
+
+    this.intervalElements = this.$refs.wrapper.querySelectorAll('.interval')
+    window.addEventListener('scroll', this.throttle(this.handleDatesInfo))
   },
   methods: {
     getYear,
+    throttle,
     async fetchPredictions() {
       const { data } = await api.users.getUserPredictionEvents()
       if (data?.length) this.predictions = data
@@ -114,22 +144,22 @@ export default {
         behavior: 'smooth'
       })
     },
-    getPersonAge(intervalDate) {
-      return intervalDate - this.getYear(this.getUser.birthday)
-    },
-    getCurrentChapter(intervalDate) {
-      let chapter = ''
+    handleDatesInfo() {
+      const options = {
+        root: null,
+        threshold: 0.6
+      }
 
-      this.chapters.forEach((item) => {
-        const chapterStartYear = this.getYear(item.startDate)
-        const chapterEndYear = this.getYear(item.endDate)
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.currentIntervalStartDate = entry.target.dataset.intervalDate
+            observer.unobserve(entry.target)
+          }
+        })
+      }, options)
 
-        if (intervalDate >= chapterStartYear && intervalDate <= chapterEndYear) {
-          chapter = item.title
-        }
-      })
-
-      return chapter
+      this.intervalElements.forEach(item => observer.observe(item))
     }
   }
 }
@@ -137,19 +167,12 @@ export default {
 
 <style lang="scss" scoped>
 .timeline {
-  .interval {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
-
-    .chapter {
-      position: absolute;
-      top: 70px;
-      left: 50%;
-      z-index: 1;
-      transform: translate(-50%);
-    }
+  .top-info {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    z-index: 10;
+    transform: translate(-50%);
 
     .start-date,
     .person-age {
@@ -166,12 +189,30 @@ export default {
 
     .person-age {
       left: 15px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
       font-weight: var(--font-weight-light);
 
       .years {
         font-size: 24px;
       }
     }
+
+    .chapter {
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      z-index: 1;
+      transform: translate(-50%);
+    }
+  }
+
+  .interval {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
   }
 
   .predictions,
@@ -180,7 +221,7 @@ export default {
     display: grid;
     gap: 200px;
     height: 100%;
-    padding: 120px 24px;
+    padding: 120px 48px;
 
     & > div:nth-child(even) {
       margin-left: 30%;
