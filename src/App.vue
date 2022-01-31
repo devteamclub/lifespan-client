@@ -1,6 +1,11 @@
 <template>
   <v-app id="app">
-    <v-app-bar app height="80" color="var(--primary-background-color)" />
+    <v-app-bar
+      app
+      height="80"
+      color="var(--primary-background-color)"
+      class="header"
+    />
     <v-main>
       <TheTimeline />
     </v-main>
@@ -20,6 +25,10 @@ export default {
 
 <style lang="scss">
 @import '@/assets/style/global.scss';
+
+.header.v-app-bar.v-app-bar--fixed {
+  z-index: 100;
+}
 
 .content-wrapper {
   display: grid;

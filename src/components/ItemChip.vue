@@ -1,5 +1,5 @@
 <template>
-  <div class="item-chip">
+  <div class="item-chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
     <div class="icon-block">
       <v-icon>
         mdi-domain
@@ -31,6 +31,7 @@
               v-for="(source, i) in item.sources"
               :key="i"
               :href="source"
+              target="_blank"
               class="info-content link"
             >
               {{ source }}
@@ -69,6 +70,11 @@ export default {
       default: false
     }
   },
+  data() {
+    return {
+      isActive: false
+    }
+  },
   methods: {
     getYear,
     getCategoriesList() {
@@ -91,6 +97,10 @@ export default {
   width: 100%;
   max-width: calc(400px - var(--icon-box-width));
 
+  &.active {
+    z-index: 10;
+  }
+
   .icon-block {
     position: absolute;
     top: 0;
@@ -112,6 +122,7 @@ export default {
     &::v-deep {
       .v-expansion-panel-header {
         height: var(--collapsed-chip-height);
+        padding: 24px 16px 24px;
         font-size: var(--content-title-text-size);
 
         .category {
@@ -127,6 +138,10 @@ export default {
         color: var(--primary-text-color);
         font-size: var(--content-text-size);
         line-height: 15px;
+
+        &__wrap {
+          padding: 0 16px 16px;
+        }
 
         span,
         .link {
