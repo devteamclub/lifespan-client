@@ -95,16 +95,14 @@ export default {
         return chapter
       }
 
-      this.chapters.forEach((item) => {
+      chapter = this.chapters.find((item) => {
         const chapterStartYear = this.getYear(item.startDate)
         const chapterEndYear = this.getYear(item.endDate)
 
-        if (this.currentIntervalStartDate >= chapterStartYear && this.currentIntervalStartDate <= chapterEndYear) {
-          chapter = item.title
-        }
+        return this.currentIntervalStartDate >= chapterStartYear && this.currentIntervalStartDate <= chapterEndYear
       })
 
-      return chapter
+      return chapter?.title
     }
   },
   async mounted() {
