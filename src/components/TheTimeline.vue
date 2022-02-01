@@ -84,6 +84,7 @@ export default {
       return timeIntervals
     },
     getPersonAge() {
+      if (this.currentIntervalStartDate < this.getYear(this.getUser.birthday)) return 0
       return this.currentIntervalStartDate - this.getYear(this.getUser.birthday)
     },
     getCurrentChapter() {
