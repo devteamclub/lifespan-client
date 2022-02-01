@@ -1,6 +1,6 @@
 <template>
   <div class="timeline">
-    <div v-if="getUser" ref="wrapper" class="wrapper">
+    <div ref="wrapper" class="wrapper">
       <transition enter-active-class="animated flipInX">
         <div v-if="currentIntervalStartDate" :key="currentIntervalStartDate" class="top-info">
           <span class="start-date">
@@ -106,16 +106,14 @@ export default {
     }
   },
   async mounted() {
-    await this.fetchPredictions()
-    await this.fetchEvents()
-    await this.fetchChapters()
+    await Promise.all([
+      this.fetchPredictions(),
+      this.fetchEvents(),
+      this.fetchChapters()
+    ])
 
     this.intervalElements = this.$refs.wrapper.querySelectorAll('.interval')
-
-    if (this.predictions.length) {
-      this.scrollToCurrentYear()
-    }
-
+    this.scrollToCurrentYear()
     window.addEventListener('scroll', this.throttle(this.handleDatesInfo))
   },
   methods: {

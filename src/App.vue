@@ -7,7 +7,7 @@
       class="header"
     />
     <v-main>
-      <TheTimeline />
+      <TheTimeline v-if="getUser" />
     </v-main>
   </v-app>
 </template>
