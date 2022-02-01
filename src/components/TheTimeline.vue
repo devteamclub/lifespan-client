@@ -237,5 +237,43 @@ export default {
   .events {
     background-color: var(--timeline-accent-color-light);
   }
+
+  .animated {
+    animation-duration: 1s;
+    animation-fill-mode: both
+  }
+
+  .flipInX {
+    backface-visibility: visible;
+    animation-name: flipInX
+  }
+
+  @keyframes flipInX {
+    0% {
+      transform: perspective(400px) rotateX(90deg);
+      opacity: 0
+    }
+
+    0%,40% {
+      animation-timing-function: ease-in
+    }
+
+    40% {
+      transform: perspective(400px) rotateX(-20deg)
+    }
+
+    60% {
+      transform: perspective(400px) rotateX(10deg);
+      opacity: 1
+    }
+
+    80% {
+      transform: perspective(400px) rotateX(-5deg)
+    }
+
+    to {
+      transform: perspective(400px)
+    }
+  }
 }
 </style>
