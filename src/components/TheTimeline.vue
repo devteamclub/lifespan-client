@@ -88,21 +88,18 @@ export default {
       return this.currentIntervalStartDate - this.getYear(this.getUser.birthday)
     },
     getCurrentChapter() {
-      let chapter = ''
-
       if (this.currentIntervalStartDate < this.getYear(this.getUser.birthday)) {
-        chapter = 'Not yet born'
-        return chapter
+        return 'Not yet born'
       }
 
-      chapter = this.chapters.find((item) => {
+      const chapter = this.chapters.find((item) => {
         const chapterStartYear = this.getYear(item.startDate)
         const chapterEndYear = this.getYear(item.endDate)
 
         return this.currentIntervalStartDate >= chapterStartYear && this.currentIntervalStartDate <= chapterEndYear
       })
 
-      return chapter?.title
+      return chapter?.title || ''
     }
   },
   async mounted() {
