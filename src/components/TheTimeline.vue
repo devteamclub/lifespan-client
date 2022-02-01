@@ -90,6 +90,11 @@ export default {
     getCurrentChapter() {
       let chapter = ''
 
+      if (this.currentIntervalStartDate < this.getYear(this.getUser.birthday)) {
+        chapter = 'Not yet born'
+        return chapter
+      }
+
       this.chapters.forEach((item) => {
         const chapterStartYear = this.getYear(item.startDate)
         const chapterEndYear = this.getYear(item.endDate)
@@ -207,6 +212,7 @@ export default {
       top: 70px;
       left: 50%;
       z-index: 1;
+      white-space: nowrap;
       transform: translate(-50%);
     }
   }
