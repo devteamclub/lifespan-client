@@ -1,5 +1,5 @@
 <template>
-  <div class="item-chip">
+  <div class="item-chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
     <div class="icon-block">
       <v-icon>
         mdi-domain
@@ -8,24 +8,42 @@
     <v-expansion-panels tile class="expansion-panel">
       <v-expansion-panel>
         <v-expansion-panel-header expand-icon="">
-          Item
+          <div v-if="!item.isEvent" class="category">
+            <span>{{ getCategoriesList() }}</span>
+          </div>
+          {{ item.title }}
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adip lorem ipsum dolor sit
-            amet, consectetur adip ipsum dolor sit amet, consectetur
+            {{ item.description }}
           </p>
-          <div class="info-block">
+          <template v-if="!item.isEvent">
+            <div class="info-block">
+              <span class="info-title">Year:</span>
+              <span class="info-content">{{ getYear(item.startDate) }}</span>
+            </div>
+            <div class="info-block source">
+              <span class="info-title">Source:</span>
+              <a
+                v-for="(source, i) in item.sources"
+                :key="i"
+                :href="source"
+                target="_blank"
+                class="info-content link"
+              >
+                {{ source }}
+              </a>
+            </div>
+            <div class="info-block">
+              <span class="info-title">Possibility:</span>
+              <span class="info-content">
+                {{ item.possibility ? `${item.possibility}%` : '' }}
+              </span>
+            </div>
+          </template>
+          <div v-else class="info-block">
             <span class="info-title">Age:</span>
-            <span class="info-content">24 years old</span>
-          </div>
-          <div class="info-block">
-            <span class="info-title">Source:</span>
-            <span class="info-content link">census.gov</span>
-          </div>
-          <div class="info-block">
-            <span class="info-title">Possibility:</span>
-            <span class="info-content">89%</span>
+            <span class="info-content">{{ age }} years old</span>
           </div>
           <button class="edit-btn">
             <v-icon size="12" color="var(--contrast-text-color)">
@@ -39,8 +57,34 @@
 </template>
 
 <script>
+import { getYear } from '@/services/dateService'
+
 export default {
-  name: 'ItemChip'
+  name: 'ItemChip',
+  props: {
+    item: {
+      type: Object,
+      required: true
+    },
+    age: {
+      type: [Number, String],
+      required: false,
+      default: null
+    }
+  },
+  data() {
+    return {
+      isActive: false
+    }
+  },
+  methods: {
+    getYear,
+    getCategoriesList() {
+      const categoryListTitles = this.item.categoryList.map((item) => item.title)
+      const result = categoryListTitles.join(', ')
+      return result
+    }
+  }
 }
 </script>
 
@@ -54,6 +98,10 @@ export default {
   display: flex;
   width: 100%;
   max-width: calc(400px - var(--icon-box-width));
+
+  &.active {
+    z-index: 10;
+  }
 
   .icon-block {
     position: absolute;
@@ -76,7 +124,15 @@ export default {
     &::v-deep {
       .v-expansion-panel-header {
         height: var(--collapsed-chip-height);
+        padding: 24px 16px 24px;
         font-size: var(--content-title-text-size);
+
+        .category {
+          position: absolute;
+          top: 13px;
+          color: var(--tertiary-text-color);
+          font-size: var(--text-size-sm);
+        }
       }
 
       .v-expansion-panel-content {
@@ -85,9 +141,18 @@ export default {
         font-size: var(--content-text-size);
         line-height: 15px;
 
-        span {
+        &__wrap {
+          padding: 0 16px 16px;
+        }
+
+        span,
+        .link {
           font-size: var(--text-size-sm);
           font-weight: var(--font-weight-bold);
+        }
+
+        .info-block.source {
+          display: flex;
         }
 
         .info-title {
@@ -97,7 +162,11 @@ export default {
 
         .info-content {
           &.link {
+            display: block;
             color: var(--link-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
 
