@@ -168,11 +168,6 @@ export default {
 
 <style lang="scss" scoped>
 .timeline {
-  .wrapper {
-    flex-direction: column-reverse;
-    display: flex;
-  }
-
   .top-info {
     position: fixed;
     top: 80px;
@@ -236,7 +231,6 @@ export default {
   .events {
     position: relative;
     display: grid;
-    align-items: flex-end;
     gap: 200px;
     height: 100%;
     padding: 120px 48px;
