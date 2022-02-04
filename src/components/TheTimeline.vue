@@ -1,18 +1,16 @@
 <template>
   <div class="timeline">
     <div ref="wrapper" class="wrapper">
-      <transition enter-active-class="animated flipInX">
-        <div v-if="currentIntervalStartDate" :key="currentIntervalStartDate" class="top-info">
-          <span class="start-date">
-            {{ currentIntervalStartDate }}
-          </span>
-          <div class="person-age">
-            <span class="age">{{ getPersonAge }}</span>
-            <span class="years"> y.o.</span>
-          </div>
-          <span class="chapter">{{ getCurrentChapter }}</span>
+      <div v-if="currentIntervalStartDate" class="top-info">
+        <span class="start-date">
+          {{ currentIntervalStartDate }}
+        </span>
+        <div class="person-age">
+          <span class="age">{{ getPersonAge }}</span>
+          <span class="years"> y.o.</span>
         </div>
-      </transition>
+        <span class="chapter">{{ getCurrentChapter }}</span>
+      </div>
       <div
         v-for="(items, dateKey, i) in getTimeIntervals"
         :key="i"
@@ -246,44 +244,6 @@ export default {
 
   .events {
     background-color: rgba(var(--timeline-accent-color-light), 0.5);
-  }
-
-  .animated {
-    animation-duration: 1s;
-    animation-fill-mode: both
-  }
-
-  .flipInX {
-    backface-visibility: visible;
-    animation-name: flipInX
-  }
-
-  @keyframes flipInX {
-    0% {
-      transform: perspective(400px) rotateX(90deg);
-      opacity: 0
-    }
-
-    0%,40% {
-      animation-timing-function: ease-in
-    }
-
-    40% {
-      transform: perspective(400px) rotateX(-20deg)
-    }
-
-    60% {
-      transform: perspective(400px) rotateX(10deg);
-      opacity: 1
-    }
-
-    80% {
-      transform: perspective(400px) rotateX(-5deg)
-    }
-
-    to {
-      transform: perspective(400px)
-    }
   }
 }
 </style>
