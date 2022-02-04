@@ -135,8 +135,8 @@ export default {
 
       if (!currentYearPrediction) return
 
-      const headerHeight = 100
-      const topOffset = currentYearPrediction.getBoundingClientRect().top - headerHeight
+      const headerHeight = 80
+      const topOffset = currentYearPrediction.getBoundingClientRect().top + headerHeight
 
       window.scroll({
         top: topOffset,
@@ -168,6 +168,11 @@ export default {
 
 <style lang="scss" scoped>
 .timeline {
+  .wrapper {
+    flex-direction: column-reverse;
+    display: flex;
+  }
+
   .top-info {
     position: fixed;
     top: 80px;
@@ -215,12 +220,23 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-height: 100vh;
+
+    &:nth-child(even) {
+      .predictions {
+        background-color: rgba(var(--timeline-accent-color), 1);
+      }
+
+      .events {
+        background-color: rgba(var(--timeline-accent-color-light), 1);
+      }
+    }
   }
 
   .predictions,
   .events {
     position: relative;
     display: grid;
+    align-items: flex-end;
     gap: 200px;
     height: 100%;
     padding: 120px 48px;
@@ -231,11 +247,11 @@ export default {
   }
 
   .predictions {
-    background-color: var(--timeline-accent-color);
+    background-color: rgba(var(--timeline-accent-color), 0.5);
   }
 
   .events {
-    background-color: var(--timeline-accent-color-light);
+    background-color: rgba(var(--timeline-accent-color-light), 0.5);
   }
 
   .animated {
