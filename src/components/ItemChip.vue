@@ -34,12 +34,6 @@
                 {{ source }}
               </a>
             </div>
-            <div class="info-block">
-              <span class="info-title">Possibility:</span>
-              <span class="info-content">
-                {{ item.possibility ? `${item.possibility}%` : '' }}
-              </span>
-            </div>
           </template>
           <div v-else class="info-block">
             <span class="info-title">Age:</span>
