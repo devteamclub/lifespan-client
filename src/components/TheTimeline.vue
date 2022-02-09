@@ -133,8 +133,8 @@ export default {
 
       if (!currentYearPrediction) return
 
-      const headerHeight = 80
-      const topOffset = currentYearPrediction.getBoundingClientRect().top + headerHeight
+      // const headerHeight = 80
+      const topOffset = currentYearPrediction.getBoundingClientRect().top // plus headerHeight if there is header
 
       window.scroll({
         top: topOffset,
@@ -144,7 +144,7 @@ export default {
     handleDatesInfo() {
       const options = {
         root: null,
-        threshold: 0
+        threshold: 0.2
       }
 
       const observer = new IntersectionObserver((entries, observer) => {
@@ -173,7 +173,8 @@ export default {
 
   .top-info {
     position: fixed;
-    top: 80px;
+    top: 0;
+    //top: 80px; with header
     left: 50%;
     z-index: 10;
     transform: translate(-50%);
