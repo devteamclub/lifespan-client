@@ -1,52 +1,45 @@
 <template>
-  <div class="item-chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
-    <div class="icon-block">
-      <v-icon>
-        mdi-domain
-      </v-icon>
-    </div>
-    <v-expansion-panels tile class="expansion-panel">
-      <v-expansion-panel>
-        <v-expansion-panel-header expand-icon="">
-          <div v-if="!item.isEvent" class="category">
-            <span>{{ getCategoriesList() }}</span>
+  <div class="item-chip">
+    <details class="chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
+      <summary class="header">
+        <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
+        <span class="title">{{ item.title }}</span>
+      </summary>
+      <div class="content">
+        <p class="description">
+          {{ item.description }}
+        </p>
+        <template v-if="!item.isEvent">
+          <div class="info-block">
+            <span class="info-title">Year:</span>
+            <span class="info-content">{{ getYear(item.startDate) }}</span>
           </div>
-          {{ item.title }}
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <p>
-            {{ item.description }}
-          </p>
-          <template v-if="!item.isEvent">
-            <div class="info-block">
-              <span class="info-title">Year:</span>
-              <span class="info-content">{{ getYear(item.startDate) }}</span>
-            </div>
-            <div class="info-block source">
-              <span class="info-title">Source:</span>
-              <a
-                v-for="(source, i) in item.sources"
-                :key="i"
-                :href="source"
-                target="_blank"
-                class="info-content link"
-              >
-                {{ source }}
-              </a>
-            </div>
-          </template>
-          <div v-else class="info-block">
-            <span class="info-title">Age:</span>
-            <span class="info-content">{{ age }} years old</span>
+          <div class="info-block source">
+            <span class="info-title">Source:</span>
+            <a
+              v-for="(source, i) in item.sources"
+              :key="i"
+              :href="source"
+              target="_blank"
+              class="info-content link"
+            >
+              {{ source }}
+            </a>
           </div>
-          <button class="edit-btn">
-            <v-icon size="12" color="var(--contrast-text-color)">
-              mdi-pencil
-            </v-icon>
-          </button>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
+        </template>
+        <div v-else class="info-block">
+          <span class="info-title">Age:</span>
+          <span class="info-content">{{ age }} years old</span>
+        </div>
+
+        <button class="edit-btn">
+          <v-icon size="12" color="var(--contrast-text-color)">
+            mdi-pencil
+          </v-icon>
+        </button>
+      </div>
+    </details>
+    <div class="stripe" />
   </div>
 </template>
 
@@ -83,95 +76,91 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .item-chip {
-  --collapsed-chip-height: 80px;
-  --icon-box-width: 80px;
-
   position: relative;
-  display: flex;
-  width: 100%;
-  max-width: calc(400px - var(--icon-box-width));
+  width: 320px;
 
-  &.active {
-    z-index: 10;
-  }
-
-  .icon-block {
+  .stripe {
     position: absolute;
     top: 0;
-    display: flex;
-    justify-content: center;
-    width: var(--icon-box-width);
-    height: var(--collapsed-chip-height);
-    background-color: #FE9A99;
-    box-shadow:
-      4px 3px 1px -2px rgb(0 0 0 / 20%),
-      0 2px 2px 0 rgb(0 0 0 / 14%),
-      0 1px 5px 0 rgb(0 0 0 / 12%);
+    left: 0;
+    width: 7px;
+    height: 100%;
+    background-color: var(--primary-color);
   }
 
-  .expansion-panel {
-    position: absolute;
-    left: var(--icon-box-width);
+  .chip {
+    display: flex;
+    padding: 13px 17px;
+    background-color: var(--primary-background-color);
+    box-shadow: var(--default-shadow);
 
-    &::v-deep {
-      .v-expansion-panel-header {
-        height: var(--collapsed-chip-height);
-        padding: 24px 16px 24px;
+    &.active {
+      z-index: 10;
+    }
+
+    .header {
+      padding-bottom: 10px;
+      cursor: pointer;
+
+      .category,
+      .title {
+        display: block;
+      }
+
+      .category {
+        margin-bottom: 5px;
+        color: var(--tertiary-text-color);
+        font-size: var(--text-size-sm);
+      }
+
+      .title {
         font-size: var(--content-title-text-size);
+        line-height: 1.2;
+      }
+    }
 
-        .category {
-          position: absolute;
-          top: 13px;
-          color: var(--tertiary-text-color);
-          font-size: var(--text-size-sm);
+    .content {
+      .description {
+        font-size: var(--content-text-size);
+      }
+
+      span,
+      .link {
+        font-size: var(--text-size-sm);
+        font-weight: var(--font-weight-bold);
+      }
+
+      .info-block.source {
+        overflow: hidden;
+        display: flex;
+        max-width: calc(100% - 27px);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .info-title {
+        margin-right: 5px;
+        color: var(--tertiary-text-color);
+      }
+
+      .info-content {
+        &.link {
+          display: block;
+          color: var(--link-color);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
 
-      .v-expansion-panel-content {
-        position: relative;
-        color: var(--primary-text-color);
-        font-size: var(--content-text-size);
-        line-height: 15px;
-
-        &__wrap {
-          padding: 0 16px 16px;
-        }
-
-        span,
-        .link {
-          font-size: var(--text-size-sm);
-          font-weight: var(--font-weight-bold);
-        }
-
-        .info-block.source {
-          display: flex;
-        }
-
-        .info-title {
-          margin-right: 5px;
-          color: var(--tertiary-text-color);
-        }
-
-        .info-content {
-          &.link {
-            display: block;
-            color: var(--link-color);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-        }
-
-        .edit-btn {
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          width: 27px;
-          height: 27px;
-          background-color: #414141;
-        }
+      .edit-btn {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 27px;
+        height: 27px;
+        background-color: #414141;
       }
     }
   }
