@@ -4,7 +4,8 @@
   --title-text-size: 48px;
   --content-title-text-size: 16px;
   --content-text-size: 12px;
-  --text-size-sm: 10px;
+  --text-size-sm: 14px;
+  --text-size-xs: 10px;
 
   // font weight
   --font-weight-light: 300;
@@ -27,13 +28,13 @@
   --primary-background-color: #fff;
   --secondary-background-color: #fafafa;
   --contrast-background-color: #000;
-  --timeline-accent-color: #f9f9f9;
-  --timeline-accent-color-light: #f1f1f1;
+  --timeline-accent-color: 249, 249, 249;
+  --timeline-accent-color-light: 241, 241, 241;
 
   // borders
   --default-border: 1px solid rgb(28 39 58 / 30%);
   --default-border-radius: 5px;
 
   // shadows
-  --default-shadow: 0 4px 25px rgb(0 0 0 / 10%);
+  --default-shadow: 2px 3px 4px rgba(0, 0, 0, 0.15);
 }

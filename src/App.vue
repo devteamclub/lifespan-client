@@ -1,11 +1,11 @@
 <template>
   <v-app id="app">
-    <v-app-bar
-      app
-      height="80"
-      color="var(--primary-background-color)"
-      class="header"
-    />
+    <!--    <v-app-bar-->
+    <!--      app-->
+    <!--      height="80"-->
+    <!--      color="var(&#45;&#45;primary-background-color)"-->
+    <!--      class="header"-->
+    <!--    />-->
     <v-main>
       <TheTimeline v-if="getUser" />
     </v-main>

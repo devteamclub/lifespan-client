@@ -1,18 +1,16 @@
 <template>
   <div class="timeline">
     <div ref="wrapper" class="wrapper">
-      <transition enter-active-class="animated flipInX">
-        <div v-if="currentIntervalStartDate" :key="currentIntervalStartDate" class="top-info">
-          <span class="start-date">
-            {{ currentIntervalStartDate }}
-          </span>
-          <div class="person-age">
-            <span class="age">{{ getPersonAge }}</span>
-            <span class="years"> y.o.</span>
-          </div>
-          <span class="chapter">{{ getCurrentChapter }}</span>
+      <div v-if="currentIntervalStartDate" class="top-info">
+        <span class="start-date">
+          {{ currentIntervalStartDate }}
+        </span>
+        <div class="person-age">
+          <span class="age">{{ getPersonAge }}</span>
+          <span class="years"> y.o.</span>
         </div>
-      </transition>
+        <span class="chapter">{{ getCurrentChapter }}</span>
+      </div>
       <div
         v-for="(items, dateKey, i) in getTimeIntervals"
         :key="i"
@@ -135,8 +133,8 @@ export default {
 
       if (!currentYearPrediction) return
 
-      const headerHeight = 100
-      const topOffset = currentYearPrediction.getBoundingClientRect().top - headerHeight
+      // const headerHeight = 80
+      const topOffset = currentYearPrediction.getBoundingClientRect().top // plus headerHeight if there is header
 
       window.scroll({
         top: topOffset,
@@ -170,26 +168,26 @@ export default {
 .timeline {
   .top-info {
     position: fixed;
-    top: 80px;
-    left: 50%;
+    top: 0;
+    //top: 80px; with header
     z-index: 10;
-    transform: translate(-50%);
+    width: 100%;
 
     .start-date,
     .person-age {
       position: absolute;
-      top: 15px;
+      top: 10px;
       font-size: var(--title-text-size);
       line-height: 1;
     }
 
     .start-date {
-      right: 15px;
+      right: calc(50% + 15px);
       font-weight: var(--font-weight-bold);
     }
 
     .person-age {
-      left: 15px;
+      left: calc(50% + 15px);
       display: flex;
       align-items: baseline;
       gap: 10px;
@@ -202,9 +200,10 @@ export default {
 
     .chapter {
       position: absolute;
-      top: 70px;
-      left: 50%;
+      top: 15px;
+      right: 0;
       z-index: 1;
+      font-weight: var(--font-weight-bold);
       white-space: nowrap;
       transform: translate(-50%);
     }
@@ -215,6 +214,16 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-height: 100vh;
+
+    &:nth-child(even) {
+      .predictions {
+        background-color: rgba(var(--timeline-accent-color), 1);
+      }
+
+      .events {
+        background-color: rgba(var(--timeline-accent-color-light), 1);
+      }
+    }
   }
 
   .predictions,
@@ -231,49 +240,11 @@ export default {
   }
 
   .predictions {
-    background-color: var(--timeline-accent-color);
+    background-color: rgba(var(--timeline-accent-color), 0.5);
   }
 
   .events {
-    background-color: var(--timeline-accent-color-light);
-  }
-
-  .animated {
-    animation-duration: 1s;
-    animation-fill-mode: both
-  }
-
-  .flipInX {
-    backface-visibility: visible;
-    animation-name: flipInX
-  }
-
-  @keyframes flipInX {
-    0% {
-      transform: perspective(400px) rotateX(90deg);
-      opacity: 0
-    }
-
-    0%,40% {
-      animation-timing-function: ease-in
-    }
-
-    40% {
-      transform: perspective(400px) rotateX(-20deg)
-    }
-
-    60% {
-      transform: perspective(400px) rotateX(10deg);
-      opacity: 1
-    }
-
-    80% {
-      transform: perspective(400px) rotateX(-5deg)
-    }
-
-    to {
-      transform: perspective(400px)
-    }
+    background-color: rgba(var(--timeline-accent-color-light), 0.5);
   }
 }
 </style>

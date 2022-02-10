@@ -15,11 +15,6 @@ html {
   font-size: 16px;
   font-family: Montserrat, Roboto, Helvetica, sans-serif;
   letter-spacing: 0.04em;
-  scrollbar-width: none; /* Firefox */
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 body {
@@ -80,4 +75,10 @@ button {
   &:focus {
     outline: none;
   }
+}
+
+details summary::marker,
+details summary::-webkit-details-marker {
+  content: "";
+  display: none;
 }
