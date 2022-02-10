@@ -144,7 +144,7 @@ export default {
     handleDatesInfo() {
       const options = {
         root: null,
-        threshold: 0
+        threshold: 0.1
       }
 
       const observer = new IntersectionObserver((entries, observer) => {
@@ -166,6 +166,11 @@ export default {
 
 <style lang="scss" scoped>
 .timeline {
+  .wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
   .top-info {
     position: fixed;
     top: 0;
@@ -230,6 +235,7 @@ export default {
   .events {
     position: relative;
     display: grid;
+    align-items: flex-end;
     gap: 200px;
     height: 100%;
     padding: 120px 48px;
