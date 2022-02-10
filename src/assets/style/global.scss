@@ -77,6 +77,8 @@ button {
   }
 }
 
-summary::marker {
+details summary::marker,
+details summary::-webkit-details-marker {
   content: "";
+  display: none;
 }

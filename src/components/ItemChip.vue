@@ -102,6 +102,7 @@ export default {
     .header {
       padding-bottom: 10px;
       cursor: pointer;
+      outline: none;
 
       .category,
       .title {
@@ -111,7 +112,7 @@ export default {
       .category {
         margin-bottom: 5px;
         color: var(--tertiary-text-color);
-        font-size: var(--text-size-sm);
+        font-size: var(--text-size-xs);
       }
 
       .title {
