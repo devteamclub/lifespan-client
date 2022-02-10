@@ -175,25 +175,24 @@ export default {
     position: fixed;
     top: 0;
     //top: 80px; with header
-    left: 50%;
     z-index: 10;
-    transform: translate(-50%);
+    width: 100%;
 
     .start-date,
     .person-age {
       position: absolute;
-      top: 15px;
+      top: 10px;
       font-size: var(--title-text-size);
       line-height: 1;
     }
 
     .start-date {
-      right: 15px;
+      right: calc(50% + 15px);
       font-weight: var(--font-weight-bold);
     }
 
     .person-age {
-      left: 15px;
+      left: calc(50% + 15px);
       display: flex;
       align-items: baseline;
       gap: 10px;
@@ -206,9 +205,10 @@ export default {
 
     .chapter {
       position: absolute;
-      top: 70px;
-      left: 50%;
+      top: 15px;
+      right: 0;
       z-index: 1;
+      font-weight: var(--font-weight-bold);
       white-space: nowrap;
       transform: translate(-50%);
     }
