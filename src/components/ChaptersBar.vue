@@ -1,7 +1,7 @@
 <template>
   <div class="chapters-bar">
     <div
-      v-for="(chapter) in styledChapters"
+      v-for="(chapter) in getStyledChapters"
       :key="chapter.id"
       class="bar-item"
       :class="{'active': chapter.title === currentChapterTitle }"
@@ -30,7 +30,7 @@ export default {
     }
   },
   computed: {
-    styledChapters() {
+    getStyledChapters() {
       // TODO this is temporal remove for last chapter with endDate bug
       const chapters = [...this.chapters]
       chapters.pop()
