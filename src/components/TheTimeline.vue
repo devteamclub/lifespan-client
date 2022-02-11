@@ -9,7 +9,7 @@
           <span class="age">{{ getPersonAge }}</span>
           <span class="years"> y.o.</span>
         </div>
-        <span class="chapter">{{ getCurrentChapter }}</span>
+        <span class="chapter">{{ getCurrentChapterTitle }}</span>
       </div>
       <div
         v-for="(items, dateKey, i) in getTimeIntervals"
@@ -40,6 +40,17 @@
             />
           </div>
         </div>
+      </div>
+    </div>
+    <div class="chapters-bar">
+      <div
+        v-for="chapter in chapters"
+        :key="chapter.id"
+        class="bar-item"
+        :class="{'active': chapter.title === getCurrentChapterTitle }"
+        :style="{ background: `#123${chapter.id}`}"
+      >
+        {{ chapter.title }}
       </div>
     </div>
   </div>
@@ -85,7 +96,7 @@ export default {
       if (this.currentIntervalStartDate < this.getYear(this.getUser.birthday)) return 0
       return this.currentIntervalStartDate - this.getYear(this.getUser.birthday)
     },
-    getCurrentChapter() {
+    getCurrentChapterTitle() {
       if (this.currentIntervalStartDate < this.getYear(this.getUser.birthday)) {
         return 'Not yet born'
       }
@@ -165,6 +176,32 @@ export default {
 
 <style lang="scss" scoped>
 .timeline {
+  .chapters-bar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: grid;
+    width: 100px;
+    height: 100vh;
+    transition: width 0.3s ease-in-out;
+
+    &:hover {
+      width: 150px;
+    }
+
+    .bar-item {
+      position: relative;
+      right: 0;
+      width: 250px;
+      transition: right 0.3s ease-in-out;
+    }
+
+    .active {
+      right: 50px;
+      background: green;
+    }
+  }
+
   .top-info {
     position: fixed;
     top: 0;
