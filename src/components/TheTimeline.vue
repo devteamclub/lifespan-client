@@ -9,7 +9,7 @@
           <span class="age">{{ getPersonAge }}</span>
           <span class="years"> y.o.</span>
         </div>
-        <span class="chapter">{{ getCurrentChapterTitle }}</span>
+        <!-- <span class="chapter">{{ getCurrentChapterTitle }}</span> -->
       </div>
       <div
         v-for="(items, dateKey, i) in getTimeIntervals"
@@ -42,17 +42,7 @@
         </div>
       </div>
     </div>
-    <div class="chapters-bar">
-      <div
-        v-for="chapter in chapters"
-        :key="chapter.id"
-        class="bar-item"
-        :class="{'active': chapter.title === getCurrentChapterTitle }"
-        :style="{ background: `#123${chapter.id}`}"
-      >
-        {{ chapter.title }}
-      </div>
-    </div>
+    <ChaptersBar :chapters="chapters" :current-chapter-title="getCurrentChapterTitle" />
   </div>
 </template>
 
@@ -62,11 +52,13 @@ import { mapGetters } from 'vuex'
 import { getYear } from '@/services/dateService'
 import { throttle } from '@/services/throttle'
 import ItemChip from '@/components/ItemChip'
+import ChaptersBar from '@/components/ChaptersBar'
 
 export default {
   name: 'TheTimeline',
   components: {
-    ItemChip
+    ItemChip,
+    ChaptersBar
   },
   data() {
     return {
@@ -176,32 +168,6 @@ export default {
 
 <style lang="scss" scoped>
 .timeline {
-  .chapters-bar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    display: grid;
-    width: 100px;
-    height: 100vh;
-    transition: width 0.3s ease-in-out;
-
-    &:hover {
-      width: 150px;
-    }
-
-    .bar-item {
-      position: relative;
-      right: 0;
-      width: 250px;
-      transition: right 0.3s ease-in-out;
-    }
-
-    .active {
-      right: 50px;
-      background: green;
-    }
-  }
-
   .top-info {
     position: fixed;
     top: 0;
