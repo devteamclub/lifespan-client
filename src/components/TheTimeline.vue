@@ -9,6 +9,7 @@
           <span class="age">{{ getPersonAge }}</span>
           <span class="years"> y.o.</span>
         </div>
+        <!-- remove if we will show chapters only on chapters bar -->
         <!-- <span class="chapter">{{ getCurrentChapterTitle }}</span> -->
       </div>
       <div
