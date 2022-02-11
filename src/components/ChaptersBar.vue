@@ -1,7 +1,7 @@
 <template>
   <div class="chapters-bar">
     <div
-      v-for="(chapter) in getStyledChapters"
+      v-for="chapter in getStyledChapters"
       :key="chapter.id"
       class="bar-item"
       :class="{'active': chapter.title === currentChapterTitle }"
