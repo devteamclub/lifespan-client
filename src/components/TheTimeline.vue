@@ -2,9 +2,6 @@
   <div class="timeline">
     <div ref="wrapper" class="wrapper">
       <div v-if="currentIntervalStartDate" class="top-info">
-        <span class="start-date">
-          {{ currentIntervalStartDate }}
-        </span>
         <div class="person-age">
           <span class="age">{{ getPersonAge }}</span>
           <span class="years"> y.o.</span>
@@ -19,6 +16,9 @@
         class="interval"
       >
         <div class="predictions">
+          <div class="start-date">
+            {{ dateKey }}
+          </div>
           <div
             v-for="(prediction, k) in items"
             :key="k"
@@ -175,17 +175,11 @@ export default {
     z-index: 10;
     width: 100%;
 
-    .start-date,
     .person-age {
       position: absolute;
       top: 10px;
       font-size: var(--title-text-size);
       line-height: 1;
-    }
-
-    .start-date {
-      right: calc(50% + 15px);
-      font-weight: var(--font-weight-bold);
     }
 
     .person-age {
@@ -234,7 +228,7 @@ export default {
     display: grid;
     gap: 200px;
     height: 100%;
-    padding: 120px 48px;
+    padding: 10px 15px 48px 120px;
 
     & > div:nth-child(even) {
       margin-left: 30%;
@@ -243,6 +237,16 @@ export default {
 
   .predictions {
     background-color: rgba(var(--timeline-accent-color), 0.5);
+
+    .start-date {
+      position: sticky;
+      top: 10px;
+      z-index: 10;
+      font-size: var(--title-text-size);
+      font-weight: var(--font-weight-bold);
+      line-height: 1;
+      text-align: right;
+    }
   }
 
   .events {
