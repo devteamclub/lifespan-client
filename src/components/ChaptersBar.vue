@@ -6,6 +6,7 @@
       class="bar-item"
       :class="{'active': chapter.title === currentChapterTitle }"
       :style="{ backgroundColor: chapter.backgroundColor, height: chapter.height }"
+      @click="$emit('scrollToChapter', chapter)"
     >
       <span class="item-title">
         {{ chapter.title }}
@@ -85,6 +86,7 @@ export default {
     width: 100vw;
     padding: var(--bar-width);
     transition: right 0.3s ease-in-out;
+    cursor: pointer;
 
     &.active {
       right: var(--slide-width);

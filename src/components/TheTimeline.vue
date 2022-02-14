@@ -45,7 +45,11 @@
         </div>
       </div>
     </div>
-    <ChaptersBar :chapters="chapters" :current-chapter-title="getCurrentChapterTitle" />
+    <ChaptersBar
+      :chapters="chapters"
+      :current-chapter-title="getCurrentChapterTitle"
+      @scrollToChapter="scrollToChapter"
+    />
   </div>
 </template>
 
@@ -137,14 +141,14 @@ export default {
         return parseInt(startDateElement.dataset.intervalDate) === this.currentYear
       })
 
-      if (!currentYearPrediction) return
-
-      const topOffset = currentYearPrediction.getBoundingClientRect().top
-
-      window.scroll({
-        top: topOffset,
-        behavior: 'smooth'
+      this.scrollToElement(currentYearPrediction)
+    },
+    scrollToChapter(chapter) {
+      const selectedChapterOnInterval = [...this.intervalElements].find(startDateElement => {
+        return startDateElement.dataset.intervalDate === this.getYear(chapter.startDate)
       })
+
+      this.scrollToElement(selectedChapterOnInterval)
     },
     handleDatesInfo() {
       const options = {
@@ -164,6 +168,14 @@ export default {
       if (this.intervalElements.length) {
         this.intervalElements.forEach(item => observer.observe(item))
       }
+    },
+    scrollToElement(element) {
+      if (!element) return
+
+      window.scroll({
+        top: element.offsetTop,
+        behavior: 'smooth'
+      })
     }
   }
 }
