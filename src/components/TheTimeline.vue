@@ -9,7 +9,8 @@
           <span class="age">{{ getPersonAge }}</span>
           <span class="years"> y.o.</span>
         </div>
-        <span class="chapter">{{ getCurrentChapter }}</span>
+        <!-- remove if we will show chapters only on chapters bar -->
+        <!-- <span class="chapter">{{ getCurrentChapterTitle }}</span> -->
       </div>
       <div
         v-for="(items, dateKey, i) in getTimeIntervals"
@@ -42,6 +43,7 @@
         </div>
       </div>
     </div>
+    <ChaptersBar :chapters="chapters" :current-chapter-title="getCurrentChapterTitle" />
   </div>
 </template>
 
@@ -51,11 +53,13 @@ import { mapGetters } from 'vuex'
 import { getYear } from '@/services/dateService'
 import { throttle } from '@/services/throttle'
 import ItemChip from '@/components/ItemChip'
+import ChaptersBar from '@/components/ChaptersBar'
 
 export default {
   name: 'TheTimeline',
   components: {
-    ItemChip
+    ItemChip,
+    ChaptersBar
   },
   data() {
     return {
@@ -85,7 +89,7 @@ export default {
       if (this.currentIntervalStartDate < this.getYear(this.getUser.birthday)) return 0
       return this.currentIntervalStartDate - this.getYear(this.getUser.birthday)
     },
-    getCurrentChapter() {
+    getCurrentChapterTitle() {
       if (this.currentIntervalStartDate < this.getYear(this.getUser.birthday)) {
         return 'Not yet born'
       }
@@ -133,8 +137,7 @@ export default {
 
       if (!currentYearPrediction) return
 
-      // const headerHeight = 80
-      const topOffset = currentYearPrediction.getBoundingClientRect().top // plus headerHeight if there is header
+      const topOffset = currentYearPrediction.getBoundingClientRect().top
 
       window.scroll({
         top: topOffset,
@@ -144,7 +147,7 @@ export default {
     handleDatesInfo() {
       const options = {
         root: null,
-        threshold: 0
+        threshold: 0.1
       }
 
       const observer = new IntersectionObserver((entries, observer) => {
@@ -169,7 +172,6 @@ export default {
   .top-info {
     position: fixed;
     top: 0;
-    //top: 80px; with header
     z-index: 10;
     width: 100%;
 
