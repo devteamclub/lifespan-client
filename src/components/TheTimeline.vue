@@ -22,6 +22,7 @@
           <div
             v-for="(prediction, k) in items"
             :key="k"
+            class="chip-wrapper"
           >
             <ItemChip
               v-if="!prediction.isEvent"
@@ -33,6 +34,7 @@
           <div
             v-for="(event, j) in items"
             :key="j"
+            class="chip-wrapper"
           >
             <ItemChip
               v-if="event.isEvent"
@@ -242,6 +244,7 @@ export default {
       position: sticky;
       top: 10px;
       z-index: 10;
+      height: fit-content;
       font-size: var(--title-text-size);
       font-weight: var(--font-weight-bold);
       line-height: 1;
@@ -251,6 +254,10 @@ export default {
 
   .events {
     background-color: rgba(var(--timeline-accent-color-light), 0.5);
+  }
+
+  .chip-wrapper {
+    height: fit-content;
   }
 }
 </style>
