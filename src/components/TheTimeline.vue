@@ -144,11 +144,13 @@ export default {
       this.scrollToElement(currentYearPrediction)
     },
     scrollToChapter(chapterStartDate) {
-      const selectedChapterOnInterval = [...this.intervalElements].find(startDateElement => {
+      const intervalElementsArr = [...this.intervalElements]
+
+      const selectedChapterOnInterval = intervalElementsArr.find(startDateElement => {
         return startDateElement.dataset.intervalDate === this.getYear(chapterStartDate)
       })
 
-      const isFirstChapter = [...this.intervalElements][0] === selectedChapterOnInterval
+      const isFirstChapter = intervalElementsArr[0] === selectedChapterOnInterval
 
       this.scrollToElement(selectedChapterOnInterval, isFirstChapter)
     },
