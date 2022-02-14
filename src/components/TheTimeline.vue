@@ -143,37 +143,34 @@ export default {
 
       this.scrollToElement(currentYearPrediction)
     },
-    scrollToChapter(chapter) {
+    scrollToChapter(chapterStartDate) {
       const selectedChapterOnInterval = [...this.intervalElements].find(startDateElement => {
-        return startDateElement.dataset.intervalDate === this.getYear(chapter.startDate)
+        return startDateElement.dataset.intervalDate === this.getYear(chapterStartDate)
       })
 
-      this.scrollToElement(selectedChapterOnInterval)
+      const isFirstChapter = [...this.intervalElements][0] === selectedChapterOnInterval
+
+      this.scrollToElement(selectedChapterOnInterval, isFirstChapter)
     },
     handleDatesInfo() {
-      const options = {
-        root: null,
-        threshold: 0.1
-      }
-
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.intersectionRatio > 0) {
             this.currentIntervalStartDate = entry.target.dataset.intervalDate
             observer.unobserve(entry.target)
           }
         })
-      }, options)
+      })
 
       if (this.intervalElements.length) {
         this.intervalElements.forEach(item => observer.observe(item))
       }
     },
-    scrollToElement(element) {
+    scrollToElement(element, isFirst) {
       if (!element) return
 
       window.scroll({
-        top: element.offsetTop,
+        top: isFirst ? element.offsetTop : element.offsetTop + 1, // plus 1px to scroll correctly on the element
         behavior: 'smooth'
       })
     }

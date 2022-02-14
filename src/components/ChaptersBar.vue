@@ -6,7 +6,7 @@
       class="bar-item"
       :class="{'active': chapter.title === currentChapterTitle }"
       :style="{ backgroundColor: chapter.backgroundColor, height: chapter.height }"
-      @click="$emit('scrollToChapter', chapter)"
+      @click="$emit('scrollToChapter', chapter.startDate)"
     >
       <span class="item-title">
         {{ chapter.title }}
