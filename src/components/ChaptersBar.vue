@@ -1,5 +1,5 @@
 <template>
-  <div class="chapters-bar">
+  <div v-if="chapters.length" class="chapters-bar">
     <div
       v-for="chapter in getStyledChapters"
       :key="chapter.id"
@@ -35,13 +35,13 @@ export default {
       const chapters = [...this.chapters]
       chapters.pop()
 
-      chapters.forEach((chapter, i, arr) => {
+      const firstChapterStartDate = this.getYear(chapters[0].startDate)
+      const lastChapterEndDate = this.getYear(chapters[chapters.length - 1].endDate)
+      const chaptersDatesRange = lastChapterEndDate - firstChapterStartDate
+
+      chapters.forEach((chapter, i) => {
+        // TODO use colors from BE data
         chapter.backgroundColor = `#000${i + 1}`
-
-        const firstChapterStartDate = this.getYear(arr[0].startDate)
-        const lastChapterEndDate = this.getYear(arr[arr.length - 1].endDate)
-
-        const chaptersDatesRange = lastChapterEndDate - firstChapterStartDate
 
         const chapterDatesInterval = this.getYear(chapter.endDate) - this.getYear(chapter.startDate)
 
