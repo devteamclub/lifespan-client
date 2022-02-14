@@ -22,6 +22,7 @@
           <div
             v-for="(prediction, k) in items"
             :key="k"
+            class="chip-wrapper"
           >
             <ItemChip
               v-if="!prediction.isEvent"
@@ -33,6 +34,7 @@
           <div
             v-for="(event, j) in items"
             :key="j"
+            class="chip-wrapper"
           >
             <ItemChip
               v-if="event.isEvent"
@@ -43,7 +45,11 @@
         </div>
       </div>
     </div>
-    <ChaptersBar :chapters="chapters" :current-chapter-title="getCurrentChapterTitle" />
+    <ChaptersBar
+      :chapters="chapters"
+      :current-chapter-title="getCurrentChapterTitle"
+      @scrollToChapter="scrollToChapter"
+    />
   </div>
 </template>
 
@@ -135,33 +141,40 @@ export default {
         return parseInt(startDateElement.dataset.intervalDate) === this.currentYear
       })
 
-      if (!currentYearPrediction) return
+      this.scrollToElement(currentYearPrediction)
+    },
+    scrollToChapter(chapterStartDate) {
+      const intervalElementsArr = [...this.intervalElements]
 
-      const topOffset = currentYearPrediction.getBoundingClientRect().top
-
-      window.scroll({
-        top: topOffset,
-        behavior: 'smooth'
+      const selectedChapterOnInterval = intervalElementsArr.find(startDateElement => {
+        return startDateElement.dataset.intervalDate === this.getYear(chapterStartDate)
       })
+
+      const isFirstChapter = intervalElementsArr[0] === selectedChapterOnInterval
+
+      this.scrollToElement(selectedChapterOnInterval, isFirstChapter)
     },
     handleDatesInfo() {
-      const options = {
-        root: null,
-        threshold: 0.1
-      }
-
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.intersectionRatio > 0) {
             this.currentIntervalStartDate = entry.target.dataset.intervalDate
             observer.unobserve(entry.target)
           }
         })
-      }, options)
+      })
 
       if (this.intervalElements.length) {
         this.intervalElements.forEach(item => observer.observe(item))
       }
+    },
+    scrollToElement(element, isFirst) {
+      if (!element) return
+
+      window.scroll({
+        top: isFirst ? element.offsetTop : element.offsetTop + 1, // plus 1px to scroll correctly on the element
+        behavior: 'smooth'
+      })
     }
   }
 }
@@ -242,6 +255,7 @@ export default {
       position: sticky;
       top: 10px;
       z-index: 10;
+      height: fit-content;
       font-size: var(--title-text-size);
       font-weight: var(--font-weight-bold);
       line-height: 1;
@@ -251,6 +265,10 @@ export default {
 
   .events {
     background-color: rgba(var(--timeline-accent-color-light), 0.5);
+  }
+
+  .chip-wrapper {
+    height: fit-content;
   }
 }
 </style>
