@@ -18,19 +18,27 @@ export default {
   },
   data() {
     return {
-      testUserId: 10
+      defaultTestUserId: 10
     }
   },
   computed: {
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser']),
+    userId() {
+      return this.$route.params.id || this.defaultTestUserId
+    }
   },
-  created() {
+  watch: {
+    userId() {
+      this.fetchUser()
+    }
+  },
+  mounted() {
     if (!this.getUser) this.fetchUser()
   },
   methods: {
     ...mapActions(['setUser']),
     async fetchUser() {
-      const { data } = await api.users.getUser(this.testUserId)
+      const { data } = await api.users.getUser(this.userId)
       if (data) this.setUser(data)
     }
   }
