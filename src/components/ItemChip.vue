@@ -4,6 +4,7 @@
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
         <span class="title">{{ item.title }}</span>
+        <UpDownRating class="rating" />
       </summary>
       <div class="content">
         <p class="description">
@@ -45,9 +46,13 @@
 
 <script>
 import { getYear } from '@/services/dateService'
+import UpDownRating from '@/components/UpDownRating'
 
 export default {
   name: 'ItemChip',
+  components: {
+    UpDownRating
+  },
   props: {
     item: {
       type: Object,
@@ -100,6 +105,7 @@ export default {
     }
 
     .header {
+      position: relative;
       padding-bottom: 10px;
       cursor: pointer;
       outline: none;
@@ -118,6 +124,12 @@ export default {
       .title {
         font-size: var(--content-title-text-size);
         line-height: 1.2;
+      }
+
+      .rating {
+        position: absolute;
+        right: -11px;
+        bottom: -10px;
       }
     }
 
