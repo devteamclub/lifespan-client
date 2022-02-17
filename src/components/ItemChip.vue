@@ -4,7 +4,7 @@
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
         <span class="title">{{ item.title }}</span>
-        <UpDownRating class="rating" />
+        <UpDownRating v-if="!item.isEvent" class="rating" />
       </summary>
       <div class="content">
         <p class="description">
