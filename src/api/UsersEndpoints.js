@@ -1,4 +1,4 @@
-import { publicApi } from '@/plugins/axios'
+import { publicApi, predictionsApi } from '@/plugins/axios'
 
 const PERSONAL_HANDLER = 'v1/personal'
 const PREDICTION_HANDLER = 'v1/prediction'
@@ -35,7 +35,7 @@ export const getPersonalEvents = async(userId) => {
 
 export const getUserPredictionEvents = async() => {
   try {
-    const { data } = await publicApi.get(`${PREDICTION_HANDLER}/events`)
+    const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/events`)
     return { data, error: null }
   } catch ({ response }) {
     return {
@@ -51,6 +51,21 @@ export const getUserPredictionEvents = async() => {
 export const getUser = async(userId) => {
   try {
     const { data } = await publicApi.get(`${PERSONAL_HANDLER}/${userId}`)
+    return { data, error: null }
+  } catch ({ response }) {
+    return {
+      data: null,
+      error: {
+        text: response.data,
+        status: response.status
+      }
+    }
+  }
+}
+
+export const setPredictionRating = async(predictionId, rating) => {
+  try {
+    const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/rating/${predictionId}`, rating)
     return { data, error: null }
   } catch ({ response }) {
     return {
