@@ -44,7 +44,11 @@ export default {
     async changeRate(isPositive) {
       if (this.loading) return
 
-      this.prediction.isPositive = isPositive
+      if (this.prediction.isPositive === isPositive) {
+        this.prediction.isPositive = null
+      } else {
+        this.prediction.isPositive = isPositive
+      }
 
       const rating = {
         isPositive: this.prediction.isPositive,
