@@ -33,9 +33,9 @@ export const getPersonalEvents = async(userId) => {
   }
 }
 
-export const getUserPredictionEvents = async() => {
+export const getUserPredictionEvents = async(userId) => {
   try {
-    const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/events`)
+    const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/events/${userId}`)
     return { data, error: null }
   } catch ({ response }) {
     return {
@@ -65,7 +65,7 @@ export const getUser = async(userId) => {
 
 export const setPredictionRating = async(predictionId, rating) => {
   try {
-    const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/rating/${predictionId}`, rating)
+    const { data } = await predictionsApi.post(`${PREDICTION_HANDLER}/rating/${predictionId}`, rating)
     return { data, error: null }
   } catch ({ response }) {
     return {

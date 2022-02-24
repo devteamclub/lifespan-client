@@ -125,7 +125,7 @@ export default {
     getYear,
     throttle,
     async fetchPredictions() {
-      const { data } = await api.users.getUserPredictionEvents()
+      const { data } = await api.users.getUserPredictionEvents(this.getUser.id)
       if (data?.length) this.predictions = data
     },
     async fetchEvents() {

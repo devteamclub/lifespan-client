@@ -4,7 +4,7 @@
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
         <span class="title">{{ item.title }}</span>
-        <UpDownRating v-if="!item.isEvent" class="rating" />
+        <UpDownRating v-if="!item.isEvent" :item="item" class="rating" />
       </summary>
       <div class="content">
         <p class="description">
@@ -40,7 +40,7 @@
         </button>
       </div>
     </details>
-    <div class="stripe" />
+    <div class="stripe" :style="{ backgroundColor: item.isEvent ? '' : item.categoryList[0].color }" />
   </div>
 </template>
 
@@ -129,7 +129,7 @@ export default {
       .rating {
         position: absolute;
         right: -11px;
-        bottom: -10px;
+        bottom: -7px;
       }
     }
 
