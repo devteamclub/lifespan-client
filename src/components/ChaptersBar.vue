@@ -32,15 +32,11 @@ export default {
   },
   computed: {
     getStyledChapters() {
-      // TODO this is temporal remove for last chapter with endDate bug
-      const chapters = [...this.chapters]
-      chapters.pop()
-
-      const firstChapterStartDate = this.getYear(chapters[0].startDate)
-      const lastChapterEndDate = this.getYear(chapters[chapters.length - 1].endDate)
+      const firstChapterStartDate = this.getYear(this.chapters[0].startDate)
+      const lastChapterEndDate = this.getYear(this.chapters[this.chapters.length - 1].endDate)
       const chaptersDatesRange = lastChapterEndDate - firstChapterStartDate
 
-      chapters.forEach((chapter, i) => {
+      this.chapters.forEach((chapter, i) => {
         // TODO use colors from BE data
         chapter.backgroundColor = `#000${i + 1}`
 
