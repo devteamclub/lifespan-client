@@ -4,16 +4,15 @@
       size="20"
       class="up"
       :class="{ 'active': isUpActive }"
-      @click="changeRate(1)"
+      @click="changeRate"
     >
       mdi-arrow-up-bold-outline
     </v-icon>
-    {{ counter }}
     <v-icon
       size="20"
       class="down"
       :class="{ 'active': isDownActive }"
-      @click="changeRate(-1)"
+      @click="changeRate"
     >
       mdi-arrow-down-bold-outline
     </v-icon>
@@ -25,7 +24,6 @@ export default {
   name: 'UpDownRating',
   data() {
     return {
-      counter: 0,
       isUpActive: false,
       isDownActive: false
     }
@@ -39,8 +37,6 @@ export default {
         this.isUpActive = false
         this.isDownActive = true
       }
-
-      this.counter += value
     }
   }
 }
