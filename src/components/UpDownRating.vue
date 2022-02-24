@@ -3,16 +3,16 @@
     <v-icon
       size="20"
       class="up"
-      :class="{ 'active': isUpActive }"
-      @click="changeRate"
+      :class="{ 'active': prediction.isPositive }"
+      @click="changeRate(true)"
     >
       mdi-arrow-up-bold-outline
     </v-icon>
     <v-icon
       size="20"
       class="down"
-      :class="{ 'active': isDownActive }"
-      @click="changeRate"
+      :class="{ 'active': prediction.isPositive === false }"
+      @click="changeRate(false)"
     >
       mdi-arrow-down-bold-outline
     </v-icon>
@@ -20,23 +20,40 @@
 </template>
 
 <script>
+import api from '@/api'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'UpDownRating',
-  data() {
-    return {
-      isUpActive: false,
-      isDownActive: false
+  props: {
+    item: {
+      type: Object,
+      required: true
     }
   },
+  data() {
+    return {
+      loading: false,
+      prediction: { ...this.item }
+    }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
+  },
   methods: {
-    changeRate(value) {
-      if (value > 0) {
-        this.isUpActive = true
-        this.isDownActive = false
-      } else {
-        this.isUpActive = false
-        this.isDownActive = true
+    async changeRate(isPositive) {
+      if (this.loading) return
+
+      this.prediction.isPositive = isPositive
+
+      const rating = {
+        isPositive: this.prediction.isPositive,
+        userId: this.getUser.id
       }
+
+      this.loading = true
+      await api.users.setPredictionRating(this.prediction.id, rating)
+      this.loading = false
     }
   }
 }

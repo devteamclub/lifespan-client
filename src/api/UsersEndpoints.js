@@ -65,7 +65,7 @@ export const getUser = async(userId) => {
 
 export const setPredictionRating = async(predictionId, rating) => {
   try {
-    const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/rating/${predictionId}`, rating)
+    const { data } = await predictionsApi.post(`${PREDICTION_HANDLER}/rating/${predictionId}`, rating)
     return { data, error: null }
   } catch ({ response }) {
     return {
