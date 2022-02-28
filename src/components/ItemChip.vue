@@ -1,5 +1,5 @@
 <template>
-  <div class="item-chip">
+  <div class="item-chip" :style="item.isEvent ? '' : getScaleSize">
     <details class="chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
@@ -40,7 +40,14 @@
         </button>
       </div>
     </details>
-    <div class="stripe" :style="{ backgroundColor: item.isEvent ? '' : item.categoryList[0].color }" />
+    <div class="stripe">
+      <div
+        v-for="category in item.categoryList"
+        :key="category.id"
+        class="stripe-item"
+        :style="{ backgroundColor: item.isEvent ? '' : category.color }"
+      />
+    </div>
   </div>
 </template>
 
@@ -69,6 +76,30 @@ export default {
       isActive: false
     }
   },
+  computed: {
+    getScaleSize() {
+      const averageRatingValue = this.item.ratingPositive + this.item.ratingNegative / 2
+
+      switch (true) {
+        case (averageRatingValue >= 1):
+          return 'transform: scale(1.15);'
+        case (averageRatingValue >= 10):
+          return 'transform: scale(1.2);'
+        case (averageRatingValue >= 50):
+          return 'transform: scale(1.25);'
+        case (averageRatingValue >= 100):
+          return 'transform: scale(1.3);'
+        case (averageRatingValue >= 200):
+          return 'transform: scale(1.35);'
+        case (averageRatingValue >= 500):
+          return 'transform: scale(1.4);'
+        case (averageRatingValue >= 1000):
+          return 'transform: scale(1.45);'
+        default:
+          return 'transform: scale(1);'
+      }
+    }
+  },
   methods: {
     getYear,
     getCategoriesList() {
@@ -89,6 +120,7 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
+    display: grid;
     width: 7px;
     height: 100%;
     background-color: var(--primary-color);
