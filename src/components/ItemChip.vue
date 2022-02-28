@@ -78,23 +78,25 @@ export default {
   },
   computed: {
     getScaleSize() {
-      const averageRatingValue = this.item.ratingPositive + this.item.ratingNegative / 2
+      const averageRatingValue = (this.item.ratingPositive + -this.item.ratingNegative) / 2
 
       switch (true) {
-        case (averageRatingValue >= 1):
-          return 'transform: scale(1.15);'
-        case (averageRatingValue >= 10):
-          return 'transform: scale(1.2);'
-        case (averageRatingValue >= 50):
-          return 'transform: scale(1.25);'
-        case (averageRatingValue >= 100):
-          return 'transform: scale(1.3);'
-        case (averageRatingValue >= 200):
-          return 'transform: scale(1.35);'
-        case (averageRatingValue >= 500):
-          return 'transform: scale(1.4);'
         case (averageRatingValue >= 1000):
           return 'transform: scale(1.45);'
+        case (averageRatingValue >= 500):
+          return 'transform: scale(1.4);'
+        case (averageRatingValue >= 200):
+          return 'transform: scale(1.35);'
+        case (averageRatingValue >= 100):
+          return 'transform: scale(1.3);'
+        case (averageRatingValue >= 50):
+          return 'transform: scale(1.25);'
+        case (averageRatingValue >= 10):
+          return 'transform: scale(1.2);'
+        case (averageRatingValue >= 1):
+          return 'transform: scale(1.15);'
+        case (averageRatingValue < 0):
+          return 'transform: scale(0.95);'
         default:
           return 'transform: scale(1);'
       }
