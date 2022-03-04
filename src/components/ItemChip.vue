@@ -1,5 +1,6 @@
 <template>
   <div class="item-chip" :style="item.isEvent ? '' : `transform: scale(${getScaleSize})`">
+    {{ getScaleSize }}
     <details class="chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
@@ -79,35 +80,22 @@ export default {
   computed: {
     getScaleSize() {
       const averageRatingValue = (this.item.ratingPositive - this.item.ratingNegative) / 2
-
-      switch (true) {
-        case (averageRatingValue >= 1000):
-          return '1.45'
-        case (averageRatingValue >= 500):
-          return '1.4'
-        case (averageRatingValue >= 200):
-          return '1.35'
-        case (averageRatingValue >= 100):
-          return '1.3'
-        case (averageRatingValue >= 50):
-          return '1.25'
-        case (averageRatingValue >= 10):
-          return '1.2'
-        case (averageRatingValue > 0):
-          return '1.15'
-        case (averageRatingValue < 0):
-          return '0.95'
-        default:
-          return '1'
-      }
+      if (averageRatingValue >= 1000) return '1.45'
+      if (averageRatingValue >= 500) return '1.4'
+      if (averageRatingValue >= 200) return '1.35'
+      if (averageRatingValue >= 100) return '1.3'
+      if (averageRatingValue >= 50) return '1.25'
+      if (averageRatingValue >= 10) return '1.2'
+      if (averageRatingValue > 0) return '1.15'
+      if (averageRatingValue < 0) return '0.95'
+      return '1'
     }
   },
   methods: {
     getYear,
     getCategoriesList() {
       const categoryListTitles = this.item.categoryList.map((item) => item.title)
-      const result = categoryListTitles.join(', ')
-      return result
+      return categoryListTitles.join(', ')
     }
   }
 }
@@ -141,8 +129,8 @@ export default {
     .header {
       position: relative;
       padding-bottom: 10px;
-      cursor: pointer;
       outline: none;
+      cursor: pointer;
 
       .category,
       .title {
@@ -174,16 +162,16 @@ export default {
 
       span,
       .link {
-        font-size: var(--text-size-sm);
         font-weight: var(--font-weight-bold);
+        font-size: var(--text-size-sm);
       }
 
       .info-block.source {
-        overflow: hidden;
         display: flex;
         max-width: calc(100% - 27px);
-        text-overflow: ellipsis;
+        overflow: hidden;
         white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
       .info-title {
@@ -194,9 +182,9 @@ export default {
       .info-content {
         &.link {
           display: block;
+          overflow: hidden;
           color: var(--link-color);
           white-space: nowrap;
-          overflow: hidden;
           text-overflow: ellipsis;
         }
       }
