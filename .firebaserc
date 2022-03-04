@@ -1,6 +1,6 @@
 {
   "projects": {
-    "dev": "dev-servak",
+    "dev": "dev-servak"
   },
   "targets": {
     "dev-servak": {
