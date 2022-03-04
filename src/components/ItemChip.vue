@@ -1,5 +1,6 @@
 <template>
-  <div class="item-chip">
+  <div class="item-chip" :style="item.isEvent ? '' : `transform: scale(${getScaleSize})`">
+    {{ getScaleSize }}
     <details class="chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
@@ -40,7 +41,14 @@
         </button>
       </div>
     </details>
-    <div class="stripe" :style="{ backgroundColor: item.isEvent ? '' : item.categoryList[0].color }" />
+    <div class="stripe">
+      <div
+        v-for="category in item.categoryList"
+        :key="category.id"
+        class="stripe-item"
+        :style="{ backgroundColor: item.isEvent ? '' : category.color }"
+      />
+    </div>
   </div>
 </template>
 
@@ -69,12 +77,25 @@ export default {
       isActive: false
     }
   },
+  computed: {
+    getScaleSize() {
+      const averageRatingValue = (this.item.ratingPositive - this.item.ratingNegative) / 2
+      if (averageRatingValue >= 1000) return '1.45'
+      if (averageRatingValue >= 500) return '1.4'
+      if (averageRatingValue >= 200) return '1.35'
+      if (averageRatingValue >= 100) return '1.3'
+      if (averageRatingValue >= 50) return '1.25'
+      if (averageRatingValue >= 10) return '1.2'
+      if (averageRatingValue > 0) return '1.15'
+      if (averageRatingValue < 0) return '0.95'
+      return '1'
+    }
+  },
   methods: {
     getYear,
     getCategoriesList() {
       const categoryListTitles = this.item.categoryList.map((item) => item.title)
-      const result = categoryListTitles.join(', ')
-      return result
+      return categoryListTitles.join(', ')
     }
   }
 }
@@ -89,6 +110,7 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
+    display: grid;
     width: 7px;
     height: 100%;
     background-color: var(--primary-color);
@@ -107,8 +129,8 @@ export default {
     .header {
       position: relative;
       padding-bottom: 10px;
-      cursor: pointer;
       outline: none;
+      cursor: pointer;
 
       .category,
       .title {
@@ -140,16 +162,16 @@ export default {
 
       span,
       .link {
-        font-size: var(--text-size-sm);
         font-weight: var(--font-weight-bold);
+        font-size: var(--text-size-sm);
       }
 
       .info-block.source {
-        overflow: hidden;
         display: flex;
         max-width: calc(100% - 27px);
-        text-overflow: ellipsis;
+        overflow: hidden;
         white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
       .info-title {
@@ -160,9 +182,9 @@ export default {
       .info-content {
         &.link {
           display: block;
+          overflow: hidden;
           color: var(--link-color);
           white-space: nowrap;
-          overflow: hidden;
           text-overflow: ellipsis;
         }
       }
