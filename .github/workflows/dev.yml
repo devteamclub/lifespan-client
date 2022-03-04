@@ -24,9 +24,9 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VUE_APP_API_KEY: AIzaSyDHBWKZq0qtEIjB1wRBeXaMz0rUgd7dbvo
-          VUE_APP_AUTH_DOMAIN: dev-servak.firebaseapp.com
-          VUE_APP_PROJECT_ID: dev-servak
+          VUE_APP_API_KEY: "${{ secrets.APP_API_KEY }}"
+          VUE_APP_AUTH_DOMAIN: "${{ secrets.APP_AUTH_DOMAIN }}"
+          VUE_APP_PROJECT_ID: "${{ secrets.APP_PROJECT_ID }}"
           VUE_APP_API_URL: https://api.lifespan.plush.dev
           VUE_APP_P_API_URL: https://api.lsp.dev-team.club
       - name: Push to ls-client.dev-team.club
