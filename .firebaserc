@@ -1,7 +1,6 @@
 {
   "projects": {
     "dev": "dev-servak",
-    "prod": "western-card-321916"
   },
   "targets": {
     "dev-servak": {
