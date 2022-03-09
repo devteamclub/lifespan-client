@@ -2,6 +2,7 @@
   <v-app id="app">
     <v-main>
       <TheTimeline v-if="getUser" />
+      <TheServicesMenu />
     </v-main>
   </v-app>
 </template>
@@ -10,11 +11,13 @@
 import api from '@/api'
 import { mapActions, mapGetters } from 'vuex'
 import TheTimeline from '@/components/TheTimeline'
+import TheServicesMenu from '@/components/TheServicesMenu'
 
 export default {
   name: 'App',
   components: {
-    TheTimeline
+    TheTimeline,
+    TheServicesMenu
   },
   data() {
     return {
