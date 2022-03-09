@@ -1,6 +1,5 @@
 <template>
   <div class="item-chip" :style="item.isEvent ? '' : `transform: scale(${getScaleSize})`">
-    {{ getScaleSize }}
     <details class="chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>

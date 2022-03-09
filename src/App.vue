@@ -27,12 +27,8 @@ export default {
       return this.$route.params.id || this.defaultTestUserId
     }
   },
-  watch: {
-    userId() {
-      this.fetchUser()
-    }
-  },
-  mounted() {
+  async mounted() {
+    await this.$nextTick()
     if (!this.getUser) this.fetchUser()
   },
   methods: {
