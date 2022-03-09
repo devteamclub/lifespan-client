@@ -3,7 +3,7 @@
     <v-icon
       size="20"
       class="up"
-      :class="{ 'active': prediction.isPositive }"
+      :class="{ 'active': item.isPositive }"
       @click="changeRate(true)"
     >
       mdi-arrow-up-bold-outline
@@ -11,7 +11,7 @@
     <v-icon
       size="20"
       class="down"
-      :class="{ 'active': prediction.isPositive === false }"
+      :class="{ 'active': item.isPositive === false }"
       @click="changeRate(false)"
     >
       mdi-arrow-down-bold-outline
@@ -33,8 +33,7 @@ export default {
   },
   data() {
     return {
-      loading: false,
-      prediction: { ...this.item }
+      loading: false
     }
   },
   computed: {
@@ -44,19 +43,19 @@ export default {
     async changeRate(isPositive) {
       if (this.loading) return
 
-      if (this.prediction.isPositive === isPositive) {
-        this.prediction.isPositive = null
+      if (this.item.isPositive === isPositive) {
+        this.item.isPositive = null
       } else {
-        this.prediction.isPositive = isPositive
+        this.item.isPositive = isPositive
       }
 
       const rating = {
-        isPositive: this.prediction.isPositive,
+        isPositive: this.item.isPositive,
         userId: this.getUser.id
       }
 
       this.loading = true
-      await api.users.setPredictionRating(this.prediction.id, rating)
+      await api.users.setPredictionRating(this.item.id, rating)
       this.loading = false
     }
   }
