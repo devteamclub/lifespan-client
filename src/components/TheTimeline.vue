@@ -82,12 +82,13 @@ export default {
     getTimeIntervals() {
       const items = [...this.predictions, ...this.events]
       const timeIntervals = {}
-      if (!this.events.length) return
 
-      const birthYear = this.getYear(this.events[0].startDate)
-      const deathYear = this.getYear(this.events[this.events.length - 1].endDate)
-      for (let i = birthYear; i < deathYear; i += 1) {
-        timeIntervals[i] = ''
+      if (this.events.length) {
+        const birthYear = this.getYear(this.events[0].startDate)
+        const deathYear = this.getYear(this.events[this.events.length - 1].endDate)
+        for (let i = +birthYear; i < deathYear; i += 1) {
+          timeIntervals[i] = ''
+        }
       }
 
       items.forEach((item) => {
