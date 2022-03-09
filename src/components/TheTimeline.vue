@@ -86,7 +86,7 @@ export default {
 
       const birthYear = this.getYear(this.events[0].startDate)
       const deathYear = this.getYear(this.events[this.events.length - 1].endDate)
-      for (let i = birthYear; i < deathYear; i++) {
+      for (let i = birthYear; i < deathYear; i += 1) {
         timeIntervals[i] = ''
       }
 
