@@ -5,7 +5,7 @@
       :key="chapter.id"
       class="bar-item"
       :class="{'active': chapter.title === currentChapterTitle }"
-      :style="{ backgroundColor: chapter.backgroundColor, height: chapter.height }"
+      :style="{ backgroundColor: chapter.color, height: chapter.height }"
       @click="$emit('scrollToChapter', chapter.startDate)"
     >
       <span class="item-title">
@@ -37,9 +37,6 @@ export default {
       const chaptersDatesRange = lastChapterEndDate - firstChapterStartDate
 
       this.chapters.forEach((chapter, i) => {
-        // TODO use colors from BE data
-        chapter.backgroundColor = `#000${i + 1}`
-
         const chapterDatesInterval = this.getYear(chapter.endDate) - this.getYear(chapter.startDate)
 
         // get the percentage value of the single chapter from the total chapters
