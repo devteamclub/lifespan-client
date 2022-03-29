@@ -36,7 +36,7 @@ export default {
       const lastChapterEndDate = this.getYear(this.chapters[this.chapters.length - 1].endDate)
       const chaptersDatesRange = lastChapterEndDate - firstChapterStartDate
 
-      this.chapters.forEach((chapter, i) => {
+      this.chapters.forEach(chapter => {
         const chapterDatesInterval = this.getYear(chapter.endDate) - this.getYear(chapter.startDate)
 
         // get the percentage value of the single chapter from the total chapters
