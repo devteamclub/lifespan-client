@@ -39,9 +39,8 @@
           <v-list-item v-for="category in categories" :key="category.id">
             <v-list-item-action>
               <v-switch
-                v-model="options[category.title]"
+                v-model="options[category.title].value"
                 color="purple"
-                @change="selectCategory($event, category.id)"
               />
             </v-list-item-action>
             <v-list-item-title>{{ category.title }}</v-list-item-title>
@@ -81,8 +80,7 @@ export default {
       value: 'General Events',
       items: ['Tree', 'General Events', 'DApp ABC'],
       categories: [],
-      options: [],
-      selectedCategories: []
+      options: []
     }
   },
   computed: {
@@ -92,20 +90,18 @@ export default {
     const { data } = await api.predictions.getPredictionsCategories()
     if (data) {
       this.categories = data
-      data.forEach(({ title }) => { this.options[title] = false })
+      data.forEach(({ title, id }) => {
+        this.options[title] = { value: false, id }
+      })
     }
   },
   methods: {
     saveSelectedCategories() {
-      this.$emit('saveSelectedCategories', this.selectedCategories)
+      const selectedCategoriesIds = Object.values(this.options)
+        .filter(({ value }) => value)
+        .map(({ id }) => id)
+      this.$emit('saveSelectedCategories', selectedCategoriesIds)
       this.menu = false
-    },
-    selectCategory(needToAdd, selectedCategoryId) {
-      if (needToAdd) {
-        this.selectedCategories.push(selectedCategoryId)
-      } else {
-        this.selectedCategories = this.selectedCategories.filter((id) => id !== selectedCategoryId)
-      }
     }
   }
 }
