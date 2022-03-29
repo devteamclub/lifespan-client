@@ -39,7 +39,7 @@
           <v-list-item v-for="category in categories" :key="category.id">
             <v-list-item-action>
               <v-switch
-                v-model="options[category.title].value"
+                v-model="options[category.title].isSelected"
                 color="purple"
               />
             </v-list-item-action>
