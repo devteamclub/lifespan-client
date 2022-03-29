@@ -91,14 +91,14 @@ export default {
     if (data) {
       this.categories = data
       data.forEach(({ title, id }) => {
-        this.options[title] = { value: false, id }
+        this.options[title] = { isSelected: false, id }
       })
     }
   },
   methods: {
     saveSelectedCategories() {
       const selectedCategoriesIds = Object.values(this.options)
-        .filter(({ value }) => value)
+        .filter(({ isSelected }) => isSelected)
         .map(({ id }) => id)
       this.$emit('saveSelectedCategories', selectedCategoriesIds)
       this.menu = false
