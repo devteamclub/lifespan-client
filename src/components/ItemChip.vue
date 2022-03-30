@@ -75,6 +75,7 @@
 import { getYear } from '@/services/dateService'
 import UpDownRating from '@/components/UpDownRating'
 import api from '@/api'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ItemChip',
@@ -100,6 +101,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getUser']),
     getScaleSize() {
       const averageRatingValue = (this.item.ratingPositive - this.item.ratingNegative) / 2
       if (averageRatingValue >= 1000) return '1.45'
@@ -120,10 +122,14 @@ export default {
   },
   methods: {
     async saveYear(year) {
-      // TODO
+      // TODO: update list of prediction when it will be returned from api
       const dateWithNewYear = new Date(this.item.startDate).setFullYear(year)
-      this.item.startDate = new Date(dateWithNewYear).toISOString()
-      const data = await api.users.updatePrediction(this.item)
+      const prediction = {
+        eventId: this.item.id,
+        startDate: new Date(dateWithNewYear).toISOString(),
+        endDate: this.item.endDate
+      }
+      const data = await api.users.updatePrediction(this.getUser.id, prediction)
       this.$refs.picker.internalActivePicker = 'YEAR'
       console.log(data)
     },
