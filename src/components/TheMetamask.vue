@@ -1,8 +1,12 @@
 <template>
   <div class="metamask">
-    <div @click="isShow = true">CONNECT</div>
+    <div v-if="!token" @click="isShow = true">CONNECT</div>
+    <div v-else>
+      {{ token }}
+    </div>
     <VueMetamask
       v-if="isShow"
+      userMessage="msg"
       @onComplete="onComplete"
     />
   </div>
@@ -15,12 +19,13 @@ export default {
   data() {
     return {
       isShow: false,
-      msg: 'This is demo net work'
+      token: null
     }
   },
   methods: {
     onComplete(data) {
-      console.log('data:', data)
+      this.token = data.metaMaskAddress
+      console.log(data)
     }
   }
 }
