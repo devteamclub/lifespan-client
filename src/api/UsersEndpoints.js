@@ -2,6 +2,7 @@ import { publicApi, predictionsApi } from '@/plugins/axios'
 
 const PERSONAL_HANDLER = 'v1/personal'
 const PREDICTION_HANDLER = 'v1/prediction'
+const ADMIN_PREDICTION_HANDLER = 'v1/admin/prediction'
 
 export const getPersonalChapters = async(userId) => {
   try {
@@ -50,7 +51,7 @@ export const getUserPredictionEvents = async(userId) => {
 
 export const updatePrediction = async(prediction) => {
   try {
-    const { data } = await predictionsApi.put(`${PREDICTION_HANDLER}/events/${prediction.id}`, prediction)
+    const { data } = await predictionsApi.put(`${ADMIN_PREDICTION_HANDLER}/events/${prediction.id}`, prediction)
     return { data, error: null }
   } catch ({ response }) {
     return {
