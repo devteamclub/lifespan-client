@@ -48,6 +48,21 @@ export const getUserPredictionEvents = async(userId) => {
   }
 }
 
+export const updatePrediction = async(prediction) => {
+  try {
+    const { data } = await predictionsApi.put(`${PREDICTION_HANDLER}/events/${prediction.id}`, prediction)
+    return { data, error: null }
+  } catch ({ response }) {
+    return {
+      data: null,
+      error: {
+        text: response.data,
+        status: response.status
+      }
+    }
+  }
+}
+
 export const getUser = async(userId) => {
   try {
     const { data } = await publicApi.get(`${PERSONAL_HANDLER}/${userId}`)

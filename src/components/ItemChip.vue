@@ -13,7 +13,27 @@
         <template v-if="!item.isEvent">
           <div class="info-block">
             <span class="info-title">Year:</span>
-            <span class="info-content">{{ getYear(item.startDate) }}</span>
+            <span class="info-content" @click="dateMenu = true">
+              {{ itemStartYear }}
+              <v-icon size="14">
+                mdi-pencil
+              </v-icon>
+            </span>
+            <v-menu
+              v-model="dateMenu"
+              top
+              attach
+            >
+              <v-date-picker
+                ref="picker"
+                v-model="itemStartYear"
+                width="100"
+                active-picker="YEAR"
+                no-title
+                :min="itemStartYear"
+                @click:year="saveYear"
+              />
+            </v-menu>
           </div>
           <div class="info-block source">
             <span class="info-title">Source:</span>
@@ -54,6 +74,7 @@
 <script>
 import { getYear } from '@/services/dateService'
 import UpDownRating from '@/components/UpDownRating'
+import api from '@/api'
 
 export default {
   name: 'ItemChip',
@@ -73,7 +94,9 @@ export default {
   },
   data() {
     return {
-      isActive: false
+      isActive: false,
+      dateMenu: false,
+      itemStartYear: getYear(this.item.startDate)
     }
   },
   computed: {
@@ -90,7 +113,20 @@ export default {
       return '1'
     }
   },
+  watch: {
+    dateMenu(val) {
+      val && this.$nextTick(() => (this.$refs.picker.internalActivePicker = 'YEAR'))
+    }
+  },
   methods: {
+    async saveYear(year) {
+      // TODO
+      const dateWithNewYear = new Date(this.item.startDate).setFullYear(year)
+      this.item.startDate = new Date(dateWithNewYear).toISOString()
+      const data = await api.users.updatePrediction(this.item)
+      this.$refs.picker.internalActivePicker = 'YEAR'
+      console.log(data)
+    },
     getYear,
     getCategoriesList() {
       const categoryListTitles = this.item.categoryList.map((item) => item.title)
@@ -101,6 +137,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.info-block {
+  position: relative;
+}
+
 .item-chip {
   position: relative;
   width: 320px;
@@ -179,6 +219,7 @@ export default {
       }
 
       .info-content {
+        cursor: pointer;
         &.link {
           display: block;
           overflow: hidden;

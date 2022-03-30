@@ -230,7 +230,7 @@ export default {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
+    min-height: 250px;
 
     &:nth-child(even) {
       .predictions {
