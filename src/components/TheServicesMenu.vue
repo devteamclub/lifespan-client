@@ -39,30 +39,14 @@
           <v-list-item v-for="category in categories" :key="category.id">
             <v-list-item-action>
               <v-switch
-                v-model="options[category.title].isSelected"
+                v-model="options[category.title]"
                 color="purple"
+                @change="selectCategory($event, category.id)"
               />
             </v-list-item-action>
             <v-list-item-title>{{ category.title }}</v-list-item-title>
           </v-list-item>
         </v-list>
-        <v-card-actions>
-          <v-spacer />
-
-          <v-btn
-            text
-            @click="menu = false"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            color="primary"
-            text
-            @click="saveSelectedCategories"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-menu>
   </div>
@@ -80,28 +64,33 @@ export default {
       value: 'General Events',
       items: ['Tree', 'General Events', 'DApp ABC'],
       categories: [],
-      options: []
+      options: [],
+      selectedCategoriesIds: []
     }
   },
   computed: {
     ...mapGetters(['getUser'])
   },
-  async created() {
-    const { data } = await api.predictions.getPredictionsCategories()
-    if (data) {
-      this.categories = data
-      data.forEach(({ title, id }) => {
-        this.options[title] = { isSelected: false, id }
-      })
-    }
+  created() {
+    this.fetchPredictionsCategories()
   },
   methods: {
-    saveSelectedCategories() {
-      const selectedCategoriesIds = Object.values(this.options)
-        .filter(({ isSelected }) => isSelected)
-        .map(({ id }) => id)
-      this.$emit('saveSelectedCategories', selectedCategoriesIds)
-      this.menu = false
+    async fetchPredictionsCategories() {
+      const { data } = await api.predictions.getPredictionsCategories()
+      if (!data) return
+      this.categories = data
+      data.forEach(({ title, id }) => {
+        this.options[title] = true
+        this.selectedCategoriesIds.push(id) // TODO: get from api
+      })
+    },
+    selectCategory(needToAdd, selectedCategoryId) {
+      if (needToAdd) {
+        this.selectedCategoriesIds.push(selectedCategoryId)
+      } else {
+        this.selectedCategoriesIds = this.selectedCategoriesIds.filter((id) => id !== selectedCategoryId)
+      }
+      this.$emit('saveSelectedCategories', this.selectedCategoriesIds)
     }
   }
 }
