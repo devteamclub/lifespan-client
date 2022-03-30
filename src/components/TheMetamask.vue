@@ -1,12 +1,13 @@
 <template>
   <div class="metamask">
-    <div v-if="!token" @click="isShow = true">CONNECT</div>
+    <div v-if="!token" @click="isShow = true">
+      CONNECT
+    </div>
     <div v-else>
       {{ token }}
     </div>
     <VueMetamask
       v-if="isShow"
-      userMessage="msg"
       @onComplete="onComplete"
     />
   </div>
