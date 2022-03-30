@@ -1,6 +1,7 @@
 <template>
   <v-app id="app">
     <v-main>
+      <TheMetamask />
       <TheTimeline v-if="getUser" />
       <TheServicesMenu />
     </v-main>
@@ -12,12 +13,14 @@ import api from '@/api'
 import { mapActions, mapGetters } from 'vuex'
 import TheTimeline from '@/components/TheTimeline'
 import TheServicesMenu from '@/components/TheServicesMenu'
+import TheMetamask from '@/components/TheMetamask'
 
 export default {
   name: 'App',
   components: {
     TheTimeline,
-    TheServicesMenu
+    TheServicesMenu,
+    TheMetamask
   },
   data() {
     return {
