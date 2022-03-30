@@ -40,6 +40,7 @@
               v-if="event.isEvent"
               :item="event"
               :age="getPersonAge"
+              v-prlx="{ speed: 0.6 }"
             />
           </div>
         </div>
