@@ -11,14 +11,12 @@
 import api from '@/api'
 import { mapActions, mapGetters } from 'vuex'
 import TheTimeline from '@/components/TheTimeline'
-import TheServicesMenu from '@/components/TheServicesMenu'
 import TheMetamask from '@/components/TheMetamask'
 
 export default {
   name: 'App',
   components: {
     TheTimeline,
-    TheServicesMenu,
     TheMetamask
   },
   data() {
