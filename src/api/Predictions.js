@@ -1,11 +1,10 @@
 import { predictionsApi } from '@/plugins/axios'
 
 const PREDICTION_HANDLER = 'v1/prediction'
-const ADMIN_HANDLER = 'v1/admin'
 
 export const getPredictionsCategories = async() => {
   try {
-    const { data } = await predictionsApi.get(`${ADMIN_HANDLER}/categories`)
+    const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/categories`)
     return { data, error: null }
   } catch ({ response }) {
     return {

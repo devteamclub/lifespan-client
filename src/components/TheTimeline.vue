@@ -1,6 +1,6 @@
 <template>
   <div class="timeline">
-    <TheServicesMenu @saveSelectedCategories="saveSelectedCategories" />
+    <TheServicesMenu :selected-categories="selectedCategories" @saveSelectedCategories="saveSelectedCategories" />
     <div ref="wrapper" class="wrapper">
       <div v-if="currentIntervalStartDate" class="top-info">
         <div class="person-age">
@@ -122,7 +122,9 @@ export default {
       return chapter?.title || ''
     }
   },
-  async mounted() {
+  async created() {
+    const { data: { categoryList: selectedCategories } } = await api.users.getUserSettings(this.getUser.id)
+    this.selectedCategories = selectedCategories || []
     await Promise.all([
       this.fetchPredictions(),
       this.fetchEvents(),

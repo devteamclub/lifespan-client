@@ -58,6 +58,12 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'TheServicesMenu',
+  props: {
+    selectedCategories: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       menu: false,
@@ -71,26 +77,23 @@ export default {
   computed: {
     ...mapGetters(['getUser'])
   },
-  created() {
+  mounted() {
     this.fetchPredictionsCategories()
   },
   methods: {
     async fetchPredictionsCategories() {
-      const { data } = await api.predictions.getPredictionsCategories()
-      if (!data) return
-      this.categories = data
-      data.forEach(({ title, id }) => {
-        this.options[title] = true
-        this.selectedCategoriesIds.push(id) // TODO: get from api
-      })
+      const { data: categories } = await api.predictions.getPredictionsCategories()
+      if (!categories) return
+      this.categories = categories
+      categories.forEach(({ title, id }) => (this.options[title] = this.selectedCategories.includes(id)))
     },
     selectCategory(needToAdd, selectedCategoryId) {
       if (needToAdd) {
-        this.selectedCategoriesIds.push(selectedCategoryId)
+        this.selectedCategories.push(selectedCategoryId)
       } else {
-        this.selectedCategoriesIds = this.selectedCategoriesIds.filter((id) => id !== selectedCategoryId)
+        this.selectedCategories = this.selectedCategories.filter((id) => id !== selectedCategoryId)
       }
-      this.$emit('saveSelectedCategories', this.selectedCategoriesIds)
+      this.$emit('saveSelectedCategories', this.selectedCategories)
     }
   }
 }
