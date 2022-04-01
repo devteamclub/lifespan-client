@@ -1,5 +1,6 @@
 <template>
   <div class="timeline">
+    <TheServicesMenu :selected-categories="selectedCategories" @saveSelectedCategories="saveSelectedCategories" />
     <div ref="wrapper" class="wrapper">
       <div v-if="currentIntervalStartDate" class="top-info">
         <div class="person-age">
@@ -60,12 +61,14 @@ import { getYear } from '@/services/dateService'
 import { throttle } from '@/services/throttle'
 import ItemChip from '@/components/ItemChip'
 import ChaptersBar from '@/components/ChaptersBar'
+import TheServicesMenu from '@/components/TheServicesMenu'
 
 export default {
   name: 'TheTimeline',
   components: {
     ItemChip,
-    ChaptersBar
+    ChaptersBar,
+    TheServicesMenu
   },
   data() {
     return {
@@ -74,7 +77,8 @@ export default {
       chapters: [],
       intervalElements: null,
       currentIntervalStartDate: null,
-      currentYear: new Date().getFullYear()
+      currentYear: new Date().getFullYear(),
+      selectedCategories: []
     }
   },
   computed: {
@@ -118,7 +122,9 @@ export default {
       return chapter?.title || ''
     }
   },
-  async mounted() {
+  async created() {
+    const { data: { categoryList: selectedCategories } } = await api.users.getUserSettings(this.getUser.id)
+    this.selectedCategories = selectedCategories || []
     await Promise.all([
       this.fetchPredictions(),
       this.fetchEvents(),
@@ -132,9 +138,13 @@ export default {
   methods: {
     getYear,
     throttle,
+    saveSelectedCategories(selectedCategories) {
+      this.selectedCategories = selectedCategories
+      this.fetchPredictions()
+    },
     async fetchPredictions() {
-      const { data } = await api.users.getUserPredictionEvents(this.getUser.id)
-      if (data?.length) this.predictions = data
+      const { data } = await api.predictions.getPredictionsByCategories(this.getUser.id, this.selectedCategories.join())
+      this.predictions = data || []
     },
     async fetchEvents() {
       const { data } = await api.users.getPersonalEvents(this.getUser.id)

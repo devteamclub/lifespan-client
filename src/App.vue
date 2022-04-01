@@ -3,7 +3,6 @@
     <v-main>
       <TheMetamask />
       <TheTimeline v-if="getUser" />
-      <TheServicesMenu />
     </v-main>
   </v-app>
 </template>
