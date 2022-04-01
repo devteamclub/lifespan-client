@@ -1,5 +1,5 @@
 <template>
-  <div class="item-chip" :style="item.isEvent ? '' : `transform: scale(${getScaleSize})`">
+  <div class="item-chip" :style="getTransformStyles">
     <details class="chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
@@ -97,7 +97,8 @@ export default {
     return {
       isActive: false,
       dateMenu: false,
-      itemStartYear: getYear(this.item.startDate)
+      itemStartYear: getYear(this.item.startDate),
+      isYearSaved: false
     }
   },
   computed: {
@@ -113,6 +114,16 @@ export default {
       if (averageRatingValue > 0) return '1.15'
       if (averageRatingValue < 0) return '0.95'
       return '1'
+    },
+    getTransformStyles() {
+      let style = 'transform: '
+      if (!this.item.isEvent) {
+        style += `scale(${this.getScaleSize})`
+      }
+      if (this.isYearSaved) {
+        style += 'translateY(2000px); opacity: 0;'
+      }
+      return style
     }
   },
   watch: {
@@ -122,8 +133,10 @@ export default {
   },
   methods: {
     async saveYear(year) {
+      if (+this.itemStartYear === year) return
       // TODO: update list of prediction when it will be returned from api
       const dateWithNewYear = new Date(this.item.startDate).setFullYear(year)
+      this.isYearSaved = true
       const prediction = {
         eventId: this.item.id,
         startDate: new Date(dateWithNewYear).toISOString(),
@@ -150,6 +163,7 @@ export default {
 .item-chip {
   position: relative;
   width: 320px;
+  transition: all 2s ease;
 
   .stripe {
     position: absolute;
