@@ -1,17 +1,14 @@
 <template>
   <div class="metamask">
-    <div v-if="!address" @click="isShow = true">
-      CONNECT
-    </div>
-    <div v-else>
+    <div>
       <div class="wallet">
         <div class="icon">
-          <div :class="{ icon, iconTheme }">
-            <img
-              src="../assets/images/child.png"
+          <div :class="[icon, iconTheme]">
+            <v-img
+              :src="`/images/${icon}.png`"
               :alt="icon"
               class="image"
-            >
+            />
           </div>
           <div :class="iconTheme" />
         </div>
@@ -19,61 +16,80 @@
         <div
           ref="openerRef"
           class="opener"
+          @click="isShowModal = !isShowModal"
         >
-          <div class="info">
+          <div class="wallet-info">
             <div class="top">
-              <div class="title">
+              <div class="wallet-title">
                 {{ title }}
               </div>
-              {{ address }}
+              <div class="address">
+                {{ formattedAddress }}
+              </div>
             </div>
+            <div
+              class="connection-status"
+              :class="statusClass"
+            />
             <div
               class="status"
               :class="statusClass"
             >
               {{ status }}
+              <span class="network-name">{{ networkName }}</span>
             </div>
           </div>
           <div class="button">
             <img
-              src="../../public/images/arrow-bottom.svg"
+              src="@/assets/images/arrow-bottom.svg"
               class="arrow"
               :class="{ inverted: isModalOpen }"
               alt="arrow bottom"
             >
           </div>
         </div>
-        <!--{modal()}-->
+        <WalletModal
+          v-if="isShowModal"
+          :network-name="networkName"
+          :address="formattedAddress"
+          :modal-type="modalType"
+          @onComplete="onComplete"
+        />
       </div>
     </div>
-    <VueMetamask
-      v-if="isShow"
-      @onComplete="onComplete"
-    />
   </div>
 </template>
 
 <script>
-import VueMetamask from 'vue-metamask'
+import WalletModal from '@/components/WalletModal'
+
 export default {
-  components: { VueMetamask },
+  components: { WalletModal },
   data() {
     return {
-      isShow: false,
+      isShowModal: false,
       iconTheme: '',
       status: '',
       title: '',
       statusClass: '',
       isModalOpen: false,
-      state: 'USER_FOUND',
-      gender: 'MALE',
+      state: 'USER_NOT_FOUND',
+      gender: 'male',
       address: '',
-      icon: ''
+      icon: '',
+      modalType: '',
+      requiredAddressLength: 42,
+      networkName: ''
     }
   },
   computed: {
-    getIconUrl() {
-      return '../assets/images/child.png'
+    isValidAddress() {
+      return this.address && this.address.length === this.requiredAddressLength
+    },
+    formattedAddress() {
+      if (!this.isValidAddress) return
+
+      return `${this.address.substring(0, 6)}...${this.address.substring(this.address.length - 4, this.address.length)}`
     }
   },
   created() {
@@ -81,7 +97,19 @@ export default {
   },
   methods: {
     onComplete(data) {
-      this.address = data.metaMaskAddress
+      this.isShowModal = false
+      console.log(data)
+      if (data.type === 'NO_LOGIN') {
+        this.state = 'DISCONNECTED'
+        this.address = ''
+        console.log(1)
+      } else {
+        console.log(2)
+        this.networkName = data.type
+        this.state = 'USER_FOUND'
+        this.address = data.metaMaskAddress
+      }
+      this.validateState()
     },
     validateState() {
       switch (this.state) {
@@ -91,6 +119,9 @@ export default {
           this.iconTheme = 'WARNING'
           this.icon = 'alert'
           this.statusClass = 'error'
+          this.modalType = 'ConnectModal'
+          this.address = ''
+          this.networkName = ''
           break
         case 'WRONG_NETWORK':
           this.title = 'Hey,'
@@ -98,6 +129,9 @@ export default {
           this.iconTheme = 'WARNING'
           this.icon = 'alert'
           this.statusClass = 'error'
+          this.modalType = 'WrongNetworkModal'
+          this.address = ''
+          this.networkName = ''
           break
         case 'USER_NOT_FOUND':
           this.title = 'No account'
@@ -105,13 +139,15 @@ export default {
           this.iconTheme = 'ERROR'
           this.icon = 'skull'
           this.statusClass = 'error'
+          this.modalType = 'RegisterModal'
           break
         case 'USER_FOUND':
-          this.title = ''
+          this.title = 'Jessica'
           this.status = 'Connected to'
           this.iconTheme = this.gender || 'ERROR'
           this.icon = this.gender && 'child'
           this.statusClass = 'success'
+          this.modalType = 'SwitchAccountModal'
           break
       }
     }
@@ -139,12 +175,12 @@ export default {
       cursor: pointer;
     }
 
-    .info {
+    .wallet-info {
       .top {
         align-items: baseline;
         display: flex;
 
-        .title {
+        .wallet-title {
           color: #26272a;
           font-size: 16px;
           font-weight: 500;
@@ -162,6 +198,7 @@ export default {
         line-height: 1.33;
         margin-top: 2px;
         user-select: none;
+        background-color: transparent !important;
 
         &.error {
           color: #c234e5;
@@ -170,6 +207,10 @@ export default {
         &.success {
           color: #5f36ea;
         }
+      }
+
+      .network-name {
+        text-transform: lowercase;
       }
     }
 
@@ -203,8 +244,8 @@ export default {
     width: 40px;
   }
 
-  .status {
-    border: solid 2px #fff;
+  .connection-status {
+    border: solid 2px #fff !important;
     border-radius: 50%;
     box-sizing: border-box;
     height: 12px;
@@ -244,12 +285,30 @@ export default {
     border-radius: 12px;
     padding: 6px;
 
-    .female {
+    &.female {
       background-image: linear-gradient(315deg, #ffd8c8, #fba2e3);
     }
 
-    .male {
+    &.male {
       background-image: linear-gradient(135deg, #b29cf6, #a1ead6);
+    }
+  }
+  .address {
+    user-select: none;
+    color: #73757c;
+    font-size: 12px;
+    line-height: 1.4;
+
+    &.primary {
+      color: #73757c;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    &.secondary {
+      color: #26272a;
+      font-size: 18px;
+      line-height: 1.33;
     }
   }
 }
