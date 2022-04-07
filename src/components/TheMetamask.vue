@@ -4,13 +4,12 @@
       <div class="wallet">
         <div class="icon">
           <div :class="[icon, iconTheme]">
-            <v-img
-              :src="`/images/${icon}.png`"
+            <img
+              :src="`images/${icon}.png`"
               :alt="icon"
               class="image"
-            />
+            >
           </div>
-          <div :class="iconTheme" />
         </div>
 
         <div
@@ -41,7 +40,7 @@
           </div>
           <div class="button">
             <img
-              src="@/assets/images/arrow-bottom.svg"
+              src="images/arrow-bottom.svg"
               class="arrow"
               :class="{ inverted: isModalOpen }"
               alt="arrow bottom"
@@ -116,7 +115,7 @@ export default {
         case 'DISCONNECTED':
           this.title = 'Hey,'
           this.status = 'You are disconnected'
-          this.iconTheme = 'WARNING'
+          this.iconTheme = 'skull'
           this.icon = 'alert'
           this.statusClass = 'error'
           this.modalType = 'ConnectModal'
@@ -126,7 +125,7 @@ export default {
         case 'WRONG_NETWORK':
           this.title = 'Hey,'
           this.status = 'Wrong network!'
-          this.iconTheme = 'WARNING'
+          this.iconTheme = 'alert'
           this.icon = 'alert'
           this.statusClass = 'error'
           this.modalType = 'WrongNetworkModal'
@@ -136,7 +135,7 @@ export default {
         case 'USER_NOT_FOUND':
           this.title = 'No account'
           this.status = 'Sign up to continue'
-          this.iconTheme = 'ERROR'
+          this.iconTheme = 'alert'
           this.icon = 'skull'
           this.statusClass = 'error'
           this.modalType = 'RegisterModal'
@@ -144,7 +143,7 @@ export default {
         case 'USER_FOUND':
           this.title = 'Jessica'
           this.status = 'Connected to'
-          this.iconTheme = this.gender || 'ERROR'
+          this.iconTheme = this.gender || 'alert'
           this.icon = this.gender && 'child'
           this.statusClass = 'success'
           this.modalType = 'SwitchAccountModal'

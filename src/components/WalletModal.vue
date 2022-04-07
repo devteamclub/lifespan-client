@@ -2,7 +2,7 @@
   <div class="wallet-modal">
     <div>
       <v-img
-        src="../assets/images/close.svg"
+        src="images/close.svg"
         alt="close icon"
         class="closer"
       />
@@ -15,7 +15,7 @@
             <div class="address-container">
               <div>{{ address }}</div>
               <v-img
-                src="../assets/images/copy.svg"
+                src="images/copy.svg"
                 alt="copy icon"
                 class="copied"
               />
@@ -155,7 +155,7 @@ export default {
   text-align: center;
 }
 
-.info {
+.wallet-info {
   margin-left: 12px;
 }
 
