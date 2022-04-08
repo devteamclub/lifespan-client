@@ -1,5 +1,5 @@
 <template>
-  <div class="item-chip" :style="item.isEvent ? '' : `transform: scale(${getScaleSize})`">
+  <div class="item-chip" :style="getTransformStyles">
     <details class="chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
@@ -13,7 +13,27 @@
         <template v-if="!item.isEvent">
           <div class="info-block">
             <span class="info-title">Year:</span>
-            <span class="info-content">{{ getYear(item.startDate) }}</span>
+            <span class="info-content" @click="dateMenu = true">
+              {{ itemStartYear }}
+              <v-icon size="14">
+                mdi-pencil
+              </v-icon>
+            </span>
+            <v-menu
+              v-model="dateMenu"
+              top
+              attach
+            >
+              <v-date-picker
+                ref="picker"
+                v-model="itemStartYear"
+                width="100"
+                active-picker="YEAR"
+                no-title
+                :min="itemStartYear"
+                @click:year="saveYear"
+              />
+            </v-menu>
           </div>
           <div class="info-block source">
             <span class="info-title">Source:</span>
@@ -42,8 +62,8 @@
     </details>
     <div class="stripe">
       <div
-        v-for="category in item.categoryList"
-        :key="category.id"
+        v-for="(category, i) in item.categoryList"
+        :key="i + category.color"
         class="stripe-item"
         :style="{ backgroundColor: item.isEvent ? '' : category.color }"
       />
@@ -54,6 +74,8 @@
 <script>
 import { getYear } from '@/services/dateService'
 import UpDownRating from '@/components/UpDownRating'
+import api from '@/api'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ItemChip',
@@ -73,10 +95,14 @@ export default {
   },
   data() {
     return {
-      isActive: false
+      isActive: false,
+      dateMenu: false,
+      itemStartYear: getYear(this.item.startDate),
+      isYearSaved: false
     }
   },
   computed: {
+    ...mapGetters(['getUser']),
     getScaleSize() {
       const averageRatingValue = (this.item.ratingPositive - this.item.ratingNegative) / 2
       if (averageRatingValue >= 1000) return '1.45'
@@ -88,9 +114,38 @@ export default {
       if (averageRatingValue > 0) return '1.15'
       if (averageRatingValue < 0) return '0.95'
       return '1'
+    },
+    getTransformStyles() {
+      let style = 'transform: '
+      if (!this.item.isEvent) {
+        style += `scale(${this.getScaleSize})`
+      }
+      if (this.isYearSaved) {
+        style += 'translateY(2000px); opacity: 0;'
+      }
+      return style
+    }
+  },
+  watch: {
+    dateMenu(val) {
+      val && this.$nextTick(() => (this.$refs.picker.internalActivePicker = 'YEAR'))
     }
   },
   methods: {
+    async saveYear(year) {
+      if (+this.itemStartYear === year) return
+      // TODO: update list of prediction when it will be returned from api
+      const dateWithNewYear = new Date(this.item.startDate).setFullYear(year)
+      this.isYearSaved = true
+      const prediction = {
+        eventId: this.item.id,
+        startDate: new Date(dateWithNewYear).toISOString(),
+        endDate: this.item.endDate
+      }
+      await api.users.updatePrediction(this.getUser.id, prediction)
+      this.$emit('fetchPredictions')
+      this.$refs.picker.internalActivePicker = 'YEAR'
+    },
     getYear,
     getCategoriesList() {
       const categoryListTitles = this.item.categoryList.map((item) => item.title)
@@ -101,9 +156,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.info-block {
+  position: relative;
+}
+
 .item-chip {
   position: relative;
   width: 320px;
+  transition: all 2s ease;
 
   .stripe {
     position: absolute;
@@ -179,6 +239,7 @@ export default {
       }
 
       .info-content {
+        cursor: pointer;
         &.link {
           display: block;
           overflow: hidden;

@@ -21,20 +21,21 @@
             {{ dateKey }}
           </div>
           <div
-            v-for="(prediction, k) in items"
-            :key="k"
+            v-for="prediction in items"
+            :key="prediction.id"
             class="chip-wrapper"
           >
             <ItemChip
               v-if="!prediction.isEvent"
               :item="prediction"
+              @fetchPredictions="fetchPredictions"
             />
           </div>
         </div>
         <div class="events">
           <div
-            v-for="(event, j) in items"
-            :key="j"
+            v-for="event in items"
+            :key="event.id"
             class="chip-wrapper"
           >
             <ItemChip
@@ -240,7 +241,7 @@ export default {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
+    min-height: 250px;
 
     &:nth-child(even) {
       .predictions {
