@@ -40,7 +40,7 @@
           </div>
           <div class="button">
             <img
-              src="images/arrow-bottom.svg"
+              src="/images/arrow-bottom.svg"
               class="arrow"
               :class="{ inverted: isShowModal }"
               alt="arrow bottom"

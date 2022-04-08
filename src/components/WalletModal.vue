@@ -5,7 +5,7 @@
   >
     <div>
       <v-img
-        src="images/close.svg"
+        src="/images/close.svg"
         alt="close icon"
         class="closer"
         @click="$emit('close')"
@@ -18,7 +18,7 @@
           <div class="connection-status">
             <div class="icon-row">
               <v-img
-                src="images/metamask.svg"
+                src="/images/metamask.svg"
                 alt="metamask icon"
                 size="28px"
                 height="26px"
@@ -26,13 +26,13 @@
               />
             </div>
             <v-img
-              src="images/connected.svg"
+              src="/images/connected.svg"
               alt="status icon"
               class="status-icon"
             />
             <div class="icon-row">
               <v-img
-                src="images/polygon.svg"
+                src="/images/polygon.svg"
                 alt="network icon"
                 width="28px"
                 height="26px"
@@ -44,7 +44,7 @@
             <div class="address-container">
               <div>{{ formattedAddress }}</div>
               <v-img
-                src="images/copy.svg"
+                src="/images/copy.svg"
                 alt="copy icon"
                 class="copy-icon"
                 :class="{ copied: isCopied }"
@@ -63,7 +63,7 @@
           <div class="connection-status">
             <div class="icon-row">
               <v-img
-                src="images/metamask.svg"
+                src="/images/metamask.svg"
                 alt="metamask icon"
                 size="28px"
                 height="26px"
@@ -72,7 +72,7 @@
             </div>
             <div>
               <v-img
-                src="images/disconnected.svg"
+                src="/images/disconnected.svg"
                 alt="status icon"
                 class="status-icon"
                 width="28px"
@@ -81,7 +81,7 @@
             </div>
             <div class="icon-row">
               <v-img
-                src="images/polygon.svg"
+                src="/images/polygon.svg"
                 alt="network icon"
                 width="28px"
                 height="26px"
