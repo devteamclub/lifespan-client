@@ -142,9 +142,9 @@ export default {
         startDate: new Date(dateWithNewYear).toISOString(),
         endDate: this.item.endDate
       }
-      const data = await api.users.updatePrediction(this.getUser.id, prediction)
+      await api.users.updatePrediction(this.getUser.id, prediction)
+      this.$emit('fetchPredictions')
       this.$refs.picker.internalActivePicker = 'YEAR'
-      console.log(data)
     },
     getYear,
     getCategoriesList() {

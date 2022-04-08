@@ -28,6 +28,7 @@
             <ItemChip
               v-if="!prediction.isEvent"
               :item="prediction"
+              @fetchPredictions="fetchPredictions"
             />
           </div>
         </div>
