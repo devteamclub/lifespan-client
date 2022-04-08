@@ -36,93 +36,64 @@
         <v-divider v-if="value === 'General Events'" />
 
         <v-list v-if="value === 'General Events'">
-          <v-list-item>
+          <v-list-item v-for="category in categories" :key="category.id">
             <v-list-item-action>
               <v-switch
-                v-model="option1"
+                v-model="options[category.title]"
                 color="purple"
+                @change="selectCategory($event, category.id)"
               />
             </v-list-item-action>
-            <v-list-item-title>Category 1</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch
-                v-model="option2"
-                color="purple"
-              />
-            </v-list-item-action>
-            <v-list-item-title>Category 2</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch
-                v-model="option3"
-                color="purple"
-              />
-            </v-list-item-action>
-            <v-list-item-title>Category 3</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch
-                v-model="option4"
-                color="purple"
-              />
-            </v-list-item-action>
-            <v-list-item-title>Category 4</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch
-                v-model="option5"
-                color="purple"
-              />
-            </v-list-item-action>
-            <v-list-item-title>Category 5</v-list-item-title>
+            <v-list-item-title>{{ category.title }}</v-list-item-title>
           </v-list-item>
         </v-list>
-
-        <v-card-actions>
-          <v-spacer />
-
-          <v-btn
-            text
-            @click="menu = false"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            color="primary"
-            text
-            @click="menu = false"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-menu>
   </div>
 </template>
 
 <script>
+import api from '@/api'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'TheServicesMenu',
+  props: {
+    selectedCategories: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       menu: false,
-      option1: false,
-      option2: true,
-      option3: false,
-      option4: false,
-      option5: true,
       value: 'General Events',
-      items: ['Tree', 'General Events', 'DApp ABC']
+      items: ['Tree', 'General Events', 'DApp ABC'],
+      categories: [],
+      options: [],
+      selectedCategoriesIds: []
+    }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
+  },
+  mounted() {
+    this.fetchPredictionsCategories()
+  },
+  methods: {
+    async fetchPredictionsCategories() {
+      const { data: categories } = await api.predictions.getPredictionsCategories()
+      if (!categories) return
+      this.categories = categories
+      categories.forEach(({ title, id }) => (this.options[title] = this.selectedCategories.includes(id)))
+    },
+    selectCategory(needToAdd, selectedCategoryId) {
+      if (needToAdd) {
+        this.selectedCategories.push(selectedCategoryId)
+      } else {
+        this.selectedCategories = this.selectedCategories.filter((id) => id !== selectedCategoryId)
+      }
+      this.$emit('saveSelectedCategories', this.selectedCategories)
     }
   }
 }
