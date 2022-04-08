@@ -62,8 +62,8 @@
     </details>
     <div class="stripe">
       <div
-        v-for="category in item.categoryList"
-        :key="category.id"
+        v-for="(category, i) in item.categoryList"
+        :key="i + category.color"
         class="stripe-item"
         :style="{ backgroundColor: item.isEvent ? '' : category.color }"
       />
