@@ -21,26 +21,29 @@
             {{ dateKey }}
           </div>
           <div
-            v-for="(prediction, k) in items"
-            :key="k"
+            v-for="prediction in items"
+            :key="prediction.id"
             class="chip-wrapper"
           >
             <ItemChip
               v-if="!prediction.isEvent"
               :item="prediction"
+              @fetchPredictions="fetchPredictions"
             />
           </div>
         </div>
         <div class="events">
           <div
-            v-for="(event, j) in items"
-            :key="j"
+            v-for="event in items"
+            :key="event.id"
+            :class="{ lasting: getYearRange(event) > 0 }"
             class="chip-wrapper"
           >
             <ItemChip
               v-if="event.isEvent"
               :item="event"
               :age="getPersonAge"
+              v-prlx="{ speed: getYearRange(event) }"
             />
           </div>
         </div>
@@ -193,6 +196,12 @@ export default {
         top: isFirst ? element.offsetTop : element.offsetTop + 1, // plus 1px to scroll correctly on the element
         behavior: 'smooth'
       })
+    },
+    getYearRange(event) {
+      let range = this.getYear(event.endDate) - this.getYear(event.startDate)
+      if (range <= 0) return 0
+      range = range * 3 / 100
+      return range > 1 ? 1 : Math.abs(range - 1)
     }
   }
 }
@@ -240,7 +249,7 @@ export default {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
+    min-height: 250px;
 
     &:nth-child(even) {
       .predictions {
@@ -260,10 +269,15 @@ export default {
     gap: 200px;
     height: 100%;
     padding: 10px 15px 48px 120px;
-
+  }
+  .predictions {
     & > div:nth-child(even) {
       margin-left: 30%;
     }
+  }
+
+  .lasting {
+    margin-left: 30%;
   }
 
   .predictions {
@@ -282,7 +296,7 @@ export default {
   }
 
   .events {
-    background-color: rgba(var(--timeline-accent-color-light), 0.5);
+    background-color: #f8f8f8;
   }
 
   .chip-wrapper {
