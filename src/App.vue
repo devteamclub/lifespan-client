@@ -1,6 +1,7 @@
 <template>
   <v-app id="app">
     <v-main>
+      <TheMetamask />
       <TheTimeline v-if="getUser" />
     </v-main>
   </v-app>
@@ -10,10 +11,14 @@
 import api from '@/api'
 import { mapActions, mapGetters } from 'vuex'
 import TheTimeline from '@/components/TheTimeline'
+import TheMetamask from '@/components/TheMetamask'
 
 export default {
   name: 'App',
-  components: { TheTimeline },
+  components: {
+    TheTimeline,
+    TheMetamask
+  },
   data() {
     return {
       defaultTestUserId: 10
