@@ -1,15 +1,44 @@
 <template>
-  <div class="wallet-modal">
+  <div
+    class="wallet-modal"
+    :class="{ show: isShow }"
+  >
     <div>
       <v-img
         src="images/close.svg"
         alt="close icon"
         class="closer"
+        @click="$emit('close')"
       />
       <div class="content">
-        <template v-if="isSwitchModal">
+        <div
+          v-if="isSwitchModal"
+          class="d-flex align-center"
+        >
           <div class="connection-status">
-            1
+            <div class="icon-row">
+              <v-img
+                src="images/metamask.svg"
+                alt="metamask icon"
+                size="28px"
+                height="26px"
+                contain
+              />
+            </div>
+            <v-img
+              src="images/connected.svg"
+              alt="status icon"
+              class="status-icon"
+            />
+            <div class="icon-row">
+              <v-img
+                src="images/polygon.svg"
+                alt="network icon"
+                width="28px"
+                height="26px"
+                contain
+              />
+            </div>
           </div>
           <div class="wallet-info">
             <div class="address-container">
@@ -24,9 +53,46 @@
               {{ hint }}
             </div>
           </div>
-        </template>
+        </div>
+        <div v-else-if="isWrongNetworkModal">
+          <div class="modal-title">
+            {{ title }}
+          </div>
+          <div class="connection-status">
+            <div class="icon-row">
+              <v-img
+                src="images/metamask.svg"
+                alt="metamask icon"
+                size="28px"
+                height="26px"
+                contain
+              />
+            </div>
+            <div>
+              <v-img
+                src="images/disconnected.svg"
+                alt="status icon"
+                class="status-icon"
+                width="28px"
+                contain
+              />
+            </div>
+            <div class="icon-row">
+              <v-img
+                src="images/polygon.svg"
+                alt="network icon"
+                width="28px"
+                height="26px"
+                contain
+              />
+            </div>
+          </div>
+          <div class="hint">
+            {{ hint }}
+          </div>
+        </div>
         <template v-else>
-          <div class="title">
+          <div class="modal-title">
             {{ title }}
           </div>
           <div class="hint">
@@ -55,6 +121,10 @@ export default {
   name: 'WalletModal',
   components: { VueMetamask },
   props: {
+    isShow: {
+      type: Boolean,
+      required: true
+    },
     modalType: {
       type: String,
       required: true
@@ -79,8 +149,10 @@ export default {
   },
   computed: {
     isSwitchModal() {
-      console.log(this.modalType)
       return this.modalType === 'SwitchAccountModal'
+    },
+    isWrongNetworkModal() {
+      return this.modalType === 'WrongNetworkModal'
     }
   },
   created() {
@@ -100,9 +172,9 @@ export default {
           this.buttonText = 'Switch account'
           break
         case 'WrongNetworkModal':
-          this.title = ''
-          this.hint = 'Please connect your wallet to {expectedNetworkName} Network to start using the app.'
-          this.buttonText = 'Sign up'
+          this.title = 'Wrong network detected'
+          this.hint = `Please connect your wallet to ${this.networkName || 'correct'} Network to start using the app.`
+          this.buttonText = `Switch to ${this.networkName || 'another network'}`
           break
         case 'ConnectModal':
           this.title = 'Metamask connection is required'
@@ -139,6 +211,13 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   width: 488px;
+  opacity: 0;
+  visibility: hidden;
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .content {
@@ -147,9 +226,10 @@ export default {
   flex-direction: column;
 }
 
-.title {
+.modal-title {
   color: #26272a;
   font-size: 22px;
+  font-weight: 600;
   line-height: 1.45;
   margin-top: 16px;
   text-align: center;
@@ -200,6 +280,7 @@ export default {
   box-shadow: inset 0 -1px 0 0 rgba(#7c5cff, 0.1);
   color: #7c5cff;
   font-size: 16px;
+  font-weight: 600;
   letter-spacing: -0.2px;
   line-height: 1.5;
   outline: 0;
@@ -228,6 +309,34 @@ export default {
   top: 16px;
   width: 16px;
   cursor: pointer;
+}
 
+.connection-status {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  .status-icon {
+    height: 28px;
+    margin-left: 2px;
+    margin-right: 2px;
+    width: 28px;
+  }
+
+  .icon-row {
+    align-items: center;
+    background-color: #fafafa;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    user-select: none;
+    height: 64px;
+    width: 64px;
+
+    .icon {
+      width: 28px;
+      height: 26px;
+    }
+  }
 }
 </style>

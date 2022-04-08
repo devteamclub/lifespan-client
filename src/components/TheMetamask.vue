@@ -4,11 +4,11 @@
       <div class="wallet">
         <div class="icon">
           <div :class="[icon, iconTheme]">
-            <img
+            <v-img
               :src="`images/${icon}.png`"
               :alt="icon"
               class="image"
-            >
+            />
           </div>
         </div>
 
@@ -42,17 +42,18 @@
             <img
               src="images/arrow-bottom.svg"
               class="arrow"
-              :class="{ inverted: isModalOpen }"
+              :class="{ inverted: isShowModal }"
               alt="arrow bottom"
             >
           </div>
         </div>
         <WalletModal
-          v-if="isShowModal"
+          :is-show="isShowModal"
           :network-name="networkName"
           :address="formattedAddress"
           :modal-type="modalType"
           @onComplete="onComplete"
+          @close="closeModal"
         />
       </div>
     </div>
@@ -71,8 +72,7 @@ export default {
       status: '',
       title: '',
       statusClass: '',
-      isModalOpen: false,
-      state: 'USER_NOT_FOUND',
+      state: 'WRONG_NETWORK',
       gender: 'male',
       address: '',
       icon: '',
@@ -96,19 +96,19 @@ export default {
   },
   methods: {
     onComplete(data) {
-      this.isShowModal = false
-      console.log(data)
+      this.closeModal()
       if (data.type === 'NO_LOGIN') {
         this.state = 'DISCONNECTED'
         this.address = ''
-        console.log(1)
       } else {
-        console.log(2)
         this.networkName = data.type
         this.state = 'USER_FOUND'
         this.address = data.metaMaskAddress
       }
       this.validateState()
+    },
+    closeModal() {
+      this.isShowModal = false
     },
     validateState() {
       switch (this.state) {
@@ -157,8 +157,8 @@ export default {
 <style lang="scss" scoped>
 .metamask {
   position: fixed;
-  left: 110px;
-  top: 110px;
+  left: 256px;
+  top: 20px;
   z-index: 11;
 }
 
