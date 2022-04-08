@@ -5,7 +5,7 @@
         <div class="icon">
           <div :class="[icon, iconTheme]">
             <v-img
-              :src="`images/${icon}.png`"
+              :src="`/images/${icon}.png`"
               :alt="icon"
               class="image"
             />
