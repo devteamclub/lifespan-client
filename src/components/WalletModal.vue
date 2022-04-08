@@ -42,11 +42,13 @@
           </div>
           <div class="wallet-info">
             <div class="address-container">
-              <div>{{ address }}</div>
+              <div>{{ formattedAddress }}</div>
               <v-img
                 src="images/copy.svg"
                 alt="copy icon"
-                class="copied"
+                class="copy-icon"
+                :class="{ copied: isCopied }"
+                @click="copyAddress"
               />
             </div>
             <div class="status">
@@ -133,6 +135,11 @@ export default {
       type: String,
       required: true
     },
+    formattedAddress: {
+      type: String,
+      required: false,
+      default: ''
+    },
     address: {
       type: String,
       required: false,
@@ -144,7 +151,8 @@ export default {
       isConnect: false,
       title: '',
       hint: '',
-      buttonText: ''
+      buttonText: '',
+      isCopied: false
     }
   },
   computed: {
@@ -155,10 +163,18 @@ export default {
       return this.modalType === 'WrongNetworkModal'
     }
   },
-  created() {
-    this.validateState()
+  watch: {
+    isShow() {
+      this.validateState()
+    }
   },
   methods: {
+    copyAddress() {
+      if (this.isCopied) return
+      this.isCopied = true
+      setTimeout(() => (this.isCopied = false), 1000)
+      navigator.clipboard.writeText(this.address)
+    },
     validateState() {
       switch (this.modalType) {
         case 'RegisterModal':
@@ -294,12 +310,16 @@ export default {
   }
 }
 
-.copied {
+.copy-icon {
   height: 16px;
   width: 16px;
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 1;
   margin-left: 4px;
+  &.copied {
+    opacity: 0.5;
+    cursor: default;
+  }
 }
 
 .closer {

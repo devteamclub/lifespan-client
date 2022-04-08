@@ -50,7 +50,8 @@
         <WalletModal
           :is-show="isShowModal"
           :network-name="networkName"
-          :address="formattedAddress"
+          :formatted-address="formattedAddress"
+          :address="address"
           :modal-type="modalType"
           @onComplete="onComplete"
           @close="closeModal"
@@ -72,7 +73,7 @@ export default {
       status: '',
       title: '',
       statusClass: '',
-      state: 'WRONG_NETWORK',
+      state: 'USER_NOT_FOUND',
       gender: 'male',
       address: '',
       icon: '',
@@ -157,8 +158,8 @@ export default {
 <style lang="scss" scoped>
 .metamask {
   position: fixed;
-  left: 256px;
-  top: 20px;
+  left: 195px;
+  top: 10px;
   z-index: 11;
 }
 
