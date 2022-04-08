@@ -234,10 +234,6 @@ export default {
     }
   }
 
-  .switchAccountModal, .wrongNetworkModal, .registerModal, .connectModal {
-    position: absolute;
-  }
-
   .icon {
     height: 40px;
     position: relative;
