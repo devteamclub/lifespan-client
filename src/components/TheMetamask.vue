@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import api from '@/api'
 import WalletModal from '@/components/WalletModal'
 
 export default {
@@ -96,8 +97,10 @@ export default {
     this.validateState()
   },
   methods: {
-    onComplete(data) {
+    async onComplete(data) {
       this.closeModal()
+      const da = await api.users.getUserForestToken()
+      console.log(da, 'ok')
       if (data.type === 'NO_LOGIN') {
         this.state = 'DISCONNECTED'
         this.address = ''

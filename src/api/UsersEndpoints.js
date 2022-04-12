@@ -108,3 +108,18 @@ export const getUserSettings = async(userId) => {
     }
   }
 }
+
+export const getUserForestToken = async() => {
+  try {
+    const { data } = await publicApi.get('https://api.plush.dev/forest/tokens/my')
+    return { data, error: null }
+  } catch ({ response }) {
+    return {
+      data: null,
+      error: {
+        text: response.data,
+        status: response.status
+      }
+    }
+  }
+}
