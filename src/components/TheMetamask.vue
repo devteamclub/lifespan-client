@@ -100,7 +100,9 @@ export default {
     async onComplete(data) {
       this.closeModal()
       const da = await api.users.getUserForestToken()
-      console.log(da, 'ok')
+      console.log(da, 'forest')
+      const ne = await api.users.getUserProfile()
+      console.log(ne, 'profile')
       if (data.type === 'NO_LOGIN') {
         this.state = 'DISCONNECTED'
         this.address = ''

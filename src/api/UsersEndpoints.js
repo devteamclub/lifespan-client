@@ -123,3 +123,18 @@ export const getUserForestToken = async() => {
     }
   }
 }
+
+export const getUserProfile = async() => {
+  try {
+    const { data } = await publicApi.get('https://api.plush.dev/user/users/profile')
+    return { data, error: null }
+  } catch ({ response }) {
+    return {
+      data: null,
+      error: {
+        text: response.data,
+        status: response.status
+      }
+    }
+  }
+}
