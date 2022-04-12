@@ -138,3 +138,18 @@ export const getUserProfile = async() => {
     }
   }
 }
+
+export const getNonce = async(walletAddress) => {
+  try {
+    const { data } = await publicApi.get(`https://api.plush.dev/user/auth/nonce/${walletAddress}`)
+    return { data, error: null }
+  } catch ({ response }) {
+    return {
+      data: null,
+      error: {
+        text: response.data,
+        status: response.status
+      }
+    }
+  }
+}

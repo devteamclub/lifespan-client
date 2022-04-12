@@ -111,6 +111,7 @@
     </button>
     <VueMetamask
       v-if="isConnect"
+      :user-message="userMessage"
       @onComplete="onComplete"
     />
   </div>
@@ -144,6 +145,10 @@ export default {
       type: String,
       required: false,
       default: ''
+    },
+    nonce: {
+      type: Number,
+      required: true
     }
   },
   data() {
@@ -161,6 +166,9 @@ export default {
     },
     isWrongNetworkModal() {
       return this.modalType === 'WrongNetworkModal'
+    },
+    userMessage() {
+      return `Please sign this message to connect to Plush. Nonce: ${this.nonce}`
     }
   },
   watch: {
@@ -198,7 +206,7 @@ export default {
           this.buttonText = 'Connect'
       }
     },
-    onComplete(data) {
+    async onComplete(data) {
       this.$emit('onComplete', data)
     },
     connectWallet() {

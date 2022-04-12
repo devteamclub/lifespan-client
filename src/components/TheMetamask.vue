@@ -99,6 +99,8 @@ export default {
   methods: {
     async onComplete(data) {
       this.closeModal()
+      const nonce = await api.users.getNonce(data.metaMaskAddress)
+      console.log(nonce, 'nonce')
       const da = await api.users.getUserForestToken()
       console.log(da, 'forest')
       const ne = await api.users.getUserProfile()
