@@ -11,7 +11,7 @@
 import api from '@/api'
 import { mapActions, mapGetters } from 'vuex'
 import TheTimeline from '@/components/TheTimeline'
-import TheMetamask from '@/components/TheMetamask'
+import TheMetamask from '@/components/TheWallet'
 
 export default {
   name: 'App',

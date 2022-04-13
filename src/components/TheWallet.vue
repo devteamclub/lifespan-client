@@ -1,7 +1,7 @@
 <template>
-  <div class="metamask">
+  <div class="wallet">
     <div>
-      <div class="wallet">
+      <div class="wallet-chip">
         <div class="icon">
           <div :class="[icon, iconTheme]">
             <v-img
@@ -51,6 +51,7 @@
           :is-show="isShowModal"
           :network-name="networkName"
           :formatted-address="formattedAddress"
+          nonce="123"
           :address="address"
           :modal-type="modalType"
           @onComplete="onComplete"
@@ -97,21 +98,26 @@ export default {
     this.validateState()
   },
   methods: {
-    async onComplete(data) {
+    async onComplete(metamaskData) {
       this.closeModal()
-      const nonce = await api.users.getNonce(data.metaMaskAddress)
-      console.log(nonce, 'nonce')
+      const { data: { nonce } } = await api.users.getNonce(metamaskData.metaMaskAddress)
+      const hash = await this.signMessage(metamaskData, nonce)
+      const messageResult = {
+        publicAddress: metamaskData.metaMaskAddress,
+        signature: hash
+      }
+      await api.users.userLogin(messageResult)
       const da = await api.users.getUserForestToken()
       console.log(da, 'forest')
       const ne = await api.users.getUserProfile()
       console.log(ne, 'profile')
-      if (data.type === 'NO_LOGIN') {
+      if (metamaskData.type === 'NO_LOGIN') {
         this.state = 'DISCONNECTED'
         this.address = ''
       } else {
-        this.networkName = data.type
+        this.networkName = metamaskData.type
         this.state = 'USER_FOUND'
-        this.address = data.metaMaskAddress
+        this.address = metamaskData.metaMaskAddress
       }
       this.validateState()
     },
@@ -157,20 +163,24 @@ export default {
           this.modalType = 'SwitchAccountModal'
           break
       }
+    },
+    async signMessage(data, nonce) {
+      const message = `Please sign this message to connect to Plush. Nonce: ${nonce}`
+      return await data.web3.eth.personal.sign(message, data.metaMaskAddress.toLowerCase())
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.metamask {
+.wallet {
   position: fixed;
   left: 195px;
   top: 10px;
   z-index: 11;
 }
 
-.wallet {
+.wallet-chip {
   display: flex;
   position: relative;
 

@@ -109,8 +109,8 @@
     >
       {{ buttonText }}
     </button>
-    <VueMetamask
-      v-if="isConnect"
+    <AppMetamask
+      ref="metamask"
       :user-message="userMessage"
       @onComplete="onComplete"
     />
@@ -118,11 +118,11 @@
 </template>
 
 <script>
-import VueMetamask from 'vue-metamask'
+import AppMetamask from '@/components/AppMetamask'
 
 export default {
   name: 'WalletModal',
-  components: { VueMetamask },
+  components: { AppMetamask },
   props: {
     isShow: {
       type: Boolean,
@@ -147,7 +147,7 @@ export default {
       default: ''
     },
     nonce: {
-      type: Number,
+      type: String,
       required: true
     }
   },
@@ -210,7 +210,7 @@ export default {
       this.$emit('onComplete', data)
     },
     connectWallet() {
-      this.isConnect = true
+      this.$refs.metamask.init()
     }
   }
 }
