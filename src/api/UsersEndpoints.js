@@ -109,21 +109,6 @@ export const getUserSettings = async(userId) => {
   }
 }
 
-export const getUserForestToken = async() => {
-  try {
-    const { data } = await publicApi.get('https://api.plush.dev/forest/tokens/my')
-    return { data, error: null }
-  } catch ({ response }) {
-    return {
-      data: null,
-      error: {
-        text: response.data,
-        status: response.status
-      }
-    }
-  }
-}
-
 // export const userLogin = async(messageData) => {
 //   try {
 //     const { data } = await publicApi.post('https://api.plush.dev/user/auth/login', messageData)
@@ -159,19 +144,42 @@ export const userLogin = async(messageData) => {
   return data
 }
 
-export const getUserProfile = async() => {
-  try {
-    const { data } = await publicApi.get('https://api.plush.dev/user/users/profile')
-    return { data, error: null }
-  } catch ({ response }) {
-    return {
-      data: null,
-      error: {
-        text: response.data,
-        status: response.status
-      }
-    }
+export const getUserForestToken = async() => {
+  const response = await fetch('https://api.plush.dev/forest/tokens/my', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw data
   }
+
+  return data
+}
+
+export const getUserProfile = async() => {
+  const response = await fetch('https://api.plush.dev/user/users/profile', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw data
+  }
+
+  return data
 }
 
 export const getNonce = async(walletAddress) => {
