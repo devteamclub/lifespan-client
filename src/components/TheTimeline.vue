@@ -41,9 +41,9 @@
           >
             <ItemChip
               v-if="event.isEvent"
+              v-prlx="{ speed: getYearRange(event) }"
               :item="event"
               :age="getPersonAge"
-              v-prlx="{ speed: getYearRange(event) }"
             />
           </div>
         </div>
@@ -178,7 +178,7 @@ export default {
     handleDatesInfo() {
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach((entry) => {
-          if (entry.intersectionRatio > 0) {
+          if (entry.boundingClientRect.top <= 0) {
             this.currentIntervalStartDate = entry.target.dataset.intervalDate
             observer.unobserve(entry.target)
           }

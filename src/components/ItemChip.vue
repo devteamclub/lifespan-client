@@ -50,7 +50,7 @@
         </template>
         <div v-else class="info-block">
           <span class="info-title">Age:</span>
-          <span class="info-content">{{ age }} years old</span>
+          <span class="info-content">{{ getAge }} years old</span>
         </div>
 
         <button class="edit-btn">
@@ -124,6 +124,10 @@ export default {
         style += 'translateY(2000px); opacity: 0;'
       }
       return style
+    },
+    getAge() {
+      if (this.getYear(this.item.startDate) < this.getYear(this.getUser.birthday)) return 0
+      return this.getYear(this.item.startDate) - this.getYear(this.getUser.birthday)
     }
   },
   watch: {
