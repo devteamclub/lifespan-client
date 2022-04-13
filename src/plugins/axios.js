@@ -7,8 +7,7 @@ const publicApi = ax.create({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'
-  },
-  withCredentials: true
+  }
 })
 
 publicApi.interceptors.response.use(
