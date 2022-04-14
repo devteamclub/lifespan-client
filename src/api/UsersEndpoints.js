@@ -144,25 +144,6 @@ export const userLogin = async(messageData) => {
   return data
 }
 
-export const getUserForestToken = async() => {
-  const response = await fetch('https://api.plush.dev/forest/tokens/my', {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include'
-  })
-
-  const data = await response.json()
-
-  if (!response.ok) {
-    throw data
-  }
-
-  return data
-}
-
 export const getUserProfile = async() => {
   const response = await fetch('https://api.plush.dev/user/users/profile', {
     method: 'GET',

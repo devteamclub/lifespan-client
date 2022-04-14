@@ -81,7 +81,8 @@ export default {
       icon: '',
       modalType: '',
       requiredAddressLength: 42,
-      networkName: ''
+      networkName: '',
+      userProfile: null
     }
   },
   computed: {
@@ -107,10 +108,7 @@ export default {
         signature: hash
       }
       await api.users.userLogin(messageResult)
-      const da = await api.users.getUserForestToken()
-      console.log(da, 'forest')
-      const ne = await api.users.getUserProfile()
-      console.log(ne, 'profile')
+      this.userProfile = await api.users.getUserProfile()
       if (metamaskData.type === 'NO_LOGIN') {
         this.state = 'DISCONNECTED'
         this.address = ''
@@ -155,10 +153,10 @@ export default {
           this.modalType = 'RegisterModal'
           break
         case 'USER_FOUND':
-          this.title = 'Jessica'
+          this.title = this.userProfile.name
           this.status = 'Connected to'
-          this.iconTheme = this.gender || 'alert'
-          this.icon = this.gender && 'child'
+          this.iconTheme = this.userProfile.gender || 'alert'
+          this.icon = this.userProfile.gender && 'child'
           this.statusClass = 'success'
           this.modalType = 'SwitchAccountModal'
           break
