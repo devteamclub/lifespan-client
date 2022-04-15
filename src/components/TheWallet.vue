@@ -101,14 +101,13 @@ export default {
     async onComplete(metamaskData) {
       this.closeModal()
       const { data } = await api.users.getUserProfile()
-      if (!data) {
+      this.userProfile = data
+      if (!this.userProfile) {
         const signature = await this.getNonceAndSignMessage(metamaskData)
         await this.loginUserToPlushSystem(metamaskData.metaMaskAddress, signature)
         const { data } = await api.users.getUserProfile()
         this.userProfile = data
       }
-      console.log(data, 'data')
-      this.userProfile = data
       if (metamaskData.type === 'NO_LOGIN') {
         this.state = 'DISCONNECTED'
         this.address = ''
@@ -117,8 +116,6 @@ export default {
         this.state = 'USER_FOUND'
         this.address = metamaskData.metaMaskAddress
       }
-      console.log(this.state, 'state')
-      console.log(this.userProfile, 'userProfile')
       this.validateState()
     },
     async signMessage(data, nonce) {
@@ -306,11 +303,11 @@ export default {
     border-radius: 12px;
     padding: 6px;
 
-    &.female {
+    &.FEMALE {
       background-image: linear-gradient(315deg, #ffd8c8, #fba2e3);
     }
 
-    &.male {
+    &.MALE {
       background-image: linear-gradient(135deg, #b29cf6, #a1ead6);
     }
   }
