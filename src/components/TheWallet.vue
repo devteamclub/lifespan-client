@@ -164,10 +164,10 @@ export default {
           this.modalType = 'RegisterModal'
           break
         case 'USER_FOUND':
-          this.title = this.userProfile.name ? `Hey, ${this.userProfile.name}` : 'Hey,'
+          this.title = this.userProfile.childs[0].name ? `Hey, ${this.userProfile.childs[0].name}` : 'Hey,'
           this.status = 'Connected to'
-          this.iconTheme = this.userProfile.gender || 'alert'
-          this.icon = this.userProfile.gender && 'child'
+          this.iconTheme = this.userProfile.childs[0].gender || 'alert'
+          this.icon = this.userProfile.childs[0].gender && 'child'
           this.statusClass = 'success'
           this.modalType = 'SwitchAccountModal'
           break
