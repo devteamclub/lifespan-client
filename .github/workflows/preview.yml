@@ -26,6 +26,7 @@ jobs:
           VUE_APP_PROJECT_ID: "${{ secrets.APP_PROJECT_ID }}"
           VUE_APP_API_URL: https://api.lifespan.plush.dev
           VUE_APP_P_API_URL: https://api.lsp.dev-team.club
+          VUE_APP_PLUSH_API_URL: https://api.plush.dev
       - name: Push to Firebase preview
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:

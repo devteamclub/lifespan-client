@@ -1,7 +1,8 @@
-import { publicApi, predictionsApi } from '@/plugins/axios'
+import { publicApi, predictionsApi, plushApi } from '@/plugins/axios'
 
 const PERSONAL_HANDLER = 'v1/personal'
 const PREDICTION_HANDLER = 'v1/prediction'
+const PLUSH_USER = 'user'
 const V1 = 'v1'
 
 export const getPersonalChapters = async(userId) => {
@@ -109,63 +110,39 @@ export const getUserSettings = async(userId) => {
   }
 }
 
-// export const userLogin = async(messageData) => {
-//   try {
-//     const { data } = await publicApi.post('https://api.plush.dev/user/auth/login', messageData)
-//     return { data, error: null }
-//   } catch ({ response }) {
-//     return {
-//       data: null,
-//       error: {
-//         text: response.data,
-//         status: response.status
-//       }
-//     }
-//   }
-// }
-
 export const userLogin = async(messageData) => {
-  const response = await fetch('https://api.plush.dev/user/auth/login', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: JSON.stringify(messageData)
-  })
-
-  const data = await response.json()
-
-  if (!response.ok) {
-    throw data
+  try {
+    const { data } = await plushApi.post(`${PLUSH_USER}/auth/login`, messageData)
+    return { data, error: null }
+  } catch ({ response }) {
+    return {
+      data: null,
+      error: {
+        text: response.data,
+        status: response.status
+      }
+    }
   }
-
-  return data
 }
 
 export const getUserProfile = async() => {
-  const response = await fetch('https://api.plush.dev/user/users/profile', {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include'
-  })
-
-  const data = await response.json()
-
-  if (!response.ok) {
-    throw data
+  try {
+    const { data } = await plushApi.get(`${PLUSH_USER}/users/profile`)
+    return { data, error: null }
+  } catch ({ response }) {
+    return {
+      data: null,
+      error: {
+        text: response.data,
+        status: response.status
+      }
+    }
   }
-
-  return data
 }
 
 export const getNonce = async(walletAddress) => {
   try {
-    const { data } = await publicApi.get(`https://api.plush.dev/user/auth/nonce/${walletAddress}`)
+    const { data } = await plushApi.get(`${PLUSH_USER}/auth/nonce/${walletAddress}`)
     return { data, error: null }
   } catch ({ response }) {
     return {

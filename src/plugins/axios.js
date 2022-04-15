@@ -42,4 +42,25 @@ predictionsApi.interceptors.response.use(
   }
 )
 
-export { publicApi, predictionsApi }
+const plushApi = ax.create({
+  baseURL: `${process.env.VUE_APP_PLUSH_API_URL}/`,
+  withCredentials: true,
+  timeout: 15000,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json'
+  }
+})
+
+plushApi.interceptors.response.use(
+  response => response,
+  error => {
+    if (error && error.response && error.response.status !== 404) {
+      console.error(error.response.data)
+    }
+
+    return Promise.reject(error)
+  }
+)
+
+export { publicApi, predictionsApi, plushApi }

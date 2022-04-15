@@ -111,7 +111,6 @@
     </button>
     <AppMetamask
       ref="metamask"
-      :user-message="userMessage"
       @onComplete="onComplete"
     />
   </div>
@@ -145,10 +144,6 @@ export default {
       type: String,
       required: false,
       default: ''
-    },
-    nonce: {
-      type: String,
-      required: true
     }
   },
   data() {
@@ -166,9 +161,6 @@ export default {
     },
     isWrongNetworkModal() {
       return this.modalType === 'WrongNetworkModal'
-    },
-    userMessage() {
-      return `Please sign this message to connect to Plush. Nonce: ${this.nonce}`
     }
   },
   watch: {

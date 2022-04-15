@@ -51,7 +51,6 @@
           :is-show="isShowModal"
           :network-name="networkName"
           :formatted-address="formattedAddress"
-          nonce="123"
           :address="address"
           :modal-type="modalType"
           @onComplete="onComplete"
@@ -99,24 +98,32 @@ export default {
     this.validateState()
   },
   methods: {
+    async getNonceAndSignMessage(metamaskData) {
+      const { data: { nonce } } = await api.users.getNonce(metamaskData.metaMaskAddress)
+      return await this.signMessage(metamaskData, nonce)
+    },
+    async loginUserToPlushSystem(publicAddress, signature) {
+      const messageResult = { publicAddress, signature }
+      await api.users.userLogin(messageResult)
+    },
     async onComplete(metamaskData) {
       this.closeModal()
-      const { data: { nonce } } = await api.users.getNonce(metamaskData.metaMaskAddress)
-      const hash = await this.signMessage(metamaskData, nonce)
-      const messageResult = {
-        publicAddress: metamaskData.metaMaskAddress,
-        signature: hash
-      }
-      await api.users.userLogin(messageResult)
-      this.userProfile = await api.users.getUserProfile()
       if (metamaskData.type === 'NO_LOGIN') {
         this.state = 'DISCONNECTED'
         this.address = ''
-      } else {
-        this.networkName = metamaskData.type
-        this.state = 'USER_FOUND'
-        this.address = metamaskData.metaMaskAddress
+        return
       }
+      this.networkName = metamaskData.type
+      this.state = 'USER_FOUND'
+      this.address = metamaskData.metaMaskAddress
+      const { data } = await api.users.getUserProfile()
+      if (!data) {
+        const signature = await this.getNonceAndSignMessage(metamaskData)
+        await this.loginUserToPlushSystem(metamaskData.metaMaskAddress, signature)
+        const { data } = await api.users.getUserProfile()
+        this.userProfile = data
+      }
+      this.userProfile = data
       this.validateState()
     },
     closeModal() {
@@ -153,7 +160,7 @@ export default {
           this.modalType = 'RegisterModal'
           break
         case 'USER_FOUND':
-          this.title = this.userProfile.name
+          this.title = this.userProfile.name ? `Hey, ${this.userProfile.name}` : 'Hey,'
           this.status = 'Connected to'
           this.iconTheme = this.userProfile.gender || 'alert'
           this.icon = this.userProfile.gender && 'child'
