@@ -108,14 +108,6 @@ export default {
     },
     async onComplete(metamaskData) {
       this.closeModal()
-      if (metamaskData.type === 'NO_LOGIN') {
-        this.state = 'DISCONNECTED'
-        this.address = ''
-        return
-      }
-      this.networkName = metamaskData.type
-      this.state = 'USER_FOUND'
-      this.address = metamaskData.metaMaskAddress
       const { data } = await api.users.getUserProfile()
       if (!data) {
         const signature = await this.getNonceAndSignMessage(metamaskData)
@@ -124,6 +116,14 @@ export default {
         this.userProfile = data
       }
       this.userProfile = data
+      if (metamaskData.type === 'NO_LOGIN') {
+        this.state = 'DISCONNECTED'
+        this.address = ''
+      } else {
+        this.networkName = metamaskData.type
+        this.state = 'USER_FOUND'
+        this.address = metamaskData.metaMaskAddress
+      }
       this.validateState()
     },
     closeModal() {
