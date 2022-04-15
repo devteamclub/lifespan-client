@@ -98,14 +98,6 @@ export default {
     this.validateState()
   },
   methods: {
-    async getNonceAndSignMessage(metamaskData) {
-      const { data: { nonce } } = await api.users.getNonce(metamaskData.metaMaskAddress)
-      return await this.signMessage(metamaskData, nonce)
-    },
-    async loginUserToPlushSystem(publicAddress, signature) {
-      const messageResult = { publicAddress, signature }
-      await api.users.userLogin(messageResult)
-    },
     async onComplete(metamaskData) {
       this.closeModal()
       const { data } = await api.users.getUserProfile()
@@ -115,6 +107,7 @@ export default {
         const { data } = await api.users.getUserProfile()
         this.userProfile = data
       }
+      console.log(data, 'data')
       this.userProfile = data
       if (metamaskData.type === 'NO_LOGIN') {
         this.state = 'DISCONNECTED'
@@ -124,7 +117,21 @@ export default {
         this.state = 'USER_FOUND'
         this.address = metamaskData.metaMaskAddress
       }
+      console.log(this.state, 'state')
+      console.log(this.userProfile, 'userProfile')
       this.validateState()
+    },
+    async signMessage(data, nonce) {
+      const message = `Please sign this message to connect to Plush. Nonce: ${nonce}`
+      return await data.web3.eth.personal.sign(message, data.metaMaskAddress.toLowerCase())
+    },
+    async getNonceAndSignMessage(metamaskData) {
+      const { data: { nonce } } = await api.users.getNonce(metamaskData.metaMaskAddress)
+      return await this.signMessage(metamaskData, nonce)
+    },
+    async loginUserToPlushSystem(publicAddress, signature) {
+      const messageResult = { publicAddress, signature }
+      await api.users.userLogin(messageResult)
     },
     closeModal() {
       this.isShowModal = false
@@ -168,10 +175,6 @@ export default {
           this.modalType = 'SwitchAccountModal'
           break
       }
-    },
-    async signMessage(data, nonce) {
-      const message = `Please sign this message to connect to Plush. Nonce: ${nonce}`
-      return await data.web3.eth.personal.sign(message, data.metaMaskAddress.toLowerCase())
     }
   }
 }
