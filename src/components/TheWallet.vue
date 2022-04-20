@@ -110,15 +110,26 @@ export default {
         }]
       })
       this.metamaskData.metaMaskAddress = data.caveats[0].value[0]
-      await this.onComplete(this.metamaskData, true)
+      const signature = await this.getNonceAndSignMessage(this.metamaskData)
+      await this.loginUserToPlushSystem(this.metamaskData.metaMaskAddress, signature)
+      const { data: userProfile } = await api.users.getUserProfile()
+      this.userProfile = userProfile
+      // TODO: dry
+      if (this.metamaskData.type === 'NO_LOGIN') {
+        this.state = 'DISCONNECTED'
+        this.address = ''
+      } else {
+        this.networkName = this.metamaskData.type
+        this.state = 'USER_FOUND'
+        this.address = this.metamaskData.metaMaskAddress
+      }
+      this.validateState()
     },
-    async onComplete(metamaskData, isSwitchAccount) {
+    async onComplete(metamaskData) {
       this.metamaskData = metamaskData
       this.closeModal()
-      if (!isSwitchAccount) {
-        const { data } = await api.users.getUserProfile()
-        this.userProfile = data
-      }
+      const { data } = await api.users.getUserProfile()
+      this.userProfile = data
       if (!this.userProfile) {
         const signature = await this.getNonceAndSignMessage(metamaskData)
         await this.loginUserToPlushSystem(metamaskData.metaMaskAddress, signature)
