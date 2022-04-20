@@ -103,14 +103,14 @@ export default {
   methods: {
     async switchAccount() {
       if (!this.metamaskData) return
-      const metamaskData = await window.ethereum.request({
+      const [data] = await window.ethereum.request({
         method: 'wallet_requestPermissions',
         params: [{
           eth_accounts: {}
         }]
       })
-      this.$refs.walletModal.$refs.metamask.init()
-      console.log(metamaskData)
+      this.metamaskData.metaMaskAddress = data.caveats[0].value[0]
+      await this.onComplete(this.metamaskData)
     },
     async onComplete(metamaskData) {
       this.metamaskData = metamaskData
