@@ -98,9 +98,9 @@ export default {
     }
   },
   async created() {
-    this.validateState()
     const { data } = await api.users.getUserProfile()
-    this.userProfile = data
+    if (data) await this.$refs.walletModal.$refs.metamask.init()
+    this.validateState()
   },
   methods: {
     async switchAccount() {
@@ -134,6 +134,7 @@ export default {
       this.userProfile = data
       if (!this.userProfile) {
         const signature = await this.getNonceAndSignMessage(metamaskData)
+        console.log(signature)
         await this.loginUserToPlushSystem(metamaskData.metaMaskAddress, signature)
         const { data } = await api.users.getUserProfile()
         this.userProfile = data
