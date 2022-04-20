@@ -110,13 +110,15 @@ export default {
         }]
       })
       this.metamaskData.metaMaskAddress = data.caveats[0].value[0]
-      await this.onComplete(this.metamaskData)
+      await this.onComplete(this.metamaskData, true)
     },
-    async onComplete(metamaskData) {
+    async onComplete(metamaskData, isSwitchAccount) {
       this.metamaskData = metamaskData
       this.closeModal()
-      const { data } = await api.users.getUserProfile()
-      this.userProfile = data
+      if (!isSwitchAccount) {
+        const { data } = await api.users.getUserProfile()
+        this.userProfile = data
+      }
       if (!this.userProfile) {
         const signature = await this.getNonceAndSignMessage(metamaskData)
         await this.loginUserToPlushSystem(metamaskData.metaMaskAddress, signature)
