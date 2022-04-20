@@ -111,6 +111,12 @@ export default {
           eth_accounts: {}
         }]
       })
+      console.log(data, 'data')
+
+      // eslint-disable-next-line handle-callback-err
+      window.web3.eth.getAccounts((err, accounts) => {
+        console.log(accounts, 'accounts')
+      })
       this.metamaskData.metaMaskAddress = data.caveats[0].value[0]
       const signature = await this.getNonceAndSignMessage(this.metamaskData)
       await this.loginUserToPlushSystem(this.metamaskData.metaMaskAddress, signature)
