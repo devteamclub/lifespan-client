@@ -48,6 +48,7 @@
           </div>
         </div>
         <WalletModal
+          ref="walletModal"
           :is-show="isShowModal"
           :network-name="networkName"
           :formatted-address="formattedAddress"
@@ -108,6 +109,7 @@ export default {
           eth_accounts: {}
         }]
       })
+      this.$refs.walletModal.$refs.metamask.init()
       console.log(metamaskData)
     },
     async onComplete(metamaskData) {
