@@ -202,7 +202,11 @@ export default {
       this.$emit('onComplete', data)
     },
     connectWallet() {
-      this.$refs.metamask.init()
+      if (this.isSwitchModal) {
+        this.$emit('switchAccount')
+      } else {
+        this.$refs.metamask.init()
+      }
     }
   }
 }

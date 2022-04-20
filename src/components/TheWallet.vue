@@ -54,6 +54,7 @@
           :address="address"
           :modal-type="modalType"
           @onComplete="onComplete"
+          @switchAccount="switchAccount"
           @close="closeModal"
         />
       </div>
@@ -81,7 +82,8 @@ export default {
       modalType: '',
       requiredAddressLength: 42,
       networkName: '',
-      userProfile: null
+      userProfile: null,
+      metamaskData: null
     }
   },
   computed: {
@@ -98,7 +100,12 @@ export default {
     this.validateState()
   },
   methods: {
+    async switchAccount() {
+      if (!this.metamaskData) return
+      await this.metamaskData.web3.eth.personal.newAccount()
+    },
     async onComplete(metamaskData) {
+      this.metamaskData = metamaskData
       this.closeModal()
       const { data } = await api.users.getUserProfile()
       this.userProfile = data
