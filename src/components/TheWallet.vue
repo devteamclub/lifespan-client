@@ -102,12 +102,13 @@ export default {
   methods: {
     async switchAccount() {
       if (!this.metamaskData) return
-      await window.ethereum.request({
+      const metamaskData = await window.ethereum.request({
         method: 'wallet_requestPermissions',
         params: [{
           eth_accounts: {}
         }]
       })
+      console.log(metamaskData)
     },
     async onComplete(metamaskData) {
       this.metamaskData = metamaskData
