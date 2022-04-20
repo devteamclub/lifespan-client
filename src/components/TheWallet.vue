@@ -97,8 +97,10 @@ export default {
       return `${this.address.substring(0, 6)}...${this.address.substring(this.address.length - 4, this.address.length)}`
     }
   },
-  created() {
+  async created() {
     this.validateState()
+    const { data } = await api.users.getUserProfile()
+    this.userProfile = data
   },
   methods: {
     async switchAccount() {
