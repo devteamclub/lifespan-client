@@ -105,33 +105,31 @@ export default {
   methods: {
     async switchAccount() {
       if (!this.metamaskData) return
-      const [data] = await window.ethereum.request({
+      await window.ethereum.request({
         method: 'wallet_requestPermissions',
         params: [{
           eth_accounts: {}
         }]
       })
-      console.log(data, 'data')
 
       // eslint-disable-next-line handle-callback-err
-      window.web3.eth.getAccounts((err, accounts) => {
-        console.log(accounts, 'accounts')
+      window.web3.eth.getAccounts(async(err, accounts) => {
+        this.metamaskData.metaMaskAddress = accounts[0]
+        const signature = await this.getNonceAndSignMessage(this.metamaskData)
+        await this.loginUserToPlushSystem(this.metamaskData.metaMaskAddress, signature)
+        const { data: userProfile } = await api.users.getUserProfile()
+        this.userProfile = userProfile
+        // TODO: dry
+        if (this.metamaskData.type === 'NO_LOGIN') {
+          this.state = 'DISCONNECTED'
+          this.address = ''
+        } else {
+          this.networkName = this.metamaskData.type
+          this.state = 'USER_FOUND'
+          this.address = this.metamaskData.metaMaskAddress
+        }
+        this.validateState()
       })
-      this.metamaskData.metaMaskAddress = data.caveats[0].value[0]
-      const signature = await this.getNonceAndSignMessage(this.metamaskData)
-      await this.loginUserToPlushSystem(this.metamaskData.metaMaskAddress, signature)
-      const { data: userProfile } = await api.users.getUserProfile()
-      this.userProfile = userProfile
-      // TODO: dry
-      if (this.metamaskData.type === 'NO_LOGIN') {
-        this.state = 'DISCONNECTED'
-        this.address = ''
-      } else {
-        this.networkName = this.metamaskData.type
-        this.state = 'USER_FOUND'
-        this.address = this.metamaskData.metaMaskAddress
-      }
-      this.validateState()
     },
     async onComplete(metamaskData) {
       this.metamaskData = metamaskData
