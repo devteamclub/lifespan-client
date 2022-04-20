@@ -102,7 +102,7 @@ export default {
   methods: {
     async switchAccount() {
       if (!this.metamaskData) return
-      await this.metamaskData.web3.request({
+      await window.ethereum.request({
         method: 'wallet_requestPermissions',
         params: [{
           eth_accounts: {}
