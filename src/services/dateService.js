@@ -7,5 +7,5 @@ export const formatISOdate = (ISOdate) => {
 export const getYear = (date) => {
   if (!date) return ''
   const [year] = date.substring(0, 10).split('-')
-  return Number(year)
+  return year
 }

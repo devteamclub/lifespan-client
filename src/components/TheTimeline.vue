@@ -216,8 +216,8 @@ export default {
         offsetTo: 0,
         range: 0
       }
-      const startYear = this.getYear(event.startDate)
-      const endYear = this.getYear(event.endDate)
+      const startYear = +this.getYear(event.startDate)
+      const endYear = +this.getYear(event.endDate)
       const range = endYear - startYear
       if (!this.$refs[startYear] || !range) return result
       let totalHeight = this.$refs[startYear][0].clientHeight
