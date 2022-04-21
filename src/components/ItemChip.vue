@@ -4,7 +4,7 @@
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
         <!--TODO: remove total -->
-        <span class="title">{{ item.title }} - {{ total }}</span>
+        <span class="title">{{ item.title }}</span>
         <UpDownRating v-if="!item.isEvent" :item="item" class="rating" />
       </summary>
       <div class="content">
@@ -89,11 +89,6 @@ export default {
       required: true
     },
     age: {
-      type: [Number, String],
-      required: false,
-      default: null
-    },
-    total: {
       type: [Number, String],
       required: false,
       default: null

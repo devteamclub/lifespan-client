@@ -43,13 +43,12 @@
             <ItemChip
               v-if="event.isEvent && parallaxData[event.id]"
               v-prlx="{
-                preserveInitialPosition: false,
+                preserveInitialPosition: true,
                 limit: { min: 0, max: parallaxData[event.id].offsetTo },
                 speed: parallaxData[event.id].speed,
                 disabled: !parallaxData[event.id].speed
               }"
               :item="event"
-              :total="parallaxData[event.id].offsetTo"
               :age="getPersonAge"
             />
           </div>
@@ -222,18 +221,18 @@ export default {
       const range = endYear - startYear
       if (!this.$refs[startYear] || !range) return result
       let totalHeight = this.$refs[startYear][0].clientHeight
-      for (let i = 0; i < range; i += 1) {
+      for (let i = 1; i <= range; i += 1) {
         totalHeight += this.$refs[startYear + i] ? this.$refs[startYear + i][0].clientHeight : 0
       }
-      const eventChipHeight = 150
+      const eventChipHeight = 80
       result.range = range
       result.speed = this.calculateParallaxSpeed(totalHeight)
       result.offsetTo = totalHeight - eventChipHeight
       return result
     },
     calculateParallaxSpeed(totalHeight) {
-      if (totalHeight < 1000) return 0.4
-      if (totalHeight < 2000) return 0.8
+      if (totalHeight < 1000) return 0.45
+      if (totalHeight < 2000) return 0.88
       if (totalHeight < 4000) return 0.9
       return 0.99
     }
