@@ -138,7 +138,6 @@ export default {
       this.userProfile = data
       if (!this.userProfile) {
         const signature = await this.getNonceAndSignMessage(metamaskData)
-        console.log(signature)
         await this.loginUserToPlushSystem(metamaskData.metaMaskAddress, signature)
         const { data } = await api.users.getUserProfile()
         this.userProfile = data

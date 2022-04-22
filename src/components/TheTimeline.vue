@@ -13,6 +13,7 @@
       <div
         v-for="(items, dateKey, i) in getTimeIntervals"
         :key="i"
+        :ref="dateKey"
         :data-interval-date="dateKey"
         class="interval"
       >
@@ -36,12 +37,17 @@
           <div
             v-for="event in items"
             :key="event.id"
-            :class="{ lasting: getYearRange(event) > 0 }"
+            :class="{ lasting: parallaxData[event.id] && parallaxData[event.id].range > 0 }"
             class="chip-wrapper"
           >
             <ItemChip
-              v-if="event.isEvent"
-              v-prlx="{ speed: getYearRange(event) }"
+              v-if="event.isEvent && parallaxData[event.id]"
+              v-prlx="{
+                preserveInitialPosition: true,
+                limit: { min: 0, max: parallaxData[event.id].offsetTo },
+                speed: parallaxData[event.id].speed,
+                disabled: !parallaxData[event.id].speed
+              }"
               :item="event"
               :age="getPersonAge"
             />
@@ -81,7 +87,8 @@ export default {
       intervalElements: null,
       currentIntervalStartDate: null,
       currentYear: new Date().getFullYear(),
-      selectedCategories: []
+      selectedCategories: [],
+      parallaxData: {}
     }
   },
   computed: {
@@ -137,6 +144,7 @@ export default {
     this.intervalElements = this.$refs.wrapper.querySelectorAll('.interval')
     this.scrollToCurrentYear()
     window.addEventListener('scroll', this.throttle(this.handleDatesInfo))
+    this.calculateParallaxData()
   },
   methods: {
     getYear,
@@ -197,11 +205,36 @@ export default {
         behavior: 'smooth'
       })
     },
-    getYearRange(event) {
-      let range = this.getYear(event.endDate) - this.getYear(event.startDate)
-      if (range <= 0) return 0
-      range = range * 3 / 100
-      return range > 1 ? 1 : Math.abs(range - 1)
+    calculateParallaxData() {
+      this.events.forEach(event => {
+        this.parallaxData[event.id] = this.getEventParallaxData(event)
+      })
+    },
+    getEventParallaxData(event) {
+      const result = {
+        speed: 0,
+        offsetTo: 0,
+        range: 0
+      }
+      const startYear = +this.getYear(event.startDate)
+      const endYear = +this.getYear(event.endDate)
+      const range = endYear - startYear
+      if (!this.$refs[startYear] || !range) return result
+      let totalHeight = this.$refs[startYear][0].clientHeight
+      for (let i = 1; i <= range; i += 1) {
+        totalHeight += this.$refs[startYear + i] ? this.$refs[startYear + i][0].clientHeight : 0
+      }
+      const eventChipHeight = 80
+      result.range = range
+      result.speed = this.calculateParallaxSpeed(totalHeight)
+      result.offsetTo = totalHeight - eventChipHeight
+      return result
+    },
+    calculateParallaxSpeed(totalHeight) {
+      if (totalHeight < 1000) return 0.45
+      if (totalHeight < 2000) return 0.88
+      if (totalHeight < 4000) return 0.9
+      return 0.99
     }
   }
 }

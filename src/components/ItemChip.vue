@@ -3,6 +3,7 @@
     <details class="chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
+        <!--TODO: remove total -->
         <span class="title">{{ item.title }}</span>
         <UpDownRating v-if="!item.isEvent" :item="item" class="rating" />
       </summary>
@@ -138,7 +139,6 @@ export default {
   methods: {
     async saveYear(year) {
       if (+this.itemStartYear === year) return
-      // TODO: update list of prediction when it will be returned from api
       const dateWithNewYear = new Date(this.item.startDate).setFullYear(year)
       this.isYearSaved = true
       const prediction = {
@@ -168,6 +168,7 @@ export default {
   position: relative;
   width: 320px;
   transition: all 2s ease;
+  z-index: 1;
 
   .stripe {
     position: absolute;
