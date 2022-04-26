@@ -60,13 +60,15 @@ export default {
         // Kovan Test Network: 42
         // Rinkeby Test Network: 4
         // Goerli Test Network: 5
+        // Mumbai Network: 80001
         this.web3.eth.net.getId().then((netId) => {
           this.netID = netId
-          if (this.MetaMaskAddress !== '' && netId === 1) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'MAINNET') }
-          if (this.MetaMaskAddress !== '' && netId === 3) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'ROPSTEN') }
-          if (this.MetaMaskAddress !== '' && netId === 42) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'KOVAN') }
-          if (this.MetaMaskAddress !== '' && netId === 4) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'RINKEBY') }
-          if (this.MetaMaskAddress !== '' && netId === 5) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'GOERLI') }
+          if (this.MetaMaskAddress !== '' && netId === 1) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'Ethereum mainnet') }
+          if (this.MetaMaskAddress !== '' && netId === 3) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'Ropsten Test Network') }
+          if (this.MetaMaskAddress !== '' && netId === 42) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'Kovan Test Network') }
+          if (this.MetaMaskAddress !== '' && netId === 4) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'Rinkeby Test Network') }
+          if (this.MetaMaskAddress !== '' && netId === 5) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'Goerli Test Network') }
+          if (this.MetaMaskAddress !== '' && netId === 80001) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'Mumbai') }
           if (this.MetaMaskAddress !== '') { this.Log(this.MetamaskMsg.METAMASK_MAIN_NET, 'MAINNET') }
         })
       } catch (err) {
