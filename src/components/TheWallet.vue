@@ -132,6 +132,7 @@ export default {
       })
     },
     async onComplete(metamaskData) {
+      console.log(metamaskData)
       this.metamaskData = metamaskData
       this.closeModal()
       const { data } = await api.users.getUserProfile()
