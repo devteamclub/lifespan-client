@@ -126,7 +126,7 @@ export default {
         const chapterStartYear = this.getYear(item.startDate)
         const chapterEndYear = this.getYear(item.endDate)
 
-        return this.currentIntervalStartDate >= chapterStartYear && this.currentIntervalStartDate <= chapterEndYear
+        return this.currentIntervalStartDate >= chapterStartYear && this.currentIntervalStartDate < chapterEndYear
       })
 
       return chapter?.title || ''

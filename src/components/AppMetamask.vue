@@ -69,7 +69,7 @@ export default {
           if (this.MetaMaskAddress !== '' && netId === 4) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'Rinkeby Test Network') }
           if (this.MetaMaskAddress !== '' && netId === 5) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'Goerli Test Network') }
           if (this.MetaMaskAddress !== '' && netId === 80001) { return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, 'Mumbai') }
-          if (this.MetaMaskAddress !== '') { this.Log(this.MetamaskMsg.METAMASK_MAIN_NET, 'MAINNET') }
+          if (this.MetaMaskAddress !== '') { this.Log(this.MetamaskMsg.METAMASK_MAIN_NET, 'Mainnet') }
         })
       } catch (err) {
         this.Log(this.MetamaskMsg.NETWORK_ERROR, 'NETWORK_ERROR')
