@@ -1,4 +1,5 @@
 import { publicApi, predictionsApi, plushApi } from '@/plugins/axios'
+import { formatUserDatesForBE } from './dateHelper'
 
 const PERSONAL_HANDLER = 'v1/personal'
 const PREDICTION_HANDLER = 'v1/prediction'
@@ -187,6 +188,7 @@ export const registrationNewUser = async(child) => {
     race: '',
     token: ''
   }
+  formatUserDatesForBE(newUser)
   try {
     const { data } = await publicApi.post(`${V1}/registration`, newUser)
     return { data, error: null }
