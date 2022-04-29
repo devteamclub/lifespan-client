@@ -43,6 +43,17 @@ const predictionsApi = ax.create({
   }
 })
 
+predictionsApi.interceptors.request.use(
+  async config => {
+    config.headers['X-Auth-Token'] = store.getters.getUserMetamaskAddress
+    return config
+  },
+
+  error => {
+    return Promise.reject(error)
+  }
+)
+
 predictionsApi.interceptors.response.use(
   response => response,
   error => {
