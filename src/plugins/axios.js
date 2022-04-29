@@ -1,4 +1,5 @@
 import ax from 'axios'
+import store from '../store'
 
 // Public  API
 const publicApi = ax.create({
@@ -11,7 +12,10 @@ const publicApi = ax.create({
 })
 
 publicApi.interceptors.response.use(
-  response => response,
+  async config => {
+    config.headers['X-Auth-Token'] = store.getters.getUserMetamaskAddress
+    return config
+  },
   error => {
     if (error && error.response && error.response.status !== 404) {
       console.error(error.response.data)
@@ -32,7 +36,10 @@ const predictionsApi = ax.create({
 })
 
 predictionsApi.interceptors.response.use(
-  response => response,
+  async config => {
+    config.headers['X-Auth-Token'] = store.getters.getUserMetamaskAddress
+    return config
+  },
   error => {
     if (error && error.response && error.response.status !== 404) {
       console.error(error.response.data)
