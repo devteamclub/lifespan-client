@@ -11,11 +11,19 @@ const publicApi = ax.create({
   }
 })
 
-publicApi.interceptors.response.use(
+publicApi.interceptors.request.use(
   async config => {
-    config.headers['X-Auth-Token'] = store.getters.getUserMetamaskAddress || 'ok'
+    config.headers['X-Auth-Token'] = store.getters.getUserMetamaskAddress
     return config
   },
+
+  error => {
+    return Promise.reject(error)
+  }
+)
+
+publicApi.interceptors.response.use(
+  response => response,
   error => {
     if (error && error.response && error.response.status !== 404) {
       console.error(error.response.data)
@@ -36,10 +44,7 @@ const predictionsApi = ax.create({
 })
 
 predictionsApi.interceptors.response.use(
-  async config => {
-    config.headers['X-Auth-Token'] = store.getters.getUserMetamaskAddress || 'ok'
-    return config
-  },
+  response => response,
   error => {
     if (error && error.response && error.response.status !== 404) {
       console.error(error.response.data)
