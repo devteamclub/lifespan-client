@@ -98,8 +98,13 @@ export default {
     }
   },
   async created() {
-    const { data } = await api.users.getUserProfile()
-    if (data) await this.$refs.walletModal.$refs.metamask.init()
+    const { data: user } = await api.users.getUser()
+    // TODO: user getUser instead of userProfile
+    if (user) {
+      this.setUser(user)
+      this.userProfile = user
+      await this.$refs.walletModal.$refs.metamask.init()
+    }
     this.validateState()
   },
   methods: {
@@ -135,17 +140,14 @@ export default {
     async registrationNewUser(metamaskData) {
       let userProfile
       const { data: plushUserProfile } = await api.users.getUserProfile()
-      console.log(plushUserProfile, 'plushUserProfile')
       userProfile = plushUserProfile
       if (!this.userProfile) {
-        console.log('sign message')
         const signature = await this.getNonceAndSignMessage(metamaskData)
         await this.loginUserToPlushSystem(metamaskData.metaMaskAddress, signature)
         const { data: plushUserProfile } = await api.users.getUserProfile()
         userProfile = plushUserProfile
       }
       const { data: user } = await api.users.registrationNewUser(userProfile.childs[0])
-      console.log(user, 'registrationNewUser user')
       this.setUser(user)
       // TODO: user getUser instead of userProfile
       this.userProfile = user
@@ -155,15 +157,12 @@ export default {
       this.metamaskData = metamaskData
       this.closeModal()
       const { data: isUserExist } = await api.users.checkUserExist()
-      console.log(isUserExist, 'isUserExist')
       if (isUserExist) {
         const { data: user } = await api.users.getUser()
-        console.log(user, 'getUser')
         this.setUser(user)
         // TODO: user getUser instead of userProfile
         this.userProfile = user
       } else {
-        console.log('registrationNewUser')
         await this.registrationNewUser(metamaskData)
       }
       if (metamaskData.type === 'NO_LOGIN') {
