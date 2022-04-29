@@ -171,8 +171,24 @@ export const checkUserExist = async() => {
 }
 
 export const registrationNewUser = async(child) => {
+  const newUser = {
+    birthday: child.dateOfBirth,
+    deathday: '',
+    gender: child.gender,
+    id: 0,
+    location: {
+      address: '',
+      city: '',
+      continent: '',
+      country: child.country,
+      id: 0
+    },
+    name: child.name,
+    race: '',
+    token: ''
+  }
   try {
-    const { data } = await publicApi.post(`${V1}/registration`, child)
+    const { data } = await publicApi.post(`${V1}/registration`, newUser)
     return { data, error: null }
   } catch ({ response }) {
     return {
