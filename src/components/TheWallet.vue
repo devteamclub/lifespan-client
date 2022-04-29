@@ -145,7 +145,7 @@ export default {
         const { data: plushUserProfile } = await api.users.getUserProfile()
         userProfile = plushUserProfile
       }
-      const { data: user } = await api.users.registrationNewUser(userProfile.child[0])
+      const { data: user } = await api.users.registrationNewUser(userProfile.childs[0])
       console.log(user, 'registrationNewUser user')
       this.setUser(user)
       // TODO: user getUser instead of userProfile
