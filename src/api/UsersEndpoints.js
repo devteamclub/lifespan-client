@@ -172,7 +172,7 @@ export const checkUserExist = async() => {
 
 export const registrationNewUser = async(child) => {
   try {
-    const { data } = await publicApi.get(`${V1}/registration`, child)
+    const { data } = await publicApi.post(`${V1}/registration`, child)
     return { data, error: null }
   } catch ({ response }) {
     return {
