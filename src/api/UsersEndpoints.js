@@ -69,6 +69,9 @@ export const updatePrediction = async(prediction) => {
 export const getUser = async() => {
   try {
     const { data } = await publicApi.get(PERSONAL_HANDLER)
+    formatUserDatesForFE(data)
+    // TODO: remove when MALE/FEMALE is returned from BE
+    data.gender = data.gender === 'M' ? 'MALE' : 'FEMALE'
     return { data, error: null }
   } catch ({ response }) {
     return {

@@ -34,8 +34,7 @@
               class="status"
               :class="statusClass"
             >
-              {{ status }}
-              <span class="network-name">{{ networkName }}</span>
+              {{ status }} {{ networkName }}
             </div>
           </div>
           <div class="button">
@@ -288,10 +287,6 @@ export default {
         &.success {
           color: #5f36ea;
         }
-      }
-
-      .network-name {
-        text-transform: lowercase;
       }
     }
 
