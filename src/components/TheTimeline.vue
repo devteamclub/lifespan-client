@@ -154,7 +154,7 @@ export default {
       this.fetchPredictions()
     },
     async fetchPredictions() {
-      const { data } = await api.predictions.getPredictionsByCategories(this.getUser.id, this.selectedCategories.join())
+      const { data } = await api.predictions.getPredictionsByCategories(this.selectedCategories.join())
       this.predictions = data || []
     },
     async fetchEvents() {
