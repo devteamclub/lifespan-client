@@ -170,22 +170,7 @@ export const checkUserExist = async() => {
     }
   }
 }
-const a = {
-  birthday: '2018-08-15T00:00:00.000Z',
-  deathday: '',
-  gender: 'MALE',
-  id: 0,
-  location: {
-    address: '',
-    city: '',
-    continent: '',
-    country: 'United States of America',
-    id: 0
-  },
-  name: 'Max',
-  race: '',
-  token: ''
-}
+
 export const registrationNewUser = async(child) => {
   const newUser = {
     birthday: child.dateOfBirth,
@@ -199,7 +184,7 @@ export const registrationNewUser = async(child) => {
       id: 0
     },
     name: child.name,
-    race: '',
+    race: ''
   }
   formatUserDatesForBE(newUser)
   try {
