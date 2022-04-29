@@ -10,12 +10,16 @@
 <script>
 import TheTimeline from '@/components/TheTimeline'
 import TheMetamask from '@/components/TheWallet'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     TheTimeline,
     TheMetamask
+  },
+  computed: {
+    ...mapGetters(['getUser'])
   }
 }
 </script>

@@ -174,6 +174,7 @@ export const checkUserExist = async() => {
 export const registrationNewUser = async(child) => {
   const newUser = {
     birthday: child.dateOfBirth,
+    // TODO: remove when BE is able to accept MALE/FEMALE instead of M/F
     gender: child.gender === 'MALE' ? 'M' : 'F',
     id: 0,
     location: {
@@ -190,6 +191,7 @@ export const registrationNewUser = async(child) => {
   try {
     const { data } = await publicApi.post(`${V1}/registration`, newUser)
     formatUserDatesForFE(data)
+    // TODO: remove when MALE/FEMALE is returned from BE
     data.gender = data.gender === 'M' ? 'MALE' : 'FEMALE'
     return { data, error: null }
   } catch ({ response }) {
