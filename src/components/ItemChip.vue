@@ -1,5 +1,9 @@
 <template>
-  <div class="item-chip" :style="getTransformStyles">
+  <div
+    :style="getTransformStyles"
+    :class="{ lasting: isLasting }"
+    class="item-chip"
+  >
     <details class="chip" :class="{ 'active': isActive }" @click="isActive = !isActive">
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
@@ -88,6 +92,11 @@ export default {
       type: Object,
       required: true
     },
+    isLasting: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     age: {
       type: [Number, String],
       required: false,
@@ -167,8 +176,11 @@ export default {
 .item-chip {
   position: relative;
   width: 320px;
-  transition: all 2s ease;
+  transition: all 1s ease;
   z-index: 1;
+  &.lasting {
+    margin-left: 30%;
+  }
 
   .stripe {
     position: absolute;
