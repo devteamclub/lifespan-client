@@ -3,7 +3,10 @@
     <TheServicesMenu :selected-categories="selectedCategories" @saveSelectedCategories="saveSelectedCategories" />
     <div ref="wrapper" class="wrapper">
       <div v-if="currentIntervalStartDate" class="top-info">
-        <div class="person-age">
+        <div
+          class="person-age"
+          @click="showChapterEvents"
+        >
           <span class="age">{{ getPersonAge }}</span>
           <span class="years"> y.o.</span>
         </div>
@@ -37,17 +40,11 @@
           <div
             v-for="event in items"
             :key="event.id"
-            :class="{ lasting: parallaxData[event.id] && parallaxData[event.id].range > 0 }"
             class="chip-wrapper"
           >
             <ItemChip
-              v-if="event.isEvent && parallaxData[event.id]"
-              v-prlx="{
-                preserveInitialPosition: true,
-                limit: { min: 0, max: parallaxData[event.id].offsetTo },
-                speed: parallaxData[event.id].speed,
-                disabled: !parallaxData[event.id].speed
-              }"
+              v-if="event.isEvent"
+              :is-lasting="getYearRange(event) > 0"
               :item="event"
               :age="getPersonAge"
             />
@@ -57,7 +54,7 @@
     </div>
     <ChaptersBar
       :chapters="chapters"
-      :current-chapter-title="getCurrentChapterTitle"
+      :current-chapter-title="getCurrentChapter.title"
       @scrollToChapter="scrollToChapter"
     />
   </div>
@@ -88,7 +85,8 @@ export default {
       currentIntervalStartDate: null,
       currentYear: new Date().getFullYear(),
       selectedCategories: [],
-      parallaxData: {}
+      eventsOfChapter: [],
+      eventsFixed: false
     }
   },
   computed: {
@@ -117,19 +115,17 @@ export default {
       if (this.currentIntervalStartDate < this.getYear(this.getUser.birthday)) return 0
       return this.currentIntervalStartDate - this.getYear(this.getUser.birthday)
     },
-    getCurrentChapterTitle() {
+    getCurrentChapter() {
       if (this.currentIntervalStartDate < this.getYear(this.getUser.birthday)) {
-        return 'Not yet born'
+        return { title: 'Not yet born' }
       }
 
-      const chapter = this.chapters.find((item) => {
+      return this.chapters.find((item) => {
         const chapterStartYear = this.getYear(item.startDate)
         const chapterEndYear = this.getYear(item.endDate)
 
         return this.currentIntervalStartDate >= chapterStartYear && this.currentIntervalStartDate <= chapterEndYear
       })
-
-      return chapter?.title || ''
     }
   },
   async created() {
@@ -144,11 +140,40 @@ export default {
     this.intervalElements = this.$refs.wrapper.querySelectorAll('.interval')
     this.scrollToCurrentYear()
     window.addEventListener('scroll', this.throttle(this.handleDatesInfo))
-    this.calculateParallaxData()
   },
   methods: {
     getYear,
     throttle,
+    showChapterEvents() {
+      const startYear = this.getYear(this.getCurrentChapter.startDate)
+      const endYear = this.getYear(this.getCurrentChapter.endDate)
+      const activeChapters = [...this.intervalElements].filter((e) => {
+        return e.dataset.intervalDate > startYear && e.dataset.intervalDate <= endYear
+      })
+      let eventsOfChapter = []
+      activeChapters.forEach((chapter) => (eventsOfChapter = [...eventsOfChapter, ...chapter.querySelectorAll('.events .item-chip')]))
+      this.fixActiveChaptersEvents(eventsOfChapter)
+    },
+    fixActiveChaptersEvents(eventsOfChapter) {
+      addEventListener('scroll', () => this.unfixActiveChaptersEvents(eventsOfChapter))
+      eventsOfChapter.forEach((event, i) => {
+        event.style.position = 'fixed'
+        event.style.zIndex = `${100 - i}`
+        event.style.top = `${i * 85}px`
+        event.classList.add('ml-0')
+      })
+    },
+    unfixActiveChaptersEvents(eventsOfChapter) {
+      removeEventListener('scroll', this.unfixActiveChaptersEvents)
+      eventsOfChapter.forEach((event) => {
+        event.style.position = 'relative'
+        event.style.top = 0
+        event.classList.remove('ml-0')
+      })
+    },
+    getYearRange(event) {
+      return this.getYear(event.endDate) - this.getYear(event.startDate)
+    },
     saveSelectedCategories(selectedCategories) {
       this.selectedCategories = selectedCategories
       this.fetchPredictions()
@@ -204,37 +229,6 @@ export default {
         top: isFirst ? element.offsetTop : element.offsetTop + 1, // plus 1px to scroll correctly on the element
         behavior: 'smooth'
       })
-    },
-    calculateParallaxData() {
-      this.events.forEach(event => {
-        this.parallaxData[event.id] = this.getEventParallaxData(event)
-      })
-    },
-    getEventParallaxData(event) {
-      const result = {
-        speed: 0,
-        offsetTo: 0,
-        range: 0
-      }
-      const startYear = +this.getYear(event.startDate)
-      const endYear = +this.getYear(event.endDate)
-      const range = endYear - startYear
-      if (!this.$refs[startYear] || !range) return result
-      let totalHeight = this.$refs[startYear][0].clientHeight
-      for (let i = 1; i <= range; i += 1) {
-        totalHeight += this.$refs[startYear + i] ? this.$refs[startYear + i][0].clientHeight : 0
-      }
-      const eventChipHeight = 80
-      result.range = range
-      result.speed = this.calculateParallaxSpeed(totalHeight)
-      result.offsetTo = totalHeight - eventChipHeight
-      return result
-    },
-    calculateParallaxSpeed(totalHeight) {
-      if (totalHeight < 1000) return 0.45
-      if (totalHeight < 2000) return 0.88
-      if (totalHeight < 4000) return 0.9
-      return 0.99
     }
   }
 }
@@ -253,6 +247,7 @@ export default {
       top: 10px;
       font-size: var(--title-text-size);
       line-height: 1;
+      cursor: pointer;
     }
 
     .person-age {
@@ -307,10 +302,6 @@ export default {
     & > div:nth-child(even) {
       margin-left: 30%;
     }
-  }
-
-  .lasting {
-    margin-left: 30%;
   }
 
   .predictions {
