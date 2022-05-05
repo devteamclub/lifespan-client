@@ -8,10 +8,9 @@
 </template>
 
 <script>
-import api from '@/api'
-import { mapActions, mapGetters } from 'vuex'
 import TheTimeline from '@/components/TheTimeline'
 import TheMetamask from '@/components/TheWallet'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -19,27 +18,8 @@ export default {
     TheTimeline,
     TheMetamask
   },
-  data() {
-    return {
-      defaultTestUserId: 10
-    }
-  },
   computed: {
-    ...mapGetters(['getUser']),
-    userId() {
-      return this.$route.params.id || this.defaultTestUserId
-    }
-  },
-  async mounted() {
-    await this.$nextTick()
-    if (!this.getUser) this.fetchUser()
-  },
-  methods: {
-    ...mapActions(['setUser']),
-    async fetchUser() {
-      const { data } = await api.users.getUser(this.userId)
-      if (data) this.setUser(data)
-    }
+    ...mapGetters(['getUser'])
   }
 }
 </script>

@@ -62,6 +62,7 @@
 <script>
 import api from '@/api'
 import WalletModal from '@/components/WalletModal'
+import { mapActions } from 'vuex'
 
 export default {
   components: { WalletModal },
@@ -94,11 +95,17 @@ export default {
     }
   },
   async created() {
-    const { data } = await api.users.getUserProfile()
-    if (data) await this.$refs.walletModal.$refs.metamask.init()
+    const { data: user } = await api.users.getUser()
+    // TODO: user getUser instead of userProfile
+    if (user) {
+      this.setUser(user)
+      this.userProfile = user
+      await this.$refs.walletModal.$refs.metamask.init()
+    }
     this.validateState()
   },
   methods: {
+    ...mapActions(['setUserMetamaskAddress', 'setUser']),
     async switchAccount() {
       if (!this.metamaskData) return
       await window.ethereum.request({
@@ -127,16 +134,33 @@ export default {
         this.validateState()
       })
     },
-    async onComplete(metamaskData) {
-      this.metamaskData = metamaskData
-      this.closeModal()
-      const { data } = await api.users.getUserProfile()
-      this.userProfile = data
+    async registrationNewUser(metamaskData) {
+      let userProfile
+      const { data: plushUserProfile } = await api.users.getUserProfile()
+      userProfile = plushUserProfile
       if (!this.userProfile) {
         const signature = await this.getNonceAndSignMessage(metamaskData)
         await this.loginUserToPlushSystem(metamaskData.metaMaskAddress, signature)
-        const { data } = await api.users.getUserProfile()
-        this.userProfile = data
+        const { data: plushUserProfile } = await api.users.getUserProfile()
+        userProfile = plushUserProfile
+      }
+      const { data: user } = await api.users.registrationNewUser(userProfile.childs[0])
+      this.setUser(user)
+      // TODO: user getUser instead of userProfile
+      this.userProfile = user
+    },
+    async onComplete(metamaskData) {
+      this.setUserMetamaskAddress(metamaskData.metaMaskAddress)
+      this.metamaskData = metamaskData
+      this.closeModal()
+      const { data: isUserExist } = await api.users.checkUserExist()
+      if (isUserExist) {
+        const { data: user } = await api.users.getUser()
+        this.setUser(user)
+        // TODO: user getUser instead of userProfile
+        this.userProfile = user
+      } else {
+        await this.registrationNewUser(metamaskData)
       }
       if (metamaskData.type === 'NO_LOGIN') {
         this.state = 'DISCONNECTED'
@@ -194,10 +218,10 @@ export default {
           this.modalType = 'RegisterModal'
           break
         case 'USER_FOUND':
-          this.title = this.userProfile.childs[0].name || 'Hey,'
+          this.title = this.userProfile.name || 'Hey,'
           this.status = 'Connected to'
-          this.iconTheme = this.userProfile.childs[0].gender || 'alert'
-          this.icon = this.userProfile.childs[0].gender && 'child'
+          this.iconTheme = this.userProfile.gender || 'alert'
+          this.icon = this.userProfile.gender && 'child'
           this.statusClass = 'success'
           this.modalType = 'SwitchAccountModal'
           break

@@ -133,7 +133,7 @@ export default {
     }
   },
   async created() {
-    const { data: { categoryList: selectedCategories } } = await api.users.getUserSettings(this.getUser.id)
+    const { data: { categoryList: selectedCategories } } = await api.users.getUserSettings()
     this.selectedCategories = selectedCategories || []
     await Promise.all([
       this.fetchPredictions(),
@@ -154,15 +154,15 @@ export default {
       this.fetchPredictions()
     },
     async fetchPredictions() {
-      const { data } = await api.predictions.getPredictionsByCategories(this.getUser.id, this.selectedCategories.join())
+      const { data } = await api.predictions.getPredictionsByCategories(this.selectedCategories.join())
       this.predictions = data || []
     },
     async fetchEvents() {
-      const { data } = await api.users.getPersonalEvents(this.getUser.id)
+      const { data } = await api.users.getPersonalEvents()
       if (data?.length) this.events = data
     },
     async fetchChapters() {
-      const { data } = await api.users.getPersonalChapters(this.getUser.id)
+      const { data } = await api.users.getPersonalChapters()
       if (data?.length) this.chapters = data
     },
     scrollToCurrentYear() {

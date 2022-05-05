@@ -1,13 +1,14 @@
 import { publicApi, predictionsApi, plushApi } from '@/plugins/axios'
+import { formatUserDatesForBE, formatUserDatesForFE } from './dateHelper'
 
 const PERSONAL_HANDLER = 'v1/personal'
 const PREDICTION_HANDLER = 'v1/prediction'
-const PLUSH_USER = 'user'
+const PLUSH_USER_HANDLER = 'user'
 const V1 = 'v1'
 
-export const getPersonalChapters = async(userId) => {
+export const getPersonalChapters = async() => {
   try {
-    const { data } = await publicApi.get(`${PERSONAL_HANDLER}/${userId}/chapters`)
+    const { data } = await publicApi.get(`${PERSONAL_HANDLER}/chapters`)
     return { data, error: null }
   } catch ({ response }) {
     return {
@@ -20,9 +21,9 @@ export const getPersonalChapters = async(userId) => {
   }
 }
 
-export const getPersonalEvents = async(userId) => {
+export const getPersonalEvents = async() => {
   try {
-    const { data } = await publicApi.get(`${PERSONAL_HANDLER}/${userId}/events`)
+    const { data } = await publicApi.get(`${PERSONAL_HANDLER}/events`)
     return { data, error: null }
   } catch ({ response }) {
     return {
@@ -35,9 +36,9 @@ export const getPersonalEvents = async(userId) => {
   }
 }
 
-export const getUserPredictionEvents = async(userId) => {
+export const getUserPredictionEvents = async() => {
   try {
-    const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/events/${userId}`)
+    const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/events`)
     return { data, error: null }
   } catch ({ response }) {
     return {
@@ -50,9 +51,9 @@ export const getUserPredictionEvents = async(userId) => {
   }
 }
 
-export const updatePrediction = async(userId, prediction) => {
+export const updatePrediction = async(prediction) => {
   try {
-    const { data } = await predictionsApi.post(`${PREDICTION_HANDLER}/events/${userId}`, prediction)
+    const { data } = await predictionsApi.post(`${PREDICTION_HANDLER}/events`, prediction)
     return { data, error: null }
   } catch ({ response }) {
     return {
@@ -65,9 +66,12 @@ export const updatePrediction = async(userId, prediction) => {
   }
 }
 
-export const getUser = async(userId) => {
+export const getUser = async() => {
   try {
-    const { data } = await publicApi.get(`${PERSONAL_HANDLER}/${userId}`)
+    const { data } = await publicApi.get(PERSONAL_HANDLER)
+    formatUserDatesForFE(data)
+    // TODO: remove when MALE/FEMALE is returned from BE
+    data.gender = data.gender === 'M' ? 'MALE' : 'FEMALE'
     return { data, error: null }
   } catch ({ response }) {
     return {
@@ -95,9 +99,9 @@ export const setPredictionRating = async(predictionId, rating) => {
   }
 }
 
-export const getUserSettings = async(userId) => {
+export const getUserSettings = async() => {
   try {
-    const { data } = await predictionsApi.get(`${V1}/settings/${userId}`)
+    const { data } = await predictionsApi.get(`${V1}/settings`)
     return { data, error: null }
   } catch ({ response }) {
     return {
@@ -112,7 +116,7 @@ export const getUserSettings = async(userId) => {
 
 export const userLogin = async(messageData) => {
   try {
-    const { data } = await plushApi.post(`${PLUSH_USER}/auth/login`, messageData)
+    const { data } = await plushApi.post(`${PLUSH_USER_HANDLER}/auth/login`, messageData)
     return { data, error: null }
   } catch ({ response }) {
     return {
@@ -127,7 +131,7 @@ export const userLogin = async(messageData) => {
 
 export const getUserProfile = async() => {
   try {
-    const { data } = await plushApi.get(`${PLUSH_USER}/users/profile`)
+    const { data } = await plushApi.get(`${PLUSH_USER_HANDLER}/users/profile`)
     return { data, error: null }
   } catch ({ response }) {
     return {
@@ -142,7 +146,56 @@ export const getUserProfile = async() => {
 
 export const getNonce = async(walletAddress) => {
   try {
-    const { data } = await plushApi.get(`${PLUSH_USER}/auth/nonce/${walletAddress}`)
+    const { data } = await plushApi.get(`${PLUSH_USER_HANDLER}/auth/nonce/${walletAddress}`)
+    return { data, error: null }
+  } catch ({ response }) {
+    return {
+      data: null,
+      error: {
+        text: response.data,
+        status: response.status
+      }
+    }
+  }
+}
+
+export const checkUserExist = async() => {
+  try {
+    const { data } = await publicApi.get(`${V1}/user`)
+    return { data, error: null }
+  } catch ({ response }) {
+    return {
+      data: null,
+      error: {
+        text: response.data,
+        status: response.status
+      }
+    }
+  }
+}
+
+export const registrationNewUser = async(child) => {
+  const newUser = {
+    birthday: child.dateOfBirth,
+    // TODO: remove when BE is able to accept MALE/FEMALE instead of M/F
+    gender: child.gender === 'MALE' ? 'M' : 'F',
+    id: 0,
+    location: {
+      address: '',
+      city: '',
+      continent: '',
+      country: child.country,
+      id: 0
+    },
+    name: child.name,
+    race: ''
+  }
+  formatUserDatesForBE(newUser)
+  try {
+    const { data } = await publicApi.post(`${V1}/registration`, newUser)
+    formatUserDatesForFE(data)
+    // TODO: remove when MALE/FEMALE is returned from BE
+    data.gender = data.gender === 'M' ? 'MALE' : 'FEMALE'
     return { data, error: null }
   } catch ({ response }) {
     return {

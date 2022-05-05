@@ -42,8 +42,6 @@ export default {
     checkAccounts() {
       if (this.web3 === null) return
       this.web3.eth.getAccounts((err, accounts) => {
-        console.log()
-
         if (err != null) { return this.Log(this.MetamaskMsg.NETWORK_ERROR, 'NETWORK_ERROR') }
         if (accounts.length === 0) {
           this.MetaMaskAddress = ''

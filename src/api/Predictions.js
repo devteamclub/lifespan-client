@@ -17,10 +17,10 @@ export const getPredictionsCategories = async() => {
   }
 }
 
-export const getPredictionsByCategories = async(userId, categoriesIds) => {
+export const getPredictionsByCategories = async(categoriesIds) => {
   const categories = categoriesIds?.length ? `?cats=${categoriesIds}` : ''
   try {
-    const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/events/${userId}${categories}`)
+    const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/events${categories}`)
     return { data, error: null }
   } catch ({ response }) {
     return {
