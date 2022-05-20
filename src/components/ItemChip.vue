@@ -8,7 +8,19 @@
       <summary class="header">
         <span v-if="!item.isEvent" class="category">{{ getCategoriesList() }}</span>
         <!--TODO: remove total -->
-        <span class="title">{{ item.title }}</span>
+        <span class="title">
+          {{ item.title }}
+          <v-chip
+            v-if="item.isMemorized"
+            class="ml-2"
+            label
+            small
+            outlined
+            color="success"
+          >
+            Memorized
+          </v-chip>
+        </span>
         <UpDownRating v-if="!item.isEvent" :item="item" class="rating" />
       </summary>
       <div class="content">
@@ -55,14 +67,95 @@
         </template>
         <div v-else class="info-block">
           <span class="info-title">Age:</span>
-          <span class="info-content">{{ getAge }} years old</span>
-        </div>
+          <span class="info-content" @click="isShowMemorizeModal = true">
+            {{ getAge }} years old
+            <v-icon size="14">
+              mdi-pencil
+            </v-icon>
+          </span>
+          <v-dialog
+            v-model="isShowMemorizeModal"
+            width="500"
+          >
+            <v-card>
+              <v-card-title class="text-h5 lighten-2">
+                {{ item.title }}
+              </v-card-title>
 
-        <button class="edit-btn">
-          <v-icon size="12" color="var(--contrast-text-color)">
-            mdi-pencil
-          </v-icon>
-        </button>
+              <v-card-text>
+                {{ item.description }}
+                <div class="d-flex">
+                  <v-checkbox
+                    v-model="item.isMemorized"
+                    label="Memorize"
+                  />
+                </div>
+                <v-row>
+                  <v-col cols="6">
+                    <v-menu
+                      v-model="isShowStartDateMenu"
+                      :close-on-content-click="false"
+                    >
+                      <template #activator="{ on, attrs }">
+                        <v-text-field
+                          :value="formatISOdate(item.startDate)"
+                          label="Start date"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        />
+                      </template>
+                      <v-date-picker
+                        v-model="itemStartDate"
+                        color="var(--primary-color)"
+                        @input="setStartDate"
+                      />
+                    </v-menu>
+                  </v-col>
+                  <v-col v-if="!item.isRange" cols="6">
+                    <v-menu
+                      v-model="isShowEndDateMenu"
+                      :close-on-content-click="false"
+                    >
+                      <template #activator="{ on, attrs }">
+                        <v-text-field
+                          :value="formatISOdate(item.endDate)"
+                          label="End date"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        />
+                      </template>
+                      <v-date-picker
+                        v-model="itemEndDate"
+                        color="var(--primary-color)"
+                        @input="setEndDate"
+                      />
+                    </v-menu>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+              <v-divider />
+
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  text
+                  @click="closeModal"
+                >
+                  Close
+                </v-btn>
+                <v-btn
+                  color="green"
+                  text
+                  @click="saveAndCloseModal"
+                >
+                  Save
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
       </div>
     </details>
     <div class="stripe">
@@ -77,7 +170,7 @@
 </template>
 
 <script>
-import { getYear } from '@/services/dateService'
+import { getYear, formatISOdate } from '@/services/dateService'
 import UpDownRating from '@/components/UpDownRating'
 import api from '@/api'
 import { mapGetters } from 'vuex'
@@ -107,8 +200,13 @@ export default {
     return {
       isActive: false,
       dateMenu: false,
+      isShowMemorizeModal: false,
+      isShowStartDateMenu: false,
+      isShowEndDateMenu: false,
       itemStartYear: getYear(this.item.startDate),
-      isYearSaved: false
+      isYearSaved: false,
+      itemStartDate: new Date(this.item.startDate).toISOString().substr(0, 10),
+      itemEndDate: new Date(this.item.endDate).toISOString().substr(0, 10)
     }
   },
   computed: {
@@ -146,6 +244,7 @@ export default {
     }
   },
   methods: {
+    formatISOdate,
     async saveYear(year) {
       if (+this.itemStartYear === year) return
       const dateWithNewYear = new Date(this.item.startDate).setFullYear(year)
@@ -163,6 +262,21 @@ export default {
     getCategoriesList() {
       const categoryListTitles = this.item.categoryList.map((item) => item.title)
       return categoryListTitles.join(', ')
+    },
+    closeModal() {
+      this.isShowMemorizeModal = false
+    },
+    async saveAndCloseModal() {
+      this.closeModal()
+      await api.users.updatePersonalEvents(this.item)
+    },
+    setStartDate() {
+      this.item.startDate = new Date(this.itemStartDate).toISOString()
+      this.isShowStartDateMenu = false
+    },
+    setEndDate() {
+      this.item.endDate = new Date(this.itemEndDate).toISOString()
+      this.isShowEndDateMenu = false
     }
   }
 }
