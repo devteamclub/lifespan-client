@@ -36,6 +36,21 @@ export const getPersonalEvents = async() => {
   }
 }
 
+export const updatePersonalEvents = async(event) => {
+  try {
+    const { data } = await publicApi.post(`${PERSONAL_HANDLER}/events`, event)
+    return { data, error: null }
+  } catch ({ response }) {
+    return {
+      data: null,
+      error: {
+        text: response.data,
+        status: response.status
+      }
+    }
+  }
+}
+
 export const getUserPredictionEvents = async() => {
   try {
     const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/events`)
