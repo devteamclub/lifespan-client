@@ -8,12 +8,13 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
+          class="menu-button"
           tile
           dark
           v-bind="attrs"
           v-on="on"
         >
-          Services menu
+          DApps
         </v-btn>
       </template>
 
@@ -105,5 +106,9 @@ export default {
   left: 10px;
   top: 10px;
   z-index: 11;
+}
+
+.menu-button {
+  text-transform: initial;
 }
 </style>
