@@ -8,11 +8,11 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
+          class="menu-button"
           tile
           dark
           v-bind="attrs"
           v-on="on"
-          class="menu-button"
         >
           DApps
         </v-btn>
