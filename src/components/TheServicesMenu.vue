@@ -12,8 +12,9 @@
           dark
           v-bind="attrs"
           v-on="on"
+          class="menu-button"
         >
-          Services menu
+          DApps
         </v-btn>
       </template>
 
@@ -105,5 +106,9 @@ export default {
   left: 10px;
   top: 10px;
   z-index: 11;
+}
+
+.menu-button {
+  text-transform: initial;
 }
 </style>
