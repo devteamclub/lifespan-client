@@ -235,13 +235,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wallet {
-  position: fixed;
-  left: 195px;
-  top: 10px;
-  z-index: 11;
-}
-
 .wallet-chip {
   display: flex;
   position: relative;
