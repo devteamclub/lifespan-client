@@ -26,12 +26,14 @@
               description="What does the future holds for your family"
               class="app-card"
               icon="/images/app/lifespan.svg"
+              active="true"
             />
             <AppCard
               name="Plush forest"
               description="Dedicate a real tree to your child"
               class="app-card"
               icon="/images/app/forest.svg"
+              active="true"
             />
             <AppCard
               name="Juno"

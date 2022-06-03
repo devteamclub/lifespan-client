@@ -1,5 +1,8 @@
 <template>
-  <div class="wrapper">
+  <div
+    :class="active ? 'active' : ''"
+    class="wrapper"
+  >
     <div class="card">
       <div class="cardContentContainer">
         <img
@@ -19,6 +22,7 @@
       <div class="actionContainer">
         <div class="detailsButton">
           <img
+            v-if="active"
             src="/images/arrow-right.svg"
             class="detailsButtonIconClassName"
             alt="arrow right icon"
@@ -47,6 +51,11 @@ export default {
       type: String,
       required: false,
       default: '/images/default-app.svg'
+    },
+    active: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   }
 }
@@ -62,27 +71,20 @@ export default {
     0 1px 2px 0 rgba(0, 0, 0, 0.06);
   transition: all 150ms ease-in-out;
   user-select: none;
+  cursor: default;
 
-  &:hover {
-    background-color: #FAFAFA;
-    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 100%, rgba(255, 255, 255, 0.7) 0%);
-    border: solid 2px #fff;
-    box-shadow:
-      0 1px 1px 0 rgba(0, 0, 0, 0.02),
-      0 1px 2px 0 rgba(0, 0, 0, 0.02),
-      0 2px 4px 0 rgba(0, 0, 0, 0.03),
-      0 4px 4px -1px rgba(0, 0, 0, 0.04),
-      0 8px 12px -2px rgba(0, 0, 0, 0.03);
-    cursor: pointer;
-  }
-
-  &.open {
-    background-color: white;
-
+  &.active {
     &:hover {
-      border: solid 2px transparent;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-      cursor: default;
+      background-color: #FAFAFA;
+      background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 100%, rgba(255, 255, 255, 0.7) 0%);
+      border: solid 2px #fff;
+      box-shadow:
+        0 1px 1px 0 rgba(0, 0, 0, 0.02),
+        0 1px 2px 0 rgba(0, 0, 0, 0.02),
+        0 2px 4px 0 rgba(0, 0, 0, 0.03),
+        0 4px 4px -1px rgba(0, 0, 0, 0.04),
+        0 8px 12px -2px rgba(0, 0, 0, 0.03);
+      cursor: pointer;
     }
   }
 }
@@ -94,10 +96,6 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 24px 20px 24px 24px;
-
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .cardContentContainer {
