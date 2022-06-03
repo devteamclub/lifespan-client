@@ -6,7 +6,12 @@
       class="home"
     >
       <div class="wrapper">
-        Home
+        <div class="left-column">
+          Left
+        </div>
+        <div class="right-column">
+          Right
+        </div>
       </div>
     </div>
   </div>

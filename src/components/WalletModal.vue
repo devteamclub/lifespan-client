@@ -216,6 +216,7 @@ export default {
 .wallet-modal {
   position: absolute;
   top: 62px;
+  right: 0;
   transition: .2s ease-in-out;
   background: white;
   border-radius: 24px;
@@ -244,6 +245,7 @@ export default {
   align-items: center;
   display: flex;
   flex-direction: column;
+  padding: 0 20px;
 }
 
 .modal-title {
@@ -286,7 +288,6 @@ export default {
   line-height: 1.33;
   margin-top: 4px;
   text-align: center;
-  width: 424px;
 }
 
 .connect-button {

@@ -1,7 +1,17 @@
 <template>
   <header class="header">
     <div class="wrapper">
-      <TheMetamask />
+      <router-link to="/">
+        <img
+          class="logo"
+          src="/images/logo/image.png"
+          srcset="/images/logo/image@2x.png 2x, /images/logo/image@3x.png 3x"
+          alt="icon"
+        >
+      </router-link>
+      <div class="right">
+        <TheMetamask />
+      </div>
     </div>
   </header>
 </template>
@@ -18,13 +28,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .wrapper {
-    max-width: 1440px;
-    margin: 0 auto;
-  }
-
   .header {
     padding: 20px;
     box-sizing: border-box;
+
+    .wrapper {
+      min-width: 320px;
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+
+      .logo {
+        width: 25px;
+        height: 34px;
+      }
+    }
   }
 </style>
