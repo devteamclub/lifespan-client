@@ -16,29 +16,34 @@
           </div>
           <div class="app-list">
             <AppCard
-              name="Name"
-              description="Description"
+              name="Family"
+              description=" Connect your family across time and space"
               class="app-card"
+              icon="/images/app/family.svg"
             />
             <AppCard
-              name="Name"
-              description="Description"
+              name="Future outlook"
+              description="What does the future holds for your family"
               class="app-card"
+              icon="/images/app/lifespan.svg"
             />
             <AppCard
-              name="Name"
-              description="Description"
+              name="Plush forest"
+              description="Dedicate a real tree to your child"
               class="app-card"
+              icon="/images/app/forest.svg"
             />
             <AppCard
-              name="Name"
-              description="Description"
+              name="Juno"
+              description="Next-generation child development help."
               class="app-card"
+              icon="/images/app/juno.png"
             />
             <AppCard
-              name="Name"
-              description="Description"
+              name="Parallels"
+              description="Compare lifespans"
               class="app-card"
+              icon="/images/app/parallels.svg"
             />
           </div>
         </div>
