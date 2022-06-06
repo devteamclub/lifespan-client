@@ -86,7 +86,7 @@ export default {
   computed: {
     ...mapGetters(['getUser']),
     tokenImage () {
-      if (this.userAge.years === 1) {
+      if (this.userAge.years < 1) {
         return '/images/token_1year.png'
       } else {
         return '/images/token_7years.png'
