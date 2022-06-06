@@ -1,18 +1,18 @@
 <template>
   <div>
-    <TheMetamask />
+    <TheHeader />
     <TheTimeline v-if="getUser" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import TheMetamask from '@/components/TheWallet'
+import TheHeader from '@/components/Header'
 import TheTimeline from '@/components/TheTimeline'
 
 export default {
   components: {
-    TheMetamask,
+    TheHeader,
     TheTimeline
   },
   computed: {

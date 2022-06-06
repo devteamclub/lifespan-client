@@ -103,8 +103,8 @@ export default {
 <style lang="scss" scoped>
 .menu {
   position: fixed;
-  left: 10px;
-  top: 10px;
+  top: 100px;
+  left: 20px;
   z-index: 11;
 }
 
