@@ -61,7 +61,9 @@
           </div>
         </div>
         <div class="right-column">
-          Right
+          <AgeTable
+            :age="userAge"
+          />
         </div>
       </div>
     </div>
@@ -69,32 +71,39 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { mapGetters } from 'vuex'
 import TheHeader from '../components/Header.vue'
 import AppCard from '../components/AppCard.vue'
+import AgeTable from '../components/AgeTable.vue'
 
 export default {
   components: {
     TheHeader,
-    AppCard
+    AppCard,
+    AgeTable
   },
   computed: {
     ...mapGetters(['getUser']),
     tokenImage() {
-      if (this.userAge === 1) {
+      if (this.userAge.years === 1) {
         return '/images/token_1year.png'
       } else {
         return '/images/token_7years.png'
       }
     },
     userAge() {
-      return new Date().getFullYear() - new Date(this.getUser.birthday).getFullYear()
+      return {
+        years: moment().diff(this.getUser.birthday, 'years'),
+        months: moment().diff(this.getUser.birthday, 'months'),
+        weeks: moment().diff(this.getUser.birthday, 'weeks')
+      }
     },
     userAgeString() {
-      if (this.userAge === 1) {
-        return `${this.userAge} year`
+      if (this.userAge.years === 1) {
+        return `${this.userAge.years} year`
       } else {
-        return `${this.userAge} years`
+        return `${this.userAge.years} years`
       }
     }
   }
