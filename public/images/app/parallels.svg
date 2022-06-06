@@ -1,18 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="21px" height="27px" viewBox="0 0 21 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
-    <title>Group</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Lifespan-V3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Artboard" transform="translate(-71.000000, -849.000000)" fill="#858383">
-            <g id="Dapps-V1-Copy" transform="translate(41.000000, 373.000000)">
-                <g id="Parallels" transform="translate(0.000000, 450.000000)">
-                    <g id="Group" transform="translate(30.000000, 26.000000)">
-                        <rect id="Rectangle" x="0" y="0" width="8" height="27" rx="4"></rect>
-                        <rect id="Rectangle" x="13" y="0" width="8" height="27" rx="4"></rect>
-                    </g>
-                </g>
-            </g>
-        </g>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#858383;}
+</style>
+<desc>Created with Sketch.</desc>
+<g id="Lifespan-V3">
+	<g id="Artboard" transform="translate(-71.000000, -849.000000)">
+		<g id="Dapps-V1-Copy" transform="translate(41.000000, 373.000000)">
+			<g id="Parallels" transform="translate(0.000000, 450.000000)">
+				<g id="Group" transform="translate(30.000000, 26.000000)">
+					<path id="Rectangle" class="st0" d="M17.5,10.5L17.5,10.5c2.2,0,4,1.8,4,4v19c0,2.2-1.8,4-4,4l0,0c-2.2,0-4-1.8-4-4v-19
+						C13.5,12.3,15.3,10.5,17.5,10.5z"/>
+					<path id="Rectangle_00000003827605505946364320000017825512509312451471_" class="st0" d="M30.5,10.5L30.5,10.5
+						c2.2,0,4,1.8,4,4v19c0,2.2-1.8,4-4,4l0,0c-2.2,0-4-1.8-4-4v-19C26.5,12.3,28.3,10.5,30.5,10.5z"/>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
 </svg>

@@ -10,7 +10,7 @@
           <div class="token-wrapper">
             <img
               class="token"
-              src="/images/token.png"
+              :src="tokenImage"
               alt="token"
             >
           </div>
@@ -26,7 +26,7 @@
               description="What does the future holds for your family"
               class="app-card"
               icon="/images/app/lifespan.svg"
-              active="true"
+              :active="true"
               :url="`/user/${getUser.id}`"
             />
             <AppCard
@@ -34,9 +34,9 @@
               description="Dedicate a real tree to your child"
               class="app-card"
               icon="/images/app/forest.svg"
-              active="true"
               url="https://forest.plush.dev"
               target="_blank"
+              :active="true"
             />
             <AppCard
               name="Juno"
@@ -71,7 +71,16 @@ export default {
     AppCard
   },
   computed: {
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser']),
+    tokenImage() {
+      const age = new Date().getFullYear() - new Date(this.getUser.birthday).getFullYear()
+
+      if (age === 1) {
+        return '/images/token_1year.png'
+      } else {
+        return '/images/token_7years.png'
+      }
+    }
   }
 }
 </script>
