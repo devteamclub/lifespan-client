@@ -1,7 +1,9 @@
 <template>
-  <div
+  <a
     :class="active ? 'active' : ''"
     class="wrapper"
+    :href="url"
+    :target="target"
   >
     <div class="card">
       <div class="cardContentContainer">
@@ -30,7 +32,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </a>
 </template>
 
 <script>
@@ -51,6 +53,17 @@ export default {
       type: String,
       required: false,
       default: '/images/default-app.svg'
+    },
+    url: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    target: {
+      type: String,
+      required: false,
+      default: '_self'
+
     },
     active: {
       type: Boolean,

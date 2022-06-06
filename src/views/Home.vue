@@ -27,6 +27,7 @@
               class="app-card"
               icon="/images/app/lifespan.svg"
               active="true"
+              :url="`/user/${getUser.id}`"
             />
             <AppCard
               name="Plush forest"
@@ -34,6 +35,8 @@
               class="app-card"
               icon="/images/app/forest.svg"
               active="true"
+              url="https://forest.plush.dev"
+              target="_blank"
             />
             <AppCard
               name="Juno"
