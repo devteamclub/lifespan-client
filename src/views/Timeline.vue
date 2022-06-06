@@ -1,22 +1,31 @@
 <template>
   <div>
-    <TheHeader />
+    <TheWallet class="wallet" />
     <TheTimeline v-if="getUser" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import TheHeader from '@/components/Header'
 import TheTimeline from '@/components/TheTimeline'
+import TheWallet from '../components/TheWallet.vue'
 
 export default {
   components: {
-    TheHeader,
-    TheTimeline
+    TheTimeline,
+    TheWallet
   },
   computed: {
     ...mapGetters(['getUser'])
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.wallet {
+  position: fixed;
+  z-index: 12;
+  left: 280px;
+  top: 20px;
+}
+</style>
