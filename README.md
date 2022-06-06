@@ -24,6 +24,8 @@ npm run lint
 ### .env
 ```
 VUE_APP_API_URL=https://api.lifespan.plush.dev
+VUE_APP_PLUSH_API_URL=https://api.plush.dev
+VUE_APP_P_API_URL=api.lsp.dev-team.club
 ```
 
 ## Hosting
