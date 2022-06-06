@@ -146,7 +146,7 @@ export default {
       default: ''
     }
   },
-  data() {
+  data () {
     return {
       isConnect: false,
       title: '',
@@ -156,26 +156,26 @@ export default {
     }
   },
   computed: {
-    isSwitchModal() {
+    isSwitchModal () {
       return this.modalType === 'SwitchAccountModal'
     },
-    isWrongNetworkModal() {
+    isWrongNetworkModal () {
       return this.modalType === 'WrongNetworkModal'
     }
   },
   watch: {
-    isShow() {
+    isShow () {
       this.validateState()
     }
   },
   methods: {
-    copyAddress() {
+    copyAddress () {
       if (this.isCopied) return
       this.isCopied = true
       setTimeout(() => (this.isCopied = false), 1000)
       navigator.clipboard.writeText(this.address)
     },
-    validateState() {
+    validateState () {
       switch (this.modalType) {
         case 'RegisterModal':
           this.title = 'Plush account is required'
@@ -198,10 +198,10 @@ export default {
           this.buttonText = 'Connect'
       }
     },
-    async onComplete(data) {
+    async onComplete (data) {
       this.$emit('onComplete', data)
     },
-    connectWallet() {
+    connectWallet () {
       if (this.isSwitchModal) {
         this.$emit('switchAccount')
       } else {

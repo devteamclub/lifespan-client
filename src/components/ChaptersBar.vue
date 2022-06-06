@@ -31,7 +31,7 @@ export default {
     }
   },
   computed: {
-    getStyledChapters() {
+    getStyledChapters () {
       const firstChapterStartDate = this.getYear(this.chapters[0].startDate)
       const lastChapterEndDate = this.getYear(this.chapters[this.chapters.length - 1].endDate)
       const chaptersDatesRange = lastChapterEndDate - firstChapterStartDate

@@ -65,7 +65,7 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       menu: false,
       value: 'General Events',
@@ -78,17 +78,17 @@ export default {
   computed: {
     ...mapGetters(['getUser'])
   },
-  mounted() {
+  mounted () {
     this.fetchPredictionsCategories()
   },
   methods: {
-    async fetchPredictionsCategories() {
+    async fetchPredictionsCategories () {
       const { data: categories } = await api.predictions.getPredictionsCategories()
       if (!categories) return
       this.categories = categories
       categories.forEach(({ title, id }) => (this.options[title] = this.selectedCategories.includes(id)))
     },
-    selectCategory(needToAdd, selectedCategoryId) {
+    selectCategory (needToAdd, selectedCategoryId) {
       if (needToAdd) {
         this.selectedCategories.push(selectedCategoryId)
       } else {

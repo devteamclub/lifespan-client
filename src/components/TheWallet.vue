@@ -69,7 +69,7 @@ import { mapActions } from 'vuex'
 
 export default {
   components: { WalletModal },
-  data() {
+  data () {
     return {
       isShowModal: false,
       iconTheme: '',
@@ -88,16 +88,16 @@ export default {
     }
   },
   computed: {
-    isValidAddress() {
+    isValidAddress () {
       return this.address && this.address.length === this.requiredAddressLength
     },
-    formattedAddress() {
+    formattedAddress () {
       if (!this.isValidAddress) return
 
       return `${this.address.substring(0, 6)}...${this.address.substring(this.address.length - 4, this.address.length)}`
     }
   },
-  async created() {
+  async created () {
     const { data: user } = await api.users.getUser()
     // TODO: user getUser instead of userProfile
     if (user) {
@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     ...mapActions(['setUserMetamaskAddress', 'setUser']),
-    async switchAccount() {
+    async switchAccount () {
       if (!this.metamaskData) return
       await window.ethereum.request({
         method: 'wallet_requestPermissions',
@@ -119,7 +119,7 @@ export default {
       })
 
       // eslint-disable-next-line handle-callback-err
-      window.web3.eth.getAccounts(async(err, accounts) => {
+      window.web3.eth.getAccounts(async (err, accounts) => {
         this.metamaskData.metaMaskAddress = accounts[0]
         const signature = await this.getNonceAndSignMessage(this.metamaskData)
         await this.loginUserToPlushSystem(this.metamaskData.metaMaskAddress, signature)
@@ -137,7 +137,7 @@ export default {
         this.validateState()
       })
     },
-    async registrationNewUser(metamaskData) {
+    async registrationNewUser (metamaskData) {
       let userProfile
       const { data: plushUserProfile } = await api.users.getUserProfile()
       userProfile = plushUserProfile
@@ -152,7 +152,7 @@ export default {
       // TODO: user getUser instead of userProfile
       this.userProfile = user
     },
-    async onComplete(metamaskData) {
+    async onComplete (metamaskData) {
       this.setUserMetamaskAddress(metamaskData.metaMaskAddress)
       this.metamaskData = metamaskData
       this.closeModal()
@@ -175,22 +175,22 @@ export default {
       }
       this.validateState()
     },
-    async signMessage(data, nonce) {
+    async signMessage (data, nonce) {
       const message = `Please sign this message to connect to Plush. Nonce: ${nonce}`
       return await data.web3.eth.personal.sign(message, data.metaMaskAddress.toLowerCase())
     },
-    async getNonceAndSignMessage(metamaskData) {
+    async getNonceAndSignMessage (metamaskData) {
       const { data: { nonce } } = await api.users.getNonce(metamaskData.metaMaskAddress)
       return await this.signMessage(metamaskData, nonce)
     },
-    async loginUserToPlushSystem(publicAddress, signature) {
+    async loginUserToPlushSystem (publicAddress, signature) {
       const messageResult = { publicAddress, signature }
       await api.users.userLogin(messageResult)
     },
-    closeModal() {
+    closeModal () {
       this.isShowModal = false
     },
-    validateState() {
+    validateState () {
       switch (this.state) {
         case 'DISCONNECTED':
           this.title = 'Hey,'

@@ -2,7 +2,7 @@ import { predictionsApi } from '@/plugins/axios'
 
 const PREDICTION_HANDLER = 'v1/prediction'
 
-export const getPredictionsCategories = async() => {
+export const getPredictionsCategories = async () => {
   try {
     const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/categories`)
     return { data, error: null }
@@ -17,7 +17,7 @@ export const getPredictionsCategories = async() => {
   }
 }
 
-export const getPredictionsByCategories = async(categoriesIds) => {
+export const getPredictionsByCategories = async (categoriesIds) => {
   const categories = categoriesIds?.length ? `?cats=${categoriesIds}` : ''
   try {
     const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/events${categories}`)

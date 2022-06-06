@@ -48,7 +48,7 @@ export default {
     }
   },
   methods: {
-    getCellColor(year) {
+    getCellColor (year) {
       for (let i = 0; i < stages.length; i++) {
         if (year <= stages[i][0]) {
           return stages[i][1]

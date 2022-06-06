@@ -13,18 +13,18 @@ export default new Vuex.Store({
     getUserMetamaskAddress: (state) => state.userMetamaskAddress
   },
   mutations: {
-    SET_USER(state, user) {
+    SET_USER (state, user) {
       this.state.user = user
     },
-    SET_USER_METAMASK_ADDRESS(state, address) {
+    SET_USER_METAMASK_ADDRESS (state, address) {
       this.state.userMetamaskAddress = address
     }
   },
   actions: {
-    setUser({ commit }, user) {
+    setUser ({ commit }, user) {
       commit('SET_USER', user)
     },
-    setUserMetamaskAddress({ commit }, address) {
+    setUserMetamaskAddress ({ commit }, address) {
       commit('SET_USER_METAMASK_ADDRESS', address)
     }
   }

@@ -31,7 +31,7 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       loading: false
     }
@@ -40,7 +40,7 @@ export default {
     ...mapGetters(['getUser'])
   },
   methods: {
-    async changeRate(isPositive) {
+    async changeRate (isPositive) {
       if (this.loading) return
 
       if (this.item.isPositive === isPositive) {

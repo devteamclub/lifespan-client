@@ -76,7 +76,7 @@ export default {
     ChaptersBar,
     TheServicesMenu
   },
-  data() {
+  data () {
     return {
       predictions: [],
       events: [],
@@ -91,7 +91,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getUser']),
-    getTimeIntervals() {
+    getTimeIntervals () {
       const items = [...this.predictions, ...this.events]
       const timeIntervals = {}
 
@@ -111,11 +111,11 @@ export default {
 
       return timeIntervals
     },
-    getPersonAge() {
+    getPersonAge () {
       if (this.currentIntervalStartDate < this.getYear(this.getUser.birthday)) return 0
       return this.currentIntervalStartDate - this.getYear(this.getUser.birthday)
     },
-    getCurrentChapter() {
+    getCurrentChapter () {
       if (this.currentIntervalStartDate < this.getYear(this.getUser.birthday)) {
         return { title: 'Not yet born' }
       }
@@ -128,7 +128,7 @@ export default {
       })
     }
   },
-  async created() {
+  async created () {
     const { data: { categoryList: selectedCategories } } = await api.users.getUserSettings()
     this.selectedCategories = selectedCategories || []
     await Promise.all([
@@ -144,7 +144,7 @@ export default {
   methods: {
     getYear,
     throttle,
-    showChapterEvents() {
+    showChapterEvents () {
       const startYear = this.getYear(this.getCurrentChapter.startDate)
       const endYear = this.getYear(this.getCurrentChapter.endDate)
       const activeChapters = [...this.intervalElements].filter((e) => {
@@ -154,7 +154,7 @@ export default {
       activeChapters.forEach((chapter) => (eventsOfChapter = [...eventsOfChapter, ...chapter.querySelectorAll('.events .item-chip')]))
       this.fixActiveChaptersEvents(eventsOfChapter)
     },
-    fixActiveChaptersEvents(eventsOfChapter) {
+    fixActiveChaptersEvents (eventsOfChapter) {
       addEventListener('scroll', () => this.unfixActiveChaptersEvents(eventsOfChapter))
       eventsOfChapter.forEach((event, i) => {
         event.style.position = 'fixed'
@@ -163,7 +163,7 @@ export default {
         event.classList.add('ml-0')
       })
     },
-    unfixActiveChaptersEvents(eventsOfChapter) {
+    unfixActiveChaptersEvents (eventsOfChapter) {
       removeEventListener('scroll', this.unfixActiveChaptersEvents)
       eventsOfChapter.forEach((event) => {
         event.style.position = 'relative'
@@ -171,33 +171,33 @@ export default {
         event.classList.remove('ml-0')
       })
     },
-    getYearRange(event) {
+    getYearRange (event) {
       return this.getYear(event.endDate) - this.getYear(event.startDate)
     },
-    saveSelectedCategories(selectedCategories) {
+    saveSelectedCategories (selectedCategories) {
       this.selectedCategories = selectedCategories
       this.fetchPredictions()
     },
-    async fetchPredictions() {
+    async fetchPredictions () {
       const { data } = await api.predictions.getPredictionsByCategories(this.selectedCategories.join())
       this.predictions = data || []
     },
-    async fetchEvents() {
+    async fetchEvents () {
       const { data } = await api.users.getPersonalEvents()
       if (data?.length) this.events = data
     },
-    async fetchChapters() {
+    async fetchChapters () {
       const { data } = await api.users.getPersonalChapters()
       if (data?.length) this.chapters = data
     },
-    scrollToCurrentYear() {
+    scrollToCurrentYear () {
       const currentYearPrediction = [...this.intervalElements].find(startDateElement => {
         return parseInt(startDateElement.dataset.intervalDate) === this.currentYear
       })
 
       this.scrollToElement(currentYearPrediction)
     },
-    scrollToChapter(chapterStartDate) {
+    scrollToChapter (chapterStartDate) {
       const intervalElementsArr = [...this.intervalElements]
 
       const selectedChapterOnInterval = intervalElementsArr.find(startDateElement => {
@@ -208,7 +208,7 @@ export default {
 
       this.scrollToElement(selectedChapterOnInterval, isFirstChapter)
     },
-    handleDatesInfo() {
+    handleDatesInfo () {
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach((entry) => {
           if (entry.boundingClientRect.top <= 0) {
@@ -222,7 +222,7 @@ export default {
         this.intervalElements.forEach(item => observer.observe(item))
       }
     },
-    scrollToElement(element, isFirst) {
+    scrollToElement (element, isFirst) {
       if (!element) return
 
       window.scroll({
