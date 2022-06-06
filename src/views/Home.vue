@@ -85,14 +85,14 @@ export default {
   },
   computed: {
     ...mapGetters(['getUser']),
-    tokenImage() {
+    tokenImage () {
       if (this.userAge.years === 1) {
         return '/images/token_1year.png'
       } else {
         return '/images/token_7years.png'
       }
     },
-    userAge() {
+    userAge () {
       const dob = new Date(this.getUser.birthday)
 
       return {
@@ -101,7 +101,7 @@ export default {
         weeks: moment().diff(dob, 'weeks')
       }
     },
-    userAgeString() {
+    userAgeString () {
       if (this.userAge.years === 1) {
         return `${this.userAge.years} year`
       } else {
