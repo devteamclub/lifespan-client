@@ -8,6 +8,14 @@
       <div class="wrapper">
         <div class="left-column">
           <div class="token-wrapper">
+            <div class="text">
+              <div class="name">
+                {{ getUser.name }}
+              </div>
+              <div class="age">
+                {{ userAgeString }}
+              </div>
+            </div>
             <img
               class="token"
               :src="tokenImage"
@@ -73,12 +81,20 @@ export default {
   computed: {
     ...mapGetters(['getUser']),
     tokenImage() {
-      const age = new Date().getFullYear() - new Date(this.getUser.birthday).getFullYear()
-
-      if (age === 1) {
+      if (this.userAge === 1) {
         return '/images/token_1year.png'
       } else {
         return '/images/token_7years.png'
+      }
+    },
+    userAge() {
+      return new Date().getFullYear() - new Date(this.getUser.birthday).getFullYear()
+    },
+    userAgeString() {
+      if (this.userAge === 1) {
+        return `${this.userAge} year`
+      } else {
+        return `${this.userAge} years`
       }
     }
   }
@@ -103,6 +119,21 @@ export default {
           width: 100%;
           display: flex;
           justify-content: center;
+          align-items: center;
+
+          .text {
+            position: absolute;
+            color: white;
+            text-align: center;
+
+            .name {
+              font-size: 24px;
+            }
+
+            .age {
+              font-weight: var(--font-weight-ligh);
+            }
+          }
 
           .token {
             width: 400px;
