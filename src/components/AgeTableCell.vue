@@ -36,5 +36,10 @@ export default {
     border-width: 1px;
     border-style: solid;
     border-radius: 4px;
+    box-sizing: border-box;
+
+    &.bold {
+      border-width: 4px;
+    }
   }
 </style>

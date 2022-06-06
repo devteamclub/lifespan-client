@@ -93,10 +93,12 @@ export default {
       }
     },
     userAge() {
+      const dob = new Date(this.getUser.birthday)
+
       return {
-        years: moment().diff(this.getUser.birthday, 'years'),
-        months: moment().diff(this.getUser.birthday, 'months'),
-        weeks: moment().diff(this.getUser.birthday, 'weeks')
+        years: moment().diff(dob, 'years'),
+        months: moment().diff(dob, 'months'),
+        weeks: moment().diff(dob, 'weeks')
       }
     },
     userAgeString() {
@@ -121,8 +123,16 @@ export default {
       display: flex;
       justify-content: space-between;
 
+      @media (max-width: 1280px) {
+        flex-direction: column;
+      }
+
       .left-column {
         width: calc(50% - 20px);
+
+        @media (max-width: 1280px) {
+          width: 100%;
+        }
 
         .token-wrapper {
           width: 100%;
@@ -162,7 +172,15 @@ export default {
       }
 
       .right-column {
-        width: calc(50% - 20px)
+        width: calc(50% - 20px);
+        display: flex;
+        justify-content: flex-end;
+
+        @media (max-width: 1280px) {
+          margin-top: 40px;
+          width: 100%;
+          justify-content: center;
+        }
       }
     }
   }

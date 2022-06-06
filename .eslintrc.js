@@ -32,7 +32,7 @@ module.exports = {
         ignoreStrings: true
       }
     ],
-    'space-before-function-paren': ['error', 'never'],
+    'space-before-function-paren': ['error', 'anonymous'],
     'vue/component-name-in-template-casing': ['error', 'PascalCase', {
       registeredComponentsOnly: true
     }],

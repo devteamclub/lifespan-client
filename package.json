@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint:scss": "stylelint src/**/*.{vue,scss} --fix",
-    "lint:js": "eslint 'src/**/*.{js,vue}' --fix"
+    "lint:js": "eslint \"src/**/*.{js,vue}\" --fix"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",

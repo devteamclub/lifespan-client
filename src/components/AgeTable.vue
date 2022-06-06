@@ -1,19 +1,25 @@
 <template>
-  <table>
-    <tr
-      v-for="year in age"
+  <div class="table">
+    <div
+      v-for="year in 96"
       :key="year"
+      class="year-row"
     >
-      <td
-        v-for="month in 12"
-        :key="month"
-      >
-        <AgeTableCell
-          color="green"
-        />
-      </td>
-    </tr>
-  </table>
+      <div class="year">
+        <div
+          v-for="month in 12"
+          :key="month"
+          class="month"
+        >
+          <AgeTableCell
+            :color="getCellColor(year)"
+            :is-filled="(year - 1) * 12 + month < age.months"
+            :is-bold="(year - 1) === age.years && month === age.months % 12"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -27,7 +33,7 @@ const stages = [
   [35, '#8f7ed7'],
   [51, '#74bee4'],
   [80, '#6f9be6'],
-  [96, '#6f9be6']
+  [96, '#de8dbc']
 ]
 
 export default {
@@ -41,10 +47,10 @@ export default {
       required: true
     }
   },
-  computed: {
-    cellColor() {
+  methods: {
+    getCellColor(year) {
       for (let i = 0; i < stages.length; i++) {
-        if (this.age.years < stages[i]) {
+        if (year <= stages[i][0]) {
           return stages[i][1]
         }
       }
@@ -56,5 +62,43 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.table {
+  width: 600px;
+  overflow: auto;
 
+  @media (max-width: 640px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .year-row {
+    display: flex;
+
+    &:nth-child(odd) {
+      float: left;
+
+      @media (max-width: 640px) {
+        float: none;
+      }
+    }
+
+    &:nth-child(even) {
+      float: right;
+
+      @media (max-width: 640px) {
+        float: none;
+      }
+    }
+
+    .year {
+      display: inline-flex;
+
+      .month {
+        padding: 4px;
+        box-sizing: border-box;
+      }
+    }
+  }
+}
 </style>
