@@ -168,6 +168,9 @@ export default {
       this.validateState()
     }
   },
+  mounted () {
+    this.$refs.metamask.init()
+  },
   methods: {
     copyAddress () {
       if (this.isCopied) return
@@ -205,7 +208,7 @@ export default {
       if (this.isSwitchModal) {
         this.$emit('switchAccount')
       } else {
-        this.$refs.metamask.init()
+        this.$refs.metamask.init(true)
       }
     }
   }

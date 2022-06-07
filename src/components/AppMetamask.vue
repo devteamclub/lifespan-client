@@ -93,11 +93,13 @@ export default {
       this.AccountInterval = setInterval(() => this.checkAccounts(), 1000)
       this.NetworkInterval = setInterval(() => this.checkNetWork(), 1000)
     },
-    async init () {
+    async init (isLoginSuggested) {
       if (window.ethereum) {
         window.web3 = new Web3(window.ethereum)
         try {
-          await window.ethereum.enable()
+          if (isLoginSuggested) {
+            await window.ethereum.enable()
+          }
           this.web3TimerCheck(window.web3)
         } catch (error) {
           this.Log(

@@ -146,7 +146,6 @@ export const userLogin = async (messageData) => {
 
 export const getUserProfile = async () => {
   try {
-    console.log(plushApi)
     const { data } = await plushApi.get(`${PLUSH_USER_HANDLER}/users/profile`)
     return { data, error: null }
   } catch ({ response }) {
