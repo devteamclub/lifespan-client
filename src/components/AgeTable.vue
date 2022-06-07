@@ -13,8 +13,8 @@
         >
           <AgeTableCell
             :color="getCellColor(year)"
-            :is-filled="(year - 1) * 12 + month < age.months"
-            :is-bold="(year - 1) === age.years && month === age.months % 12"
+            :is-filled="(year - 1) * 12 + month - 1 < age.months"
+            :is-bold="year - 1 === age.years && month - 1 === age.months % 12"
           />
         </div>
       </div>

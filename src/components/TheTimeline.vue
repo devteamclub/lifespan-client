@@ -1,5 +1,13 @@
 <template>
   <div class="timeline">
+    <router-link to="/">
+      <img
+        class="logo"
+        src="/images/logo/image.png"
+        srcset="/images/logo/image@2x.png 2x, /images/logo/image@3x.png 3x"
+        alt="icon"
+      >
+    </router-link>
     <TheServicesMenu :selected-categories="selectedCategories" @saveSelectedCategories="saveSelectedCategories" />
     <div ref="wrapper" class="wrapper">
       <div v-if="currentIntervalStartDate" class="top-info">
@@ -236,6 +244,15 @@ export default {
 
 <style lang="scss" scoped>
 .timeline {
+  .logo {
+    position: fixed;
+    left: 20px;
+    top: 22px;
+    z-index: 14;
+    width: 25px;
+    height: 34px;
+  }
+
   .top-info {
     position: fixed;
     top: 0;

@@ -25,7 +25,7 @@ export default {
 .wallet {
   position: fixed;
   z-index: 12;
-  left: 280px;
+  left: 300px;
   top: 20px;
 }
 </style>
