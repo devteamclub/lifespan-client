@@ -220,6 +220,7 @@ export default {
   position: absolute;
   top: 62px;
   right: 0;
+  z-index: 14;
   transition: .2s ease-in-out;
   background: white;
   border-radius: 24px;
