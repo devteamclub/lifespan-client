@@ -102,11 +102,42 @@ export default {
       }
     },
     userAgeString () {
-      if (this.userAge.years === 1) {
-        return `${this.userAge.years} year`
-      } else {
-        return `${this.userAge.years} years`
+      const birthDate = new Date(this.getUser.birthday)
+
+      if (!birthDate) {
+        return ''
       }
+
+      const years = moment().diff(birthDate, 'years')
+      const months = moment().diff(birthDate, 'months')
+      const weeks = moment().diff(birthDate, 'weeks')
+
+      if (weeks < 24) {
+        const postfix =
+          weeks === 1 ? 'week' : 'weeks'
+        return `${weeks} ${postfix}`
+      }
+
+      if (months < 12) {
+        const postfix =
+          months === 1
+            ? 'month'
+            : 'months'
+        return `${months} ${postfix}`
+      }
+
+      const monthExceptYears = months - years * 12
+      const yearPostfix =
+        years === 1 ? 'year' : 'years'
+      const monthPostfix =
+        monthExceptYears === 1
+          ? 'month'
+          : 'months'
+      if (monthExceptYears === 0 || years > 2) {
+        return `${years} ${yearPostfix}`
+      }
+
+      return `${years} ${yearPostfix}, ${months - years * 12} ${monthPostfix}`
     }
   }
 }
