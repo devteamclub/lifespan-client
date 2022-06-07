@@ -7,7 +7,7 @@ export default {
       default: 'null'
     }
   },
-  data() {
+  data () {
     return {
       web3: null,
       MetaMaskId: '1', // main net netID
@@ -32,14 +32,14 @@ export default {
     }
   },
   methods: {
-    checkWeb3() {
+    checkWeb3 () {
       const web3 = window.web3
       if (typeof web3 === 'undefined') {
         this.web3 = null
         this.Log(this.MetamaskMsg.METAMASK_NOT_INSTALL, 'NO_INSTALL_METAMASK')
       }
     },
-    checkAccounts() {
+    checkAccounts () {
       if (this.web3 === null) return
       this.web3.eth.getAccounts((err, accounts) => {
         if (err != null) { return this.Log(this.MetamaskMsg.NETWORK_ERROR, 'NETWORK_ERROR') }
@@ -51,7 +51,7 @@ export default {
         this.MetaMaskAddress = accounts[0] // user Address
       })
     },
-    checkNetWork() {
+    checkNetWork () {
       try {
         // Main Network: 1
         // Ropsten Test Network: 3
@@ -73,7 +73,7 @@ export default {
         this.Log(this.MetamaskMsg.NETWORK_ERROR, 'NETWORK_ERROR')
       }
     },
-    Log(msg, type = '') {
+    Log (msg, type = '') {
       if (type === this.type) return
       const message = this.userMessage === 'null' ? msg : this.userMessage
       this.type = type
@@ -85,7 +85,7 @@ export default {
         netID: this.netID
       })
     },
-    web3TimerCheck(web3) {
+    web3TimerCheck (web3) {
       this.web3 = web3
       this.checkAccounts()
       this.checkNetWork()
@@ -93,11 +93,13 @@ export default {
       this.AccountInterval = setInterval(() => this.checkAccounts(), 1000)
       this.NetworkInterval = setInterval(() => this.checkNetWork(), 1000)
     },
-    async init() {
+    async init (isLoginSuggested) {
       if (window.ethereum) {
         window.web3 = new Web3(window.ethereum)
         try {
-          await window.ethereum.enable()
+          if (isLoginSuggested) {
+            await window.ethereum.enable()
+          }
           this.web3TimerCheck(window.web3)
         } catch (error) {
           this.Log(

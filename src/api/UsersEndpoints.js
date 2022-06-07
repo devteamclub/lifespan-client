@@ -6,7 +6,7 @@ const PREDICTION_HANDLER = 'v1/prediction'
 const PLUSH_USER_HANDLER = 'user'
 const V1 = 'v1'
 
-export const getPersonalChapters = async() => {
+export const getPersonalChapters = async () => {
   try {
     const { data } = await publicApi.get(`${PERSONAL_HANDLER}/chapters`)
     return { data, error: null }
@@ -21,7 +21,7 @@ export const getPersonalChapters = async() => {
   }
 }
 
-export const getPersonalEvents = async() => {
+export const getPersonalEvents = async () => {
   try {
     const { data } = await publicApi.get(`${PERSONAL_HANDLER}/events`)
     return { data, error: null }
@@ -36,7 +36,7 @@ export const getPersonalEvents = async() => {
   }
 }
 
-export const updatePersonalEvents = async(event) => {
+export const updatePersonalEvents = async (event) => {
   try {
     const { data } = await publicApi.post(`${PERSONAL_HANDLER}/events`, event)
     return { data, error: null }
@@ -51,7 +51,7 @@ export const updatePersonalEvents = async(event) => {
   }
 }
 
-export const getUserPredictionEvents = async() => {
+export const getUserPredictionEvents = async () => {
   try {
     const { data } = await predictionsApi.get(`${PREDICTION_HANDLER}/events`)
     return { data, error: null }
@@ -66,7 +66,7 @@ export const getUserPredictionEvents = async() => {
   }
 }
 
-export const updatePrediction = async(prediction) => {
+export const updatePrediction = async (prediction) => {
   try {
     const { data } = await predictionsApi.post(`${PREDICTION_HANDLER}/events`, prediction)
     return { data, error: null }
@@ -81,7 +81,7 @@ export const updatePrediction = async(prediction) => {
   }
 }
 
-export const getUser = async() => {
+export const getUser = async () => {
   try {
     const { data } = await publicApi.get(PERSONAL_HANDLER)
     formatUserDatesForFE(data)
@@ -99,7 +99,7 @@ export const getUser = async() => {
   }
 }
 
-export const setPredictionRating = async(predictionId, rating) => {
+export const setPredictionRating = async (predictionId, rating) => {
   try {
     const { data } = await predictionsApi.post(`${PREDICTION_HANDLER}/rating/${predictionId}`, rating)
     return { data, error: null }
@@ -114,7 +114,7 @@ export const setPredictionRating = async(predictionId, rating) => {
   }
 }
 
-export const getUserSettings = async() => {
+export const getUserSettings = async () => {
   try {
     const { data } = await predictionsApi.get(`${V1}/settings`)
     return { data, error: null }
@@ -129,7 +129,7 @@ export const getUserSettings = async() => {
   }
 }
 
-export const userLogin = async(messageData) => {
+export const userLogin = async (messageData) => {
   try {
     const { data } = await plushApi.post(`${PLUSH_USER_HANDLER}/auth/login`, messageData)
     return { data, error: null }
@@ -144,7 +144,7 @@ export const userLogin = async(messageData) => {
   }
 }
 
-export const getUserProfile = async() => {
+export const getUserProfile = async () => {
   try {
     const { data } = await plushApi.get(`${PLUSH_USER_HANDLER}/users/profile`)
     return { data, error: null }
@@ -159,7 +159,7 @@ export const getUserProfile = async() => {
   }
 }
 
-export const getNonce = async(walletAddress) => {
+export const getNonce = async (walletAddress) => {
   try {
     const { data } = await plushApi.get(`${PLUSH_USER_HANDLER}/auth/nonce/${walletAddress}`)
     return { data, error: null }
@@ -174,7 +174,7 @@ export const getNonce = async(walletAddress) => {
   }
 }
 
-export const checkUserExist = async() => {
+export const checkUserExist = async () => {
   try {
     const { data } = await publicApi.get(`${V1}/user`)
     return { data, error: null }
@@ -189,7 +189,7 @@ export const checkUserExist = async() => {
   }
 }
 
-export const registrationNewUser = async(child) => {
+export const registrationNewUser = async (child) => {
   const newUser = {
     birthday: child.dateOfBirth,
     // TODO: remove when BE is able to accept MALE/FEMALE instead of M/F

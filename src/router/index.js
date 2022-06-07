@@ -7,11 +7,16 @@ const routes = [
   {
     path: '/user/:id',
     name: 'Timeline',
-    component: () => import('../components/TheTimeline.vue')
+    component: () => import('../views/Timeline.vue')
+  },
+  {
+    path: '/',
+    name: 'Home',
+    component: () => import('../views/Home.vue')
   },
   {
     path: '*',
-    redirect: { name: 'Timeline' }
+    redirect: { name: 'Home' }
   }
 ]
 

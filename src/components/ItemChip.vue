@@ -196,7 +196,7 @@ export default {
       default: null
     }
   },
-  data() {
+  data () {
     return {
       isActive: false,
       dateMenu: false,
@@ -211,7 +211,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getUser']),
-    getScaleSize() {
+    getScaleSize () {
       const averageRatingValue = (this.item.ratingPositive - this.item.ratingNegative) / 2
       if (averageRatingValue >= 1000) return '1.45'
       if (averageRatingValue >= 500) return '1.4'
@@ -223,7 +223,7 @@ export default {
       if (averageRatingValue < 0) return '0.95'
       return '1'
     },
-    getTransformStyles() {
+    getTransformStyles () {
       let style = 'transform: '
       if (!this.item.isEvent) {
         style += `scale(${this.getScaleSize})`
@@ -233,19 +233,19 @@ export default {
       }
       return style
     },
-    getAge() {
+    getAge () {
       if (this.getYear(this.item.startDate) < this.getYear(this.getUser.birthday)) return 0
       return this.getYear(this.item.startDate) - this.getYear(this.getUser.birthday)
     }
   },
   watch: {
-    dateMenu(val) {
+    dateMenu (val) {
       val && this.$nextTick(() => (this.$refs.picker.internalActivePicker = 'YEAR'))
     }
   },
   methods: {
     formatISOdate,
-    async saveYear(year) {
+    async saveYear (year) {
       if (+this.itemStartYear === year) return
       const dateWithNewYear = new Date(this.item.startDate).setFullYear(year)
       this.isYearSaved = true
@@ -259,22 +259,22 @@ export default {
       this.$refs.picker.internalActivePicker = 'YEAR'
     },
     getYear,
-    getCategoriesList() {
+    getCategoriesList () {
       const categoryListTitles = this.item.categoryList.map((item) => item.title)
       return categoryListTitles.join(', ')
     },
-    closeModal() {
+    closeModal () {
       this.isShowMemorizeModal = false
     },
-    async saveAndCloseModal() {
+    async saveAndCloseModal () {
       this.closeModal()
       await api.users.updatePersonalEvents(this.item)
     },
-    setStartDate() {
+    setStartDate () {
       this.item.startDate = new Date(this.itemStartDate).toISOString()
       this.isShowStartDateMenu = false
     },
-    setEndDate() {
+    setEndDate () {
       this.item.endDate = new Date(this.itemEndDate).toISOString()
       this.isShowEndDateMenu = false
     }

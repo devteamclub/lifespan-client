@@ -146,7 +146,7 @@ export default {
       default: ''
     }
   },
-  data() {
+  data () {
     return {
       isConnect: false,
       title: '',
@@ -156,26 +156,29 @@ export default {
     }
   },
   computed: {
-    isSwitchModal() {
+    isSwitchModal () {
       return this.modalType === 'SwitchAccountModal'
     },
-    isWrongNetworkModal() {
+    isWrongNetworkModal () {
       return this.modalType === 'WrongNetworkModal'
     }
   },
   watch: {
-    isShow() {
+    isShow () {
       this.validateState()
     }
   },
+  mounted () {
+    this.$refs.metamask.init()
+  },
   methods: {
-    copyAddress() {
+    copyAddress () {
       if (this.isCopied) return
       this.isCopied = true
       setTimeout(() => (this.isCopied = false), 1000)
       navigator.clipboard.writeText(this.address)
     },
-    validateState() {
+    validateState () {
       switch (this.modalType) {
         case 'RegisterModal':
           this.title = 'Plush account is required'
@@ -198,14 +201,14 @@ export default {
           this.buttonText = 'Connect'
       }
     },
-    async onComplete(data) {
+    async onComplete (data) {
       this.$emit('onComplete', data)
     },
-    connectWallet() {
+    connectWallet () {
       if (this.isSwitchModal) {
         this.$emit('switchAccount')
       } else {
-        this.$refs.metamask.init()
+        this.$refs.metamask.init(true)
       }
     }
   }
@@ -216,6 +219,7 @@ export default {
 .wallet-modal {
   position: absolute;
   top: 62px;
+  right: 0;
   transition: .2s ease-in-out;
   background: white;
   border-radius: 24px;
@@ -244,6 +248,7 @@ export default {
   align-items: center;
   display: flex;
   flex-direction: column;
+  padding: 0 20px;
 }
 
 .modal-title {
@@ -286,7 +291,6 @@ export default {
   line-height: 1.33;
   margin-top: 4px;
   text-align: center;
-  width: 424px;
 }
 
 .connect-button {
