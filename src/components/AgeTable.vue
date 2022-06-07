@@ -5,26 +5,13 @@
       :key="year"
       class="year-row"
     >
-      <div class="year">
-        <div
-          v-for="month in 12"
-          :key="month"
-          class="month"
-        >
-          <AgeTableCell
-            :color="getCellColor(year)"
-            :is-filled="(year - 1) * 12 + month - 1 < age.months"
-            :is-bold="year - 1 === age.years && month - 1 === age.months % 12"
-          />
-        </div>
-      </div>
+      <AgeTableYear :color="getCellColor(year)" :year="year" :age="age" />
     </div>
   </div>
 </template>
 
 <script>
-import AgeTableCell from './AgeTableCell.vue'
-
+import AgeTableYear from './AgeTableYear.vue'
 const stages = [
   [3, '#98be61'],
   [5, '#b0d177'],
@@ -39,7 +26,7 @@ const stages = [
 export default {
   name: 'AgeTable',
   components: {
-    AgeTableCell
+    AgeTableYear
   },
   props: {
     age: {
@@ -54,7 +41,6 @@ export default {
           return stages[i][1]
         }
       }
-
       return '#000000'
     }
   }
@@ -88,15 +74,6 @@ export default {
 
       @media (max-width: 640px) {
         float: none;
-      }
-    }
-
-    .year {
-      display: inline-flex;
-
-      .month {
-        padding: 4px;
-        box-sizing: border-box;
       }
     }
   }
