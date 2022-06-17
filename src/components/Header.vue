@@ -9,8 +9,19 @@
           alt="icon"
         >
       </router-link>
-      <div class="right">
-        <TheMetamask />
+      <div class="right-column">
+        <router-link
+          v-if="getUser && getUser.gender === 'MALE'"
+          class="birthday-link"
+          to="/"
+        >
+          <img
+            class="birthday-icon"
+            src="/images/birthday-gift.svg"
+            alt="icon"
+          >
+        </router-link>
+        <TheMetamask class="wallet" />
       </div>
     </div>
   </header>
@@ -18,11 +29,15 @@
 
 <script>
 import TheMetamask from '@/components/TheWallet'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Header',
   components: {
     TheMetamask
+  },
+  computed: {
+    ...mapGetters(['getUser'])
   }
 }
 </script>
@@ -42,6 +57,22 @@ export default {
       .logo {
         width: 25px;
         height: 34px;
+      }
+
+      .right-column {
+        display: flex;
+        align-items: center;
+
+        .birthday-link {
+          .birthday-icon {
+            width: 40px;
+            height: 40px;
+          }
+        }
+
+        .wallet {
+          margin-left: 20px;
+        }
       }
     }
   }

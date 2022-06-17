@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="589px" height="589px" viewBox="0 0 589 589" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FF62A3" offset="0%"></stop>
+            <stop stop-color="#FD932A" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="589" height="589" rx="128"></rect>
+            <g id="noun-birthday-1429896" transform="translate(123.000000, 94.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M322,254.112337 L322,344.222035 C322,359.563553 309.569188,372 294.231391,372 L45.7686094,372 C30.4340433,372 18,359.563553 18,344.218803 L18,252" id="Path" stroke-width="22.1535"></path>
+                <path d="M339.992981,252.128597 L298.985734,252.128597 C283.449483,260.764064 264.354506,259.812953 249.751705,249.678385 L247.024289,247.784393 C231.037046,236.689835 209.844428,236.689835 193.857185,247.784393 C177.869942,258.87895 156.677324,258.87895 140.690081,247.784393 C124.702838,236.689835 103.51022,236.689835 87.5229768,247.784393 L85.7934726,248.984642 C70.6759431,259.476331 50.8024185,260.093726 35.0612444,250.565416 L0,250.246332 L0,198.431915 C0,184.939603 10.935965,174 24.4237897,174 L315.57621,174 C329.064035,174 340,184.939603 340,198.431915 L339.992981,252.128597 Z" id="Path" stroke-width="25.9035"></path>
+                <path d="M158,174 L158,105.578297 C170.55027,95.473901 188.44973,95.473901 201,105.578297 L201,174" id="Path" stroke-width="19.9035"></path>
+                <path d="M180.760207,0 C138.549741,79.7375816 180.760207,71.7796794 180.760207,71.7796794 C180.757297,71.7796794 217.301196,78.1207611 180.760207,0 Z" id="Path" stroke-width="19.9035"></path>
+            </g>
+        </g>
+    </g>
+</svg>
