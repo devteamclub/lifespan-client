@@ -13,7 +13,7 @@
         <router-link
           v-if="getUser && getUser.gender === 'MALE'"
           class="birthday-link"
-          to="/"
+          to="/birthday"
         >
           <img
             class="birthday-icon"
