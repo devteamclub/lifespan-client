@@ -145,14 +145,14 @@ export default {
 
 <style lang="scss" scoped>
   .home {
-    padding: 20px 20px 80px 20px;
     box-sizing: border-box;
+    padding: 20px 20px 80px;
 
     .wrapper {
+      display: flex;
+      justify-content: space-evenly;
       max-width: 1440px;
       margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
 
       @media (max-width: 1280px) {
         flex-direction: column;
@@ -166,10 +166,10 @@ export default {
         }
 
         .token-wrapper {
-          width: 100%;
           display: flex;
-          justify-content: center;
           align-items: center;
+          justify-content: center;
+          width: 100%;
 
           .text {
             position: absolute;
@@ -203,14 +203,13 @@ export default {
       }
 
       .right-column {
-        width: calc(50% - 20px);
         display: flex;
         justify-content: flex-end;
 
         @media (max-width: 1280px) {
-          margin-top: 40px;
-          width: 100%;
           justify-content: center;
+          width: 100%;
+          margin-top: 40px;
         }
       }
     }

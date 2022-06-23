@@ -24,8 +24,8 @@ export default {
 <style lang="scss" scoped>
 .wallet {
   position: fixed;
-  z-index: 12;
-  left: 300px;
   top: 20px;
+  left: 300px;
+  z-index: 12;
 }
 </style>

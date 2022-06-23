@@ -289,9 +289,10 @@ export default {
 
 .item-chip {
   position: relative;
+  z-index: 1;
   width: 320px;
   transition: all 1s ease;
-  z-index: 1;
+
   &.lasting {
     margin-left: 30%;
   }
@@ -371,6 +372,7 @@ export default {
 
       .info-content {
         cursor: pointer;
+
         &.link {
           display: block;
           overflow: hidden;

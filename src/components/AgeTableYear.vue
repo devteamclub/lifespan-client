@@ -66,19 +66,19 @@ export default {
 
 <style lang="scss" scoped>
 .year {
-  cursor: pointer;
-  display: inline-flex;
   position: relative;
+  display: inline-flex;
+  cursor: pointer;
 
   .text {
     position: absolute;
     left: 10px;
-    color: white
+    color: white;
   }
 
   .month {
-    padding: 4px;
     box-sizing: border-box;
+    padding: 4px;
   }
 }
 </style>

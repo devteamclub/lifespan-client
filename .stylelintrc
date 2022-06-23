@@ -3,5 +3,8 @@
     "stylelint-config-rational-order",
     "stylelint-config-standard-scss",
     "stylelint-config-recommended-vue/scss"
-  ]
+  ],
+  "rules": {
+    "no-descending-specificity": null
+  }
 }

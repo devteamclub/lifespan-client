@@ -221,43 +221,43 @@ export default {
   top: 62px;
   right: 0;
   z-index: 14;
-  transition: .2s ease-in-out;
-  background: white;
-  border-radius: 24px;
-  box-shadow:
-    0 2px 2px -1px rgba(0, 0, 0, 0.02),
-    0 8px 8px -2px rgba(0, 0, 0, 0.02),
-    0 16px 16px -4px rgba(0, 0, 0, 0.03),
-    0 32px 32px -8px rgba(0, 0, 0, 0.04),
-    0 64px 64px -12px rgba(0, 0, 0, 0.03);
-  box-sizing: border-box;
-  padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
   width: 488px;
-  opacity: 0;
+  padding: 16px;
+  background: white;
+  border-radius: 24px;
+  box-shadow:
+    0 2px 2px -1px rgb(0 0 0 / 2%),
+    0 8px 8px -2px rgb(0 0 0 / 2%),
+    0 16px 16px -4px rgb(0 0 0 / 3%),
+    0 32px 32px -8px rgb(0 0 0 / 4%),
+    0 64px 64px -12px rgb(0 0 0 / 3%);
   visibility: hidden;
+  opacity: 0;
+  transition: 0.2s ease-in-out;
 
   &.show {
-    opacity: 1;
     visibility: visible;
+    opacity: 1;
   }
 }
 
 .content {
-  align-items: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 0 20px;
 }
 
 .modal-title {
-  color: #26272a;
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.45;
   margin-top: 16px;
+  color: #26272a;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.45;
   text-align: center;
 }
 
@@ -266,31 +266,31 @@ export default {
 }
 
 .address-container {
-  align-items: center;
   display: flex;
+  align-items: center;
   color: #26272a;
   font-size: 18px;
   line-height: 1.33;
 
   .copy-button {
-    margin-lefT: 4px;
+    margin-left: 4px;
   }
 }
 
 .status {
+  margin-top: 2px;
   color: #5f36ea;
   font-size: 12px;
   line-height: 1.33;
-  margin-top: 2px;
-  user-select: none;
   cursor: pointer;
+  user-select: none;
 }
 
 .hint {
+  margin-top: 4px;
   color: #26272a;
   font-size: 18px;
   line-height: 1.33;
-  margin-top: 4px;
   text-align: center;
 }
 
@@ -299,19 +299,19 @@ export default {
 }
 
 .button {
+  width: 100%;
+  padding: 16px;
+  color: #7c5cff;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.2px;
   background-color: rgba(#7c5cff, 0.04);
   border: none;
   border-radius: 160px;
-  box-shadow: inset 0 -1px 0 0 rgba(#7c5cff, 0.1);
-  color: #7c5cff;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.2px;
-  line-height: 1.5;
   outline: 0;
-  padding: 16px;
+  box-shadow: inset 0 -1px 0 0 rgba(#7c5cff, 0.1);
   transition: background-color 0.2s ease-in-out;
-  width: 100%;
 
   &:hover {
     background-color: rgba(#7c5cff, 0.09);
@@ -320,47 +320,48 @@ export default {
 }
 
 .copy-icon {
-  height: 16px;
   width: 16px;
+  height: 16px;
+  margin-left: 4px;
   cursor: pointer;
   opacity: 1;
-  margin-left: 4px;
+
   &.copied {
-    opacity: 0.5;
     cursor: default;
+    opacity: 0.5;
   }
 }
 
 .closer {
-  height: 16px;
   position: absolute;
-  right: 16px;
   top: 16px;
+  right: 16px;
   width: 16px;
+  height: 16px;
   cursor: pointer;
 }
 
 .connection-status {
-  align-items: center;
   display: flex;
+  align-items: center;
   justify-content: center;
 
   .status-icon {
-    height: 28px;
-    margin-left: 2px;
-    margin-right: 2px;
     width: 28px;
+    height: 28px;
+    margin-right: 2px;
+    margin-left: 2px;
   }
 
   .icon-row {
+    display: flex;
     align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
     background-color: #fafafa;
     border-radius: 50%;
-    display: flex;
-    justify-content: center;
     user-select: none;
-    height: 64px;
-    width: 64px;
 
     .icon {
       width: 28px;

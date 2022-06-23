@@ -31,12 +31,12 @@ export default {
 
 <style lang="scss" scoped>
   .cell {
+    box-sizing: border-box;
     width: 16px;
     height: 16px;
-    border-width: 1px;
     border-style: solid;
+    border-width: 1px;
     border-radius: 4px;
-    box-sizing: border-box;
 
     &.bold {
       border-width: 4px;

@@ -223,7 +223,7 @@ export default {
         case 'USER_FOUND':
           this.title = this.userProfile.name || 'Hey,'
           this.status = 'Connected to'
-          this.iconTheme = this.userProfile.gender || 'alert'
+          this.iconTheme = this.userProfile.gender.toLowerCase() || 'alert'
           this.icon = this.userProfile.gender && 'child'
           this.statusClass = 'success'
           this.modalType = 'SwitchAccountModal'
@@ -236,8 +236,8 @@ export default {
 
 <style lang="scss" scoped>
 .wallet-chip {
-  display: flex;
   position: relative;
+  display: flex;
 
   .opener {
     display: flex;
@@ -249,13 +249,13 @@ export default {
 
     .wallet-info {
       .top {
-        align-items: baseline;
         display: flex;
+        align-items: baseline;
 
         .wallet-title {
           color: #26272a;
-          font-size: 16px;
           font-weight: 500;
+          font-size: 16px;
           line-height: 1.25;
           user-select: none;
         }
@@ -266,11 +266,11 @@ export default {
       }
 
       .status {
+        margin-top: 2px;
         font-size: 12px;
         line-height: 1.33;
-        margin-top: 2px;
-        user-select: none;
         background-color: transparent !important;
+        user-select: none;
 
         &.error {
           color: #c234e5;
@@ -284,16 +284,16 @@ export default {
 
     .button {
       display: flex;
-      height: 40px;
       justify-content: center;
-      user-select: none;
       width: 32px;
+      height: 40px;
+      user-select: none;
 
       .arrow {
+        width: 17px;
         height: 16px;
         margin-top: 4px;
-        transition: transform .2s ease-in-out;
-        width: 17px;
+        transition: transform 0.2s ease-in-out;
 
         &.inverted {
           transform: rotate(-180deg);
@@ -303,20 +303,20 @@ export default {
   }
 
   .icon {
-    height: 40px;
     position: relative;
     width: 40px;
+    height: 40px;
   }
 
   .connection-status {
-    border: solid 2px #fff !important;
-    border-radius: 50%;
-    box-sizing: border-box;
-    height: 12px;
-    left: 34px;
     position: absolute;
     top: 24px;
+    left: 34px;
+    box-sizing: border-box;
     width: 12px;
+    height: 12px;
+    border: solid 2px #fff !important;
+    border-radius: 50%;
 
     &.error {
       background-color: #d959f8;
@@ -328,40 +328,41 @@ export default {
   }
 
   .skull {
+    padding: 6px;
     background-image: linear-gradient(135deg, #d691ed, #99d9f4);
     border-radius: 12px;
-    padding: 6px;
   }
 
   .image {
     display: block;
-    height: 28px;
     width: 28px;
+    height: 28px;
   }
 
   .alert {
+    padding: 6px;
     background-image: linear-gradient(135deg, #ffacbd, #e4bbfd);
     border-radius: 12px;
-    padding: 6px;
   }
 
   .child {
-    border-radius: 12px;
     padding: 6px;
+    border-radius: 12px;
 
-    &.FEMALE {
+    &.female {
       background-image: linear-gradient(315deg, #ffd8c8, #fba2e3);
     }
 
-    &.MALE {
+    &.male {
       background-image: linear-gradient(135deg, #b29cf6, #a1ead6);
     }
   }
+
   .address {
-    user-select: none;
     color: #73757c;
     font-size: 12px;
     line-height: 1.4;
+    user-select: none;
 
     &.primary {
       color: #73757c;

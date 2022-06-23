@@ -13,7 +13,7 @@
         <router-link
           v-if="getUser && getUser.gender === 'MALE'"
           class="birthday-link"
-          to="/"
+          to="/birthday"
         >
           <img
             class="birthday-icon"
@@ -44,15 +44,15 @@ export default {
 
 <style lang="scss" scoped>
   .header {
-    padding: 20px;
     box-sizing: border-box;
+    padding: 20px;
 
     .wrapper {
+      display: flex;
+      justify-content: space-between;
       min-width: 320px;
       max-width: 1440px;
       margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
 
       .logo {
         width: 25px;

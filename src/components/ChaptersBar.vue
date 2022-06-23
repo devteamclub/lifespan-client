@@ -78,8 +78,8 @@ export default {
     align-items: center;
     width: 100vw;
     padding: var(--bar-width);
-    transition: right 0.3s ease-in-out;
     cursor: pointer;
+    transition: right 0.3s ease-in-out;
 
     &.active {
       right: var(--slide-width);
@@ -87,8 +87,8 @@ export default {
     }
 
     .item-title {
-      font-size: var(--text-size-sm);
       font-weight: var(--text-weight-bold);
+      font-size: var(--text-size-sm);
     }
   }
 }
