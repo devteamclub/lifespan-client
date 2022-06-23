@@ -36,17 +36,20 @@ export default {
 
 <style lang="scss" scoped>
   .wrapper {
-    padding: 24px;
     background: #fdfdfd;
     border: solid 2px transparent;
     border-radius: 16px;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 6%), 0 1px 2px 0 rgb(0 0 0 / 6%);
 
     .card {
+      background: #f0f0f0;
       display: flex;
       align-items: center;
       justify-content: space-between;
       box-sizing: border-box;
+      padding: 24px;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
 
       .left-column {
         display: flex;
@@ -54,6 +57,7 @@ export default {
         .icon {
           width: 48px;
           height: 48px;
+          border-radius: 12px;
         }
 
         .title {
@@ -71,8 +75,7 @@ export default {
     }
 
     .content {
-      padding-top: 24px;
-      padding-left: 70px;
+      padding: 24px 24px 24px 94px;
     }
   }
 </style>

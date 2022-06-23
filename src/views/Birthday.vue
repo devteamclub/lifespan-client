@@ -3,7 +3,7 @@
     <TheHeader />
     <div
       v-if="getUser"
-      class="home"
+      class="birthday"
     >
       <div class="wrapper">
         <div class="progress">
@@ -16,13 +16,12 @@
           </div>
           <div class="progress-text">
             Celebrate your birthday on {{ birthdayDate }}<br>
-            with a lifetime achievement award,<br>
-            NFT gift,<br>
+            with a lifetime achievement award, NFT gift,<br>
             12 PLUSH COINS Reward <br>
           </div>
         </div>
         <div class="sections">
-          <BirthdaySection class="section">
+          <BirthdaySection class="section" icon="/images/birthday/messages.jpg">
             <div slot="title">
               Reveal messages from the past
             </div>
@@ -39,7 +38,7 @@
               </ul>
             </div>
           </BirthdaySection>
-          <BirthdaySection class="section">
+          <BirthdaySection class="section" icon="/images/birthday/defi.jpg">
             <div slot="title">
               Financial Pulse
             </div>
@@ -47,14 +46,12 @@
               Executed 22/25
             </div>
             <div slot="content">
-              <ul>
-                <li>Lending 8</li>
-                <li>Borrowing 10</li>
-                <li>Staking 4</li>
-              </ul>
+              <div>Lending 8</div>
+              <div>Borrowing 10</div>
+              <div>Staking 4</div>
             </div>
           </BirthdaySection>
-          <BirthdaySection class="section">
+          <BirthdaySection class="section" icon="/images/birthday/onchain-events.jpg">
             <div slot="title">
               Query onchain records
             </div>
@@ -62,43 +59,37 @@
               Revealed 2/3
             </div>
             <div slot="content">
+              <div>NFT transfers 85 </div>
+              <div>DAOs 4</div>
               <ul>
-                <li>NFT transfers 85 </li>
-                <li>DAOs 4</li>
-                <ul>
-                  <li>Voting 42</li>
-                </ul>
-                <li>Multisig 8</li>
-                <li>POAP 25 </li>
-                <li>Awards 25</li>
-                <li>Certificates 25</li>
+                <li>Voting 42</li>
               </ul>
+              <div>Multisig 8</div>
+              <div>POAP 25 </div>
+              <div>Awards 25</div>
+              <div>Certificates 25</div>
             </div>
           </BirthdaySection>
-          <BirthdaySection class="section">
+          <BirthdaySection class="section" icon="/images/birthday/offchain-events.jpg">
             <div slot="title">
               Off-chain activities
             </div>
             <div slot="content">
-              <ul>
-                <li>last year memories 45</li>
-                <li>juno activities 45/150</li>
-                <a href="#">Add past activities</a>
-              </ul>
+              <div>last year memories 45</div>
+              <div>juno activities 45/150</div>
+              <a href="#">Add past activities</a>
             </div>
           </BirthdaySection>
-          <BirthdaySection class="section">
+          <BirthdaySection class="section" icon="/images/birthday/social-networks.jpg">
             <div slot="title">
               Social Networks activities
             </div>
             <div slot="content">
-              <ul>
-                <li>Twitter. 12 / 185</li>
-                <li>Instagram  5 / 45</li>
-              </ul>
+              <div>Twitter. 12 / 185</div>
+              <div>Instagram  5 / 45</div>
             </div>
           </BirthdaySection>
-          <BirthdaySection class="section">
+          <BirthdaySection class="section" icon="/images/birthday/new-token-layer.jpg">
             <div slot="title">
               Add a visual layer to the token art
             </div>
@@ -106,32 +97,28 @@
               <div style=" float: right;width: 124px; height: 124px; background-color: #44d7b6; border-radius: 16px;" />
             </div>
           </BirthdaySection>
-          <BirthdaySection class="section">
+          <BirthdaySection class="section" icon="/images/birthday/new-goals.jpg">
             <div slot="title">
               Set new goals for the next year
             </div>
             <div slot="content">
-              <ul>
-                <li>Goals 4</li>
-                <a href="#">Compare previous goals </a>
-              </ul>
+              <div>Goals 4</div>
+              <a href="#">Compare previous goals </a>
             </div>
           </BirthdaySection>
-          <BirthdaySection class="section">
+          <BirthdaySection class="section" icon="/images/birthday/future-projection.jpg">
             <div slot="title">
               Run future projection
             </div>
             <div slot="content">
-              <ul>
-                <li>New data points 5 /15</li>
-                <a href="#">Add new data points </a>
-              </ul>
+              <div>New data points 5 /15</div>
+              <a href="#">Add new data points </a>
             </div>
           </BirthdaySection>
         </div>
         <div class="button-container">
           <button class="button">
-            RUN
+            PROCEED
           </button>
         </div>
       </div>
@@ -186,7 +173,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .home {
+  .birthday {
     box-sizing: border-box;
     padding: 20px 20px 80px;
 
