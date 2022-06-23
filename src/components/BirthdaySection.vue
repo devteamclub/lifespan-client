@@ -43,17 +43,17 @@ export default {
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 6%), 0 1px 2px 0 rgb(0 0 0 / 6%);
 
     .card {
-      align-items: center;
-      box-sizing: border-box;
       display: flex;
+      align-items: center;
       justify-content: space-between;
+      box-sizing: border-box;
 
       .left-column {
         display: flex;
-        
+
         .icon {
-          height: 48px;
           width: 48px;
+          height: 48px;
         }
 
         .title {
@@ -62,10 +62,10 @@ export default {
           box-sizing: border-box;
           padding-left: 20px;
           color: #26272a;
-          font-size: 18px;
           font-weight: 500;
+          font-size: 18px;
+          font-family: "Avenir Next Rounded Pro", Arial, Helvetica, sans-serif;
           line-height: 1.33;
-          font-family: "Avenir Next Rounded Pro",Arial,Helvetica,sans-serif;
         }
       }
     }

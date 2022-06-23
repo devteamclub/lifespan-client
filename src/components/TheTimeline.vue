@@ -246,8 +246,8 @@ export default {
 .timeline {
   .logo {
     position: fixed;
-    left: 20px;
     top: 22px;
+    left: 20px;
     z-index: 14;
     width: 25px;
     height: 34px;
@@ -262,17 +262,14 @@ export default {
     .person-age {
       position: absolute;
       top: 10px;
+      left: calc(50% + 15px);
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      font-weight: var(--font-weight-light);
       font-size: var(--title-text-size);
       line-height: 1;
       cursor: pointer;
-    }
-
-    .person-age {
-      left: calc(50% + 15px);
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      font-weight: var(--font-weight-light);
 
       .years {
         font-size: 24px;
@@ -298,11 +295,11 @@ export default {
 
     &:nth-child(even) {
       .predictions {
-        background-color: rgba(var(--timeline-accent-color), 1);
+        background-color: rgb(var(--timeline-accent-color) 1);
       }
 
       .events {
-        background-color: rgba(var(--timeline-accent-color-light), 1);
+        background-color: rgb(var(--timeline-accent-color-light) 1);
       }
     }
   }
@@ -315,22 +312,21 @@ export default {
     height: 100%;
     padding: 10px 15px 48px 120px;
   }
+
   .predictions {
+    background-color: rgb(var(--timeline-accent-color) 0.5);
+
     & > div:nth-child(even) {
       margin-left: 30%;
     }
-  }
-
-  .predictions {
-    background-color: rgba(var(--timeline-accent-color), 0.5);
 
     .start-date {
       position: sticky;
       top: 10px;
       z-index: 10;
       height: fit-content;
-      font-size: var(--title-text-size);
       font-weight: var(--font-weight-bold);
+      font-size: var(--title-text-size);
       line-height: 1;
       text-align: right;
     }

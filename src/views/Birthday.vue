@@ -80,8 +80,8 @@
           </BirthdaySection>
           <BirthdaySection class="section">
             <div slot="title">Add a visual layer to the token art</div>
-            <div slot="content" style="overflow: hidden">
-              <div style="width: 124px; height: 124px; background-color: #44d7b6; border-radius: 16px; float: right;"></div>
+            <div slot="content" style="overflow: hidden;">
+              <div style=" float: right;width: 124px; height: 124px; background-color: #44d7b6; border-radius: 16px;"></div>
             </div>
           </BirthdaySection>
            <BirthdaySection class="section">
@@ -159,8 +159,8 @@ export default {
 
 <style lang="scss" scoped>
   .home {
-    padding: 20px 20px 80px 20px;
     box-sizing: border-box;
+    padding: 20px 20px 80px;
 
     .wrapper {
       max-width: 1440px;
@@ -175,29 +175,29 @@ export default {
 
         .progress-title {
           padding-top: 48px;
-          font-family: Moranga, sans-serif;
-          font-size: 40px;
-          font-weight: bold;
           color: #000;
+          font-weight: bold;
+          font-size: 40px;
+          font-family: Moranga, sans-serif;
         }
 
         .time-interval {
-          font-family: AvenirNextRoundedPro-Reg, sans-serif;
-          font-size: 24px;
           color: #000;
+          font-size: 24px;
+          font-family: AvenirNextRoundedPro-Reg, sans-serif;
         }
 
         .progress-text {
           margin-top: 24px;
-          font-family: Moranga, sans-serif;
           font-size: 18px;
+          font-family: Moranga, sans-serif;
           text-align: center;
         }
       }
 
       .sections {
         width: 928px;
-        margin: 40px auto 0 auto;
+        margin: 40px auto 0;
 
         .section {
           margin-top: 24px;
@@ -210,16 +210,17 @@ export default {
 
       .button-container {
         margin-top: 40px;
+
         .button {
           display: block;
-          margin: 0 auto;
           min-width: 200px;
+          margin: 0 auto;
           padding: 8px 32px;
-          border-radius: 4px;
-          background-color: rgba(#761192, 0.5);
-          font-family: AvenirNextRoundedPro-Demi, sans-serif;
+          color: rgba(255, 255, 255, 0.5);
           font-size: 16px;
-          color: rgba(white, 0.5);
+          font-family: AvenirNextRoundedPro-Demi, sans-serif;
+          background-color: rgba(#761192, 0.5);
+          border-radius: 4px;
         }
       }
     }

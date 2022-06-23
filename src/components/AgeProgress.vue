@@ -51,10 +51,10 @@ export default {
 
 <style lang="scss" scoped>
 .age-progress {
-  margin: 0 auto;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-end;
+  margin: 0 auto;
 
   .text {
     color: #a4a4a4;
@@ -66,12 +66,12 @@ export default {
     margin-top: 4px;
 
     .item {
-      margin-left: 8px;
       width: 10px;
       height: 36px;
-      border-radius: 1px;
-      box-shadow: inset 0.5px 0.5px 1.5px 0 rgba(0, 0, 0, 0.12);
+      margin-left: 8px;
       background: #e1e1e1;
+      border-radius: 1px;
+      box-shadow: inset 0.5px 0.5px 1.5px 0 rgb(0 0 0 / 12%);
 
       &.active {
         background: #76cdae;

@@ -65,8 +65,8 @@ export default {
 <style lang="scss" scoped>
 .up-down-rating {
   display: flex;
-  align-items: center;
   gap: 7px;
+  align-items: center;
 
   .up,
   .down {
