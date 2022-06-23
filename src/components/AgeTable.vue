@@ -49,7 +49,7 @@ export default {
 
 <style lang="scss" scoped>
 .table {
-  width: 600px;
+  width: 576px;
   overflow: auto;
 
   @media (max-width: 640px) {
