@@ -6,8 +6,11 @@
       class="home"
     >
       <div class="wrapper">
+        <div class="progress">
+          <AgeProgress :birthday="new Date(getUser.birthday)" />
+        </div>
         <div class="sections">
-          <BirthdaySection>
+          <BirthdaySection title="Example">
             BirthdaySection
           </BirthdaySection>
         </div>
@@ -20,12 +23,14 @@
 import TheHeader from '../components/Header.vue'
 import { mapGetters } from 'vuex'
 import BirthdaySection from '../components/BirthdaySection.vue'
+import AgeProgress from '../components/AgeProgress.vue'
 
 export default {
   components: {
     TheHeader,
-    BirthdaySection
-  },
+    BirthdaySection,
+    AgeProgress
+},
   computed: {
     ...mapGetters(['getUser'])
   }
@@ -40,6 +45,12 @@ export default {
     .wrapper {
       max-width: 1440px;
       margin: 0 auto;
+      padding-top: 20px;
+
+      .progress {
+        display: flex;
+        margin: 0 auto;
+      }
 
       .sections {
         width: 800px;
