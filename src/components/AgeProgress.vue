@@ -1,11 +1,16 @@
 <template>
   <div class="age-progress">
-    <div class="text">{{ daysBeforeBirthday }} days left</div>
+    <div class="text">
+      {{ daysBeforeBirthday }} days left
+    </div>
     <div class="line">
       <div
         v-for="(item, index) in weeksCount"
         :key="index"
-        :class="{ 'active': index + 1 <= activeWeeks, 'current': index + 1 === activeWeeks && daysBeforeBirthday !== 0 }"
+        :class="{
+          'active': index + 1 <= activeWeeks,
+          'current': index + 1 === activeWeeks && daysBeforeBirthday !== 0
+        }"
         class="item"
       />
     </div>
@@ -31,8 +36,8 @@ export default {
   computed: {
     daysBeforeBirthday () {
       const current = moment()
-      const birthday = moment(this.birthday).set('year', current.year());
-      const daysDiff= birthday.diff(current, 'days')
+      const birthday = moment(this.birthday).set('year', current.year())
+      const daysDiff = birthday.diff(current, 'days')
 
       if (daysDiff >= 0) {
         return daysDiff

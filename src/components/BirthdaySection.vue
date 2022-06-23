@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="card">
         <div class="left-column">
-          <img class="icon" :src="icon" alt="image" />
+          <img class="icon" :src="icon" alt="image">
           <div class="title">
             <slot name="title" />
           </div>

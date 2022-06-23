@@ -8,19 +8,27 @@
       <div class="wrapper">
         <div class="progress">
           <AgeProgress :birthday="new Date(getUser.birthday)" />
-          <div class="progress-title">A reflection of your year</div>
-          <div class="time-interval">{{ previousBirthday }} - {{ nextBirthday }}</div>
+          <div class="progress-title">
+            A reflection of your year
+          </div>
+          <div class="time-interval">
+            {{ previousBirthday }} - {{ nextBirthday }}
+          </div>
           <div class="progress-text">
-            Celebrate your birthday on {{ birthdayDate }}<br />
-            with a lifetime achievement award,<br />
-            NFT gift,<br />
-            12 PLUSH COINS Reward <br />
+            Celebrate your birthday on {{ birthdayDate }}<br>
+            with a lifetime achievement award,<br>
+            NFT gift,<br>
+            12 PLUSH COINS Reward <br>
           </div>
         </div>
         <div class="sections">
           <BirthdaySection class="section">
-            <div slot="title">Reveal messages from the past</div>
-            <div slot="progress">Revealed 2/3</div>
+            <div slot="title">
+              Reveal messages from the past
+            </div>
+            <div slot="progress">
+              Revealed 2/3
+            </div>
             <div slot="content">
               <div>You have 3 messages</div>
               <ul>
@@ -32,8 +40,12 @@
             </div>
           </BirthdaySection>
           <BirthdaySection class="section">
-            <div slot="title">Financial Pulse</div>
-            <div slot="progress">Executed 22/25</div>
+            <div slot="title">
+              Financial Pulse
+            </div>
+            <div slot="progress">
+              Executed 22/25
+            </div>
             <div slot="content">
               <ul>
                 <li>Lending 8</li>
@@ -43,8 +55,12 @@
             </div>
           </BirthdaySection>
           <BirthdaySection class="section">
-            <div slot="title">Query onchain records</div>
-            <div slot="progress">Revealed 2/3</div>
+            <div slot="title">
+              Query onchain records
+            </div>
+            <div slot="progress">
+              Revealed 2/3
+            </div>
             <div slot="content">
               <ul>
                 <li>NFT transfers 85 </li>
@@ -60,7 +76,9 @@
             </div>
           </BirthdaySection>
           <BirthdaySection class="section">
-            <div slot="title">Off-chain activities</div>
+            <div slot="title">
+              Off-chain activities
+            </div>
             <div slot="content">
               <ul>
                 <li>last year memories 45</li>
@@ -70,7 +88,9 @@
             </div>
           </BirthdaySection>
           <BirthdaySection class="section">
-            <div slot="title">Social Networks activities</div>
+            <div slot="title">
+              Social Networks activities
+            </div>
             <div slot="content">
               <ul>
                 <li>Twitter. 12 / 185</li>
@@ -79,13 +99,17 @@
             </div>
           </BirthdaySection>
           <BirthdaySection class="section">
-            <div slot="title">Add a visual layer to the token art</div>
+            <div slot="title">
+              Add a visual layer to the token art
+            </div>
             <div slot="content" style="overflow: hidden;">
-              <div style=" float: right;width: 124px; height: 124px; background-color: #44d7b6; border-radius: 16px;"></div>
+              <div style=" float: right;width: 124px; height: 124px; background-color: #44d7b6; border-radius: 16px;" />
             </div>
           </BirthdaySection>
-           <BirthdaySection class="section">
-            <div slot="title">Set new goals for the next year</div>
+          <BirthdaySection class="section">
+            <div slot="title">
+              Set new goals for the next year
+            </div>
             <div slot="content">
               <ul>
                 <li>Goals 4</li>
@@ -94,7 +118,9 @@
             </div>
           </BirthdaySection>
           <BirthdaySection class="section">
-            <div slot="title">Run future projection </div>
+            <div slot="title">
+              Run future projection
+            </div>
             <div slot="content">
               <ul>
                 <li>New data points 5 /15</li>
@@ -104,7 +130,9 @@
           </BirthdaySection>
         </div>
         <div class="button-container">
-          <button class="button">RUN</button>
+          <button class="button">
+            RUN
+          </button>
         </div>
       </div>
     </div>
@@ -123,7 +151,7 @@ export default {
     TheHeader,
     BirthdaySection,
     AgeProgress
-},
+  },
   computed: {
     ...mapGetters(['getUser']),
     nextBirthday () {
@@ -150,7 +178,7 @@ export default {
     },
     birthdayDate () {
       const birthday = moment(this.getUser.birthday)
-      
+
       return birthday.format('MMMM DD')
     }
   }
