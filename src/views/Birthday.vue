@@ -11,7 +11,7 @@
           <div class="progress-title">A reflection of your year</div>
           <div class="time-interval">{{ previousBirthday }} - {{ nextBirthday }}</div>
           <div class="progress-text">
-            Celebrate your birthday on June 24<br />
+            Celebrate your birthday on {{ birthdayDate }}<br />
             with a lifetime achievement award,<br />
             NFT gift,<br />
             12 PLUSH COINS Reward <br />
@@ -48,8 +48,8 @@
             <div slot="content">
               <ul>
                 <li>NFT transfers 85 </li>
+                <li>DAOs 4</li>
                 <ul>
-                  <div>DAOs 4</div>
                   <li>Voting 42</li>
                 </ul>
                 <li>Multisig 8</li>
@@ -103,6 +103,9 @@
             </div>
           </BirthdaySection>
         </div>
+        <div class="button-container">
+          <button class="button">RUN</button>
+        </div>
       </div>
     </div>
   </div>
@@ -144,6 +147,11 @@ export default {
       } else {
         return birthday.set('year', current.year()).format('MMMM YYYY')
       }
+    },
+    birthdayDate () {
+      const birthday = moment(this.getUser.birthday)
+      
+      return birthday.format('MMMM DD')
     }
   }
 }
@@ -197,6 +205,21 @@ export default {
           &:first-child {
             margin-top: 0;
           }
+        }
+      }
+
+      .button-container {
+        margin-top: 40px;
+        .button {
+          display: block;
+          margin: 0 auto;
+          min-width: 200px;
+          padding: 8px 32px;
+          border-radius: 4px;
+          background-color: rgba(#761192, 0.5);
+          font-family: AvenirNextRoundedPro-Demi, sans-serif;
+          font-size: 16px;
+          color: rgba(white, 0.5);
         }
       }
     }
