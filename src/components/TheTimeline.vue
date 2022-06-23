@@ -295,11 +295,11 @@ export default {
 
     &:nth-child(even) {
       .predictions {
-        background-color: rgb(var(--timeline-accent-color) 1);
+        background-color: rgba(var(--timeline-accent-color), 1);
       }
 
       .events {
-        background-color: rgb(var(--timeline-accent-color-light) 1);
+        background-color: rgba(var(--timeline-accent-color-light), 1);
       }
     }
   }
@@ -314,7 +314,7 @@ export default {
   }
 
   .predictions {
-    background-color: rgb(var(--timeline-accent-color) 0.5);
+    background-color: rgba(var(--timeline-accent-color), 0.5);
 
     & > div:nth-child(even) {
       margin-left: 30%;
